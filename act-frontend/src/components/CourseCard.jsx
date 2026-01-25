@@ -9,9 +9,22 @@ export default function CourseCard({ course }) {
       {/* Image Container */}
       <div className="relative h-48 overflow-hidden">
         <img 
-          src={course.image || 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'} 
+          src={
+            course.thumbnail 
+              ? (course.thumbnail.startsWith('http') 
+                 ? course.thumbnail 
+                 : `${import.meta.env.VITE_API_BASE_URL}${course.thumbnail}`)
+              : (course.image 
+                 ? (course.image.startsWith('http') 
+                    ? course.image 
+                    : `${import.meta.env.VITE_API_BASE_URL}${course.image}`)
+                 : 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80')
+          } 
           alt={course.title}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          onError={(e) => {
+            e.target.src = 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80';
+          }}
         />
         {/* Category Badge */}
         <div className="absolute top-4 left-4">

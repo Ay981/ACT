@@ -81,7 +81,18 @@ export default function InstructorDashboard(){
                   <div key={c.id} className="group rounded-xl border border-slate-200 p-3 hover:border-primary-200 hover:bg-slate-50 transition-all">
                     <div className="flex items-start gap-4">
                       <div className="w-12 h-12 bg-primary-50 text-primary-600 rounded-lg shrink-0 flex items-center justify-center font-bold text-lg overflow-hidden">
-                         {c.thumbnail ? <img src={c.thumbnail} alt="" className="w-full h-full object-cover" /> : c.title.charAt(0)}
+                         {c.thumbnail ? (
+                           <img 
+                             src={c.thumbnail.startsWith('http') ? c.thumbnail : `${import.meta.env.VITE_API_BASE_URL}${c.thumbnail}`} 
+                             alt="" 
+                             className="w-full h-full object-cover"
+                             onError={(e) => {
+                               e.target.style.display = 'none';
+                               e.target.nextSibling.style.display = 'flex';
+                             }}
+                           />
+                         ) : null}
+                         <div style={{display: c.thumbnail ? 'none' : 'flex'}}>{c.title.charAt(0)}</div>
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="font-medium truncate text-slate-900">{c.title}</div>
