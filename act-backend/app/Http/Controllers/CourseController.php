@@ -128,14 +128,6 @@ class CourseController extends Controller
             ->where('instructor_id', $request->user()->id)
             ->firstOrFail();
 
-        // Debug: Log all request data
-        \Log::info('Course update request data:', [
-            'all' => $request->all(),
-            'has_title' => $request->has('title'),
-            'title_value' => $request->input('title'),
-            'files' => $request->allFiles()
-        ]);
-
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -289,8 +281,7 @@ class CourseController extends Controller
                 ->header('Content-Disposition', 'attachment; filename="' . $filename . '"')
                 ->header('Content-Length', strlen($file));
         } catch (\Exception $e) {
-            \Log::error('Download error: ' . $e->getMessage());
-            return response()->json(['message' => 'Download failed: ' . $e->getMessage()], 500);
+            return response()->json(['message' => 'Download failed'], 500);
         }
     }
 
@@ -301,29 +292,19 @@ class CourseController extends Controller
             $decodedPath = urldecode($path);
             $fullPath = 'resources/' . $decodedPath; // Files are stored in storage/app/public/resources/
             
-            \Log::info('Storage proxy request:', [
-                'original_path' => $path,
-                'decoded_path' => $decodedPath,
-                'full_path' => $fullPath,
-                'storage_exists' => Storage::disk('public')->exists($fullPath)
-            ]);
-            
             if (!Storage::disk('public')->exists($fullPath)) {
-                \Log::error('File not found in storage: ' . $fullPath);
-                \Log::info('Available files in resources:', Storage::disk('public')->files('resources'));
-                return response()->json(['message' => 'File not found: ' . $fullPath], 404);
+                return response()->json(['message' => 'File not found'], 404);
             }
 
             $file = Storage::disk('public')->get($fullPath);
 
             return response($file)
                 ->header('Content-Type', 'application/pdf')
-                ->header('Content-Disposition', 'inline; filename="' . basename($decodedPath) . '"') // Changed to inline for viewing
+                ->header('Content-Disposition', 'inline; filename="' . basename($decodedPath) . '"')
                 ->header('Content-Length', strlen($file));
                 
         } catch (\Exception $e) {
-            \Log::error('Storage proxy error: ' . $e->getMessage());
-            return response()->json(['message' => 'Proxy failed: ' . $e->getMessage()], 500);
+            return response()->json(['message' => 'File access failed'], 500);
         }
     }
 }
