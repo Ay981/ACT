@@ -177,6 +177,12 @@ export default function InstructorCourseNew() {
                     </div>
                 </div>
                 <div>
+                    <label className="block text-sm font-medium text-slate-700">Price ($)</label>
+                    <input type="number" min="0" step="0.01" className="mt-1 block w-full rounded-md border-slate-300 px-3 py-2 border shadow-sm"
+                           placeholder="0.00"
+                           value={details.price} onChange={e => setDetails({...details, price: parseFloat(e.target.value) || 0})} />
+                </div>
+                <div>
                     <label className="block text-sm font-medium text-slate-700">Thumbnail Image</label>
                     <input type="file" accept="image/*" className="mt-1 block w-full" 
                            onChange={e => setDetails({...details, thumbnail: e.target.files[0]})} />
