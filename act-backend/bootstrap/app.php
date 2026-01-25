@@ -14,6 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->trustProxies(at: '*');
 
+        // Apply CORS to all routes
+        $middleware->append(\Illuminate\Http\Middleware\HandleCors::class);
+
         // Force SameSite=None for cookies (must be early in the stack)
         $middleware->web(append: [
             \App\Http\Middleware\ForceSameSiteNone::class,
