@@ -44,6 +44,7 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         try {
+            // Send email immediately (not queued)
             Mail::to($user->email)->send(new OtpMail($otp));
         } catch (\Exception $e) {
             \Illuminate\Support\Facades\Log::error('OTP Mail Error: ' . $e->getMessage());

@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -21,6 +20,14 @@ class OtpMail extends Mailable
     public function __construct($otp)
     {
         $this->otp = $otp;
+    }
+
+    /**
+     * Send email immediately (don't queue)
+     */
+    public function send($mailer)
+    {
+        return parent::send($mailer);
     }
 
     /**
