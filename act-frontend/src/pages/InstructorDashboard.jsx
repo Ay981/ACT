@@ -78,37 +78,39 @@ export default function InstructorDashboard(){
               </div>
               <div className="space-y-3">
                 {activeCourses.length === 0 ? <div className="text-sm text-slate-500">No courses yet.</div> : activeCourses.slice(0, 4).map(c => (
-                  <div key={c.id} className="group rounded-xl border border-slate-200 p-3 flex items-center gap-4 hover:border-primary-200 hover:bg-slate-50 transition-all">
-                    <div className="w-12 h-12 bg-primary-50 text-primary-600 rounded-lg shrink-0 flex items-center justify-center font-bold text-lg overflow-hidden">
-                       {c.thumbnail ? <img src={c.thumbnail} alt="" className="w-full h-full object-cover" /> : c.title.charAt(0)}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="font-medium truncate text-slate-900">{c.title}</div>
-                      <div className="text-xs text-slate-500 flex flex-wrap items-center gap-2 mt-0.5">
-                         <span className="px-1.5 py-0.5 rounded bg-slate-100 text-slate-600">{c.level || c.difficulty || 'Beginner'}</span>
-                         <span>•</span>
-                         <span className="flex items-center text-amber-500">★ {c.rating || 'New'}</span>
-                         <span>•</span>
-                         <span>{c.students || 0} Students</span>
+                  <div key={c.id} className="group rounded-xl border border-slate-200 p-3 hover:border-primary-200 hover:bg-slate-50 transition-all">
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 bg-primary-50 text-primary-600 rounded-lg shrink-0 flex items-center justify-center font-bold text-lg overflow-hidden">
+                         {c.thumbnail ? <img src={c.thumbnail} alt="" className="w-full h-full object-cover" /> : c.title.charAt(0)}
                       </div>
-                    </div>
-                    <div className="text-right shrink-0 flex gap-2">
-                       <Link 
-                          to="/instructor/quizzes/new" 
-                          state={{ courseTitle: c.title, courseId: c.id }}
-                          className="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 text-xs font-medium hover:border-primary-300 hover:text-primary-700 transition-colors shadow-sm"
-                        >
-                         + Quiz
-                       </Link>
-                       <Link 
-                          to={`/instructor/courses/${c.id}/edit`} 
-                          className="px-3 py-1.5 rounded-lg bg-blue-500 text-white text-xs font-medium hover:bg-blue-600 transition-colors shadow-sm"
-                        >
-                         ✏️ Edit Course
-                       </Link>
-                       <Link to={`/courses/${c.id}`} className="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 text-xs font-medium hover:border-primary-300 hover:text-primary-700 transition-colors shadow-sm">
-                         Manage
-                       </Link>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-medium truncate text-slate-900">{c.title}</div>
+                        <div className="text-xs text-slate-500 flex flex-wrap items-center gap-2 mt-0.5">
+                           <span className="px-1.5 py-0.5 rounded bg-slate-100 text-slate-600">{c.level || c.difficulty || 'Beginner'}</span>
+                           <span>•</span>
+                           <span className="flex items-center text-amber-500">★ {c.rating || 'New'}</span>
+                           <span>•</span>
+                           <span>{c.students || 0} Students</span>
+                        </div>
+                        <div className="flex flex-wrap gap-2 mt-2">
+                           <Link 
+                              to="/instructor/quizzes/new" 
+                              state={{ courseTitle: c.title, courseId: c.id }}
+                              className="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 text-xs font-medium hover:border-primary-300 hover:text-primary-700 transition-colors shadow-sm"
+                            >
+                             + Quiz
+                           </Link>
+                           <Link 
+                              to={`/instructor/courses/${c.id}/edit`} 
+                              className="px-3 py-1.5 rounded-lg bg-blue-500 text-white text-xs font-medium hover:bg-blue-600 transition-colors shadow-sm"
+                            >
+                             ✏️ Edit Course
+                           </Link>
+                           <Link to={`/courses/${c.id}`} className="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 text-xs font-medium hover:border-primary-300 hover:text-primary-700 transition-colors shadow-sm">
+                             Manage
+                           </Link>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ))}
