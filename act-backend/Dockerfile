@@ -32,6 +32,10 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Install dependencies
 RUN composer install --no-dev --optimize-autoloader
 
+# Run migrations automatically on container start
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
@@ -50,5 +54,5 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 # Expose port (Render detects this, mapped to 80 internally)
 EXPOSE 80
 
-# Run Apache in the foreground
-CMD ["apache2-foreground"]
+# Run migrations then start Apache
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
