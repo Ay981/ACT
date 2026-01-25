@@ -32,6 +32,7 @@ export default function InstructorCourseEdit() {
 
   // Load existing course data
   useEffect(() => {
+    console.log('InstructorCourseEdit mounted, id:', id, 'initialLoad:', initialLoad)
     if (id && initialLoad) {
       loadCourse()
     }
@@ -39,7 +40,9 @@ export default function InstructorCourseEdit() {
 
   async function loadCourse() {
     try {
+      console.log('Loading course with ID:', id)
       const course = await getCourse(id)
+      console.log('Course loaded:', course)
       setDetails({
         title: course.title,
         description: course.description,
@@ -51,6 +54,7 @@ export default function InstructorCourseEdit() {
       setLessons(course.lessons || [])
       setInitialLoad(false)
     } catch (e) {
+      console.error('Failed to load course:', e)
       setError('Failed to load course: ' + e.message)
       setInitialLoad(false)
     }
@@ -168,6 +172,12 @@ export default function InstructorCourseEdit() {
   return (
     <AppLayout>
       <div className="space-y-6">
+        {initialLoad ? (
+          <div className="text-center py-8">
+            <div className="text-slate-600">Loading course...</div>
+          </div>
+        ) : (
+          <>
         <header className="bg-white border border-slate-200 rounded-2xl p-6">
           <h1 className="text-2xl font-semibold">Edit Course</h1>
           <p className="mt-1 text-slate-600">Update your course content and structure.</p>
@@ -399,6 +409,7 @@ export default function InstructorCourseEdit() {
                     </button>
                 </div>
             </section>
+          </>
         )}
       </div>
     </AppLayout>
