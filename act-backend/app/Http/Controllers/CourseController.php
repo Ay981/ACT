@@ -172,4 +172,27 @@ class CourseController extends Controller
             
         return response()->json($courses);
     }
+
+    public function downloadResource(Request $request, $lessonId)
+    {
+        $lesson = Lesson::findOrFail($lessonId);
+        
+        if (!$lesson->resource_path) {
+            return response()->json(['message' => 'No resource found'], 404);
+        }
+
+        // Convert web path to storage path
+        $relativePath = str_replace('/storage/', '', $lesson->resource_path);
+        
+        if (!Storage::disk('public')->exists($relativePath)) {
+            return response()->json(['message' => 'File not found'], 404);
+        }
+
+        $file = Storage::disk('public')->get($relativePath);
+        $filename = basename($lesson->resource_path);
+
+        return response($file)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
+    }
 }

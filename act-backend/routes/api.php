@@ -42,6 +42,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/instructor/courses', [\App\Http\Controllers\CourseController::class, 'store']);
     Route::post('/courses/{id}/enroll', [\App\Http\Controllers\CourseController::class, 'enroll']);
     Route::post('/instructor/courses/{id}/lessons', [\App\Http\Controllers\CourseController::class, 'addLesson']);
+    Route::get('/lessons/{id}/download', [\App\Http\Controllers\CourseController::class, 'downloadResource']);
 
     Route::get('/instructor/dashboard', [\App\Http\Controllers\InstructorDashboardController::class, 'index']);
 
