@@ -51,34 +51,4 @@ Route::get('/debug', function () {
     }
 });
 
-// PDF download route (bypass API routing issues)
-Route::get('/lesson-download/{id}', function ($id) {
-    try {
-        $lesson = \App\Models\Lesson::findOrFail($id);
-        
-        if (!$lesson->resource_path) {
-            return response()->json(['message' => 'No resource found'], 404);
-        }
-
-        // Convert web path to storage path
-        $relativePath = str_replace('/storage/', '', $lesson->resource_path);
-        
-        if (!\Illuminate\Support\Facades\Storage::disk('public')->exists($relativePath)) {
-            return response()->json(['message' => 'File not found: ' . $relativePath], 404);
-        }
-
-        $file = \Illuminate\Support\Facades\Storage::disk('public')->get($relativePath);
-        $filename = basename($lesson->resource_path);
-
-        return response($file)
-            ->header('Content-Type', 'application/pdf')
-            ->header('Content-Disposition', 'attachment; filename="' . $filename . '"')
-            ->header('Content-Length', strlen($file));
-            
-    } catch (\Exception $e) {
-        \Illuminate\Support\Facades\Log::error('Download error: ' . $e->getMessage());
-        return response()->json(['message' => 'Download failed: ' . $e->getMessage()], 500);
-    }
-});
-
 require __DIR__.'/auth.php';
