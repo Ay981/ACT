@@ -29,7 +29,7 @@ export default function SignUp() {
     setLoading(true)
 
     try {
-      await register({ 
+      const response = await register({ 
         name, 
         email, 
         password, 
@@ -37,14 +37,14 @@ export default function SignUp() {
         role: 'student' // Default role
       })
       
-      // Usually signup redirects to dashboard or login, assuming signup logs them in or context handles it.
-      // Based on RegisteredUserController, it fires Registered event which sends email, and logs them in?
-      // Actually standard Breeze/Laravel auth logs user in after simple registration.
-      // If verification is enabled, they might be redirected to verify-email.
-      // I'll assume standard redirect to dashboard or let the auth context handle user state change.
-      // If 'signup' returns user/response, we can navigate.
-      
-      navigate('/dashboard') 
+      // Check if OTP was sent - backend returns { status: 'otp_sent', email: '...' }
+      if (response?.status === 'otp_sent' && response?.email) {
+        // Navigate to OTP verification page with email in state
+        navigate('/verify-otp', { state: { email: response.email } })
+      } else {
+        // Fallback: if user is already logged in, go to dashboard
+        navigate('/dashboard')
+      }
 
     } catch (err) {
       console.error(err)

@@ -19,14 +19,17 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [
-        env('FRONTEND_URL', 'http://localhost:3000'),
-        'https://act-blush.vercel.app',
-        'http://localhost:5173',
-        'http://127.0.0.1:5173',
-        'https://act.aymenab.com',
-        'https://api.act.aymenab.com',
-    ],
+    'allowed_origins' => array_filter(array_merge(
+        // Production frontend URL from environment
+        env('FRONTEND_URL') ? [env('FRONTEND_URL')] : [],
+        // Local development origins
+        [
+            'http://localhost:5173',
+            'http://127.0.0.1:5173',
+            'http://localhost:3000',
+            'http://127.0.0.1:3000',
+        ]
+    )),
 
     'allowed_origins_patterns' => [],
 

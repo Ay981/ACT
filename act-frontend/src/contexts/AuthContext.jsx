@@ -40,8 +40,14 @@ export function AuthProvider({ children }) {
   }
 
   const register = async (data) => {
-      await apiRegister(data)
-      return refreshUser()
+      const response = await apiRegister(data)
+      // Try to refresh user, but don't fail if user isn't logged in yet (OTP flow)
+      try {
+          await refreshUser()
+      } catch (e) {
+          // User not logged in yet, which is expected for OTP flow
+      }
+      return response
   }
 
   return (

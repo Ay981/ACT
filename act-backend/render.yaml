@@ -1,0 +1,45 @@
+services:
+  - type: web
+    name: act-backend
+    runtime: docker
+    plan: starter
+    region: oregon
+    buildCommand: ""
+    startCommand: ""
+    healthCheckPath: /health
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: DB_CONNECTION
+        value: pgsql
+      # DATABASE_URL will be automatically set by Render when you link the database
+      # Or set it manually: postgres://user:password@host:port/database
+      - key: APP_KEY
+        sync: false  # Set this manually in dashboard: php artisan key:generate --show
+      - key: APP_URL
+        sync: false  # Set this to your Render service URL
+      - key: FRONTEND_URL
+        sync: false  # Set this to your frontend URL after deployment
+      - key: SANCTUM_STATEFUL_DOMAINS
+        sync: false  # Set this to your frontend domain (no https://)
+      - key: SESSION_DRIVER
+        value: database
+      - key: SESSION_SECURE_COOKIE
+        value: true
+      - key: SESSION_SAME_SITE
+        value: lax
+      - key: CACHE_STORE
+        value: database
+      - key: QUEUE_CONNECTION
+        value: database
+      - key: LOG_LEVEL
+        value: error
+
+databases:
+  - name: act-database
+    plan: starter
+    region: oregon
+    databaseName: act_db
+    user: act_user
