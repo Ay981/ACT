@@ -266,7 +266,95 @@ npm run test
 2. **Deploy `dist/` folder** to your web server
 3. **Configure environment variables**
 
-## 👥 Contributors
+## � API Endpoints
+
+### 🔐 Authentication
+- `POST /register` - User registration with OTP
+- `POST /verify-otp` - Email verification
+- `POST /login` - User login
+- `POST /logout` - User logout
+- `POST /api/token/refresh` - Token refresh
+- `GET /api/user` - Get current user
+- `PUT /api/user/profile` - Update profile
+- `PUT /api/user/password` - Change password
+
+### 📚 Courses
+- `GET /api/courses` - List all courses (public)
+- `GET /api/courses/{id}` - Get course details
+- `POST /api/instructor/courses` - Create course
+- `PUT /api/instructor/courses/{id}` - Update course
+- `DELETE /api/instructor/courses/{id}` - Delete course
+
+### 📖 Lessons
+- `POST /api/instructor/courses/{courseId}/lessons` - Add lesson
+- `PUT /api/instructor/courses/{courseId}/lessons/{lessonId}` - Update lesson
+- `DELETE /api/instructor/courses/{courseId}/lessons/{lessonId}` - Delete lesson
+
+### 🎓 Enrollment & Progress
+- `POST /api/courses/{courseId}/enroll` - Enroll in course
+- `DELETE /api/courses/{courseId}/enroll` - Unenroll from course
+- `GET /api/courses/{courseId}/enrollment` - Get enrollment status
+- `POST /api/courses/{courseId}/lessons/{lessonId}/complete` - Mark lesson complete
+- `GET /api/courses/{courseId}/progress` - Get course progress
+- `GET /api/student/enrolled-courses` - Get enrolled courses
+- `POST /api/courses/{courseId}/certificate` - Issue certificate
+- `GET /api/certificates/{certificateId}` - Get certificate
+
+### 💬 Comments & Interactions
+- `GET /api/courses/{courseId}/comments` - Get course comments
+- `POST /api/courses/{courseId}/comments` - Add comment
+- `PUT /api/comments/{commentId}` - Update comment
+- `DELETE /api/comments/{commentId}` - Delete comment
+- `POST /api/comments/{commentId}/react` - React to comment
+- `PUT /api/comments/{commentId}/moderate` - Moderate comment
+- `GET /api/admin/moderation/queue` - Get moderation queue
+
+### 💬 Chat System
+- `GET /api/chat/rooms` - Get chat rooms
+- `POST /api/chat/rooms` - Create chat room
+- `GET /api/chat/rooms/{roomId}` - Get chat room details
+- `POST /api/chat/rooms/{roomId}/join` - Join chat room
+- `POST /api/chat/rooms/{roomId}/leave` - Leave chat room
+- `GET /api/chat/rooms/{roomId}/messages` - Get chat messages
+- `POST /api/chat/rooms/{roomId}/messages` - Send message
+- `PUT /api/chat/messages/{messageId}` - Edit message
+- `DELETE /api/chat/messages/{messageId}` - Delete message
+- `GET /api/chat/rooms/{roomId}/members` - Get room members
+- `POST /api/chat/rooms/{roomId}/typing` - Send typing indicator
+- `GET /api/chat/online-users` - Get online users
+
+### 📝 Quizzes & Assessments
+- `POST /api/quiz/generate` - Generate quiz with AI
+- `POST /api/quizzes` - Create quiz
+- `GET /api/quizzes/{quizId}` - Get quiz
+- `POST /api/quizzes/{quizId}/attempt` - Submit quiz attempt
+- `GET /api/quizzes/{quizId}/results` - Get quiz results
+
+### 👥 User Management (Admin)
+- `GET /api/admin/users` - Get all users
+- `PUT /api/admin/users/{userId}/role` - Update user role
+- `DELETE /api/admin/users/{userId}` - Delete user
+
+### 📁 File Management
+- `POST /api/upload/thumbnail` - Upload thumbnail
+- `DELETE /api/upload/files/{filename}` - Delete file
+
+### 🔧 System Management (Admin)
+- `GET /api/admin/health` - System health check
+- `POST /api/admin/maintenance` - Maintenance mode control
+- `GET /api/admin/audit-logs` - Get audit logs
+- `GET /api/admin/dashboard` - Dashboard statistics
+
+### 📊 Analytics & Reporting
+- `GET /api/admin/analytics/platform` - Platform analytics
+- `GET /api/instructor/courses/{courseId}/analytics` - Course analytics
+
+### 📋 API Documentation
+For detailed API documentation including request/response examples, validation rules, and error handling, see:
+- **[API Documentation](docs/api.md)** - Complete API reference
+- **[Developer Guide](docs/developer-guide.md)** - Development workflows and architecture
+
+## �� Contributors
 
 - **Rami** - [GitHub Profile](https://github.com/Ra58ad) - Project Lead & development team
 - **Aymen Abdulkerim** - development team
