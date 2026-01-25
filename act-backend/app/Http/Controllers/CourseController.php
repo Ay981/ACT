@@ -122,6 +122,14 @@ class CourseController extends Controller
             ->where('instructor_id', $request->user()->id)
             ->firstOrFail();
 
+        // Debug: Log all request data
+        \Log::info('Course update request data:', [
+            'all' => $request->all(),
+            'has_title' => $request->has('title'),
+            'title_value' => $request->input('title'),
+            'files' => $request->allFiles()
+        ]);
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
