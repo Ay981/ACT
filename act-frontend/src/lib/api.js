@@ -174,10 +174,6 @@ export async function fetchDashboardData() {
   return request('GET', '/api/dashboard')
 }
 
-export async function getCourse(id) {
-    return request('GET', `/api/courses/${id}`)
-}
-
 export async function enrollCourse(id) {
     return request('POST', `/api/courses/${id}/enroll`)
 }
