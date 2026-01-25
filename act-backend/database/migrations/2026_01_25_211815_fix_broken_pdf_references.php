@@ -37,6 +37,24 @@ return new class extends Migration
                 echo "Keeping valid PDF reference for lesson ID: {$lesson->id}, file: {$filename}\n";
             }
         }
+        
+        // Add a test lesson with valid PDF for testing
+        if (DB::table('lessons')->where('resource_path', 'like', '%8kdEuBnAFMmgpX3v0qqz9RVGPAl7e4VX4HiKxRGw.pdf%')->count() == 0) {
+            // Find first course to associate with
+            $course = DB::table('courses')->first();
+            if ($course) {
+                DB::table('lessons')->insert([
+                    'course_id' => $course->id,
+                    'title' => 'Test Lesson with PDF',
+                    'description' => 'This is a test lesson to demonstrate PDF reading functionality',
+                    'resource_path' => '/storage/resources/8kdEuBnAFMmgpX3v0qqz9RVGPAl7e4VX4HiKxRGw.pdf',
+                    'order' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+                echo "Added test lesson with valid PDF for course ID: {$course->id}\n";
+            }
+        }
     }
 
     /**
