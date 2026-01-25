@@ -10,8 +10,11 @@ export function AuthProvider({ children }) {
   const refreshUser = async () => {
       try {
           const u = await getUser()
-          setUser(u)
-          return u
+          if (u && typeof u === 'object' && u.id) {
+              setUser(u)
+              return u
+          }
+          throw new Error('Invalid user data received')
       } catch (e) {
           setUser(null)
           return null
