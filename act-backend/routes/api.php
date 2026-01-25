@@ -79,3 +79,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 Route::get('/comments', [\App\Http\Controllers\CommentController::class, 'index']);
+Route::get('/cors-test', function () {
+    return response()->json(['message' => 'CORS OK']);
+});
