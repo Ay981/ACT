@@ -16,8 +16,58 @@ async function getCourse(id) {
   return response.json()
 }
 
+// Direct API call to update course
+async function updateCourse(id, formData) {
+  const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/instructor/courses/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      'Accept': 'application/json'
+    },
+    body: formData
+  })
+  if (!response.ok) {
+    const error = await response.json()
+    throw new Error(error.message || `HTTP ${response.status}: ${response.statusText}`)
+  }
+  return response.json()
+}
+
+// Direct API call to update lesson
+async function updateLesson(courseId, lessonId, formData) {
+  const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/instructor/courses/${courseId}/lessons/${lessonId}`, {
+    method: 'PUT',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      'Accept': 'application/json'
+    },
+    body: formData
+  })
+  if (!response.ok) {
+    const error = await response.json()
+    throw new Error(error.message || `HTTP ${response.status}: ${response.statusText}`)
+  }
+  return response.json()
+}
+
+// Direct API call to delete lesson
+async function deleteLesson(courseId, lessonId) {
+  const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/instructor/courses/${courseId}/lessons/${lessonId}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      'Accept': 'application/json'
+    }
+  })
+  if (!response.ok) {
+    const error = await response.json()
+    throw new Error(error.message || `HTTP ${response.status}: ${response.statusText}`)
+  }
+  return response.json()
+}
+
 // Import other needed functions
-import { createCourse, addLesson, generateCourseOutline, updateCourse, updateLesson, deleteLesson } from '../lib/api.js'
+import { createCourse, addLesson, generateCourseOutline } from '../lib/api.js'
 
 const steps = ['Details', 'Lessons', 'Review']
 
@@ -107,6 +157,7 @@ export default function InstructorCourseEdit() {
     setLoading(true)
     setError('')
     try {
+      console.log('Updating course with details:', details)
       const formData = new FormData()
       formData.append('title', details.title)
       formData.append('description', details.description)
@@ -115,10 +166,17 @@ export default function InstructorCourseEdit() {
       formData.append('price', details.price)
       if (details.thumbnail) formData.append('thumbnail', details.thumbnail)
 
+      console.log('FormData contents:')
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value)
+      }
+
       const course = await updateCourse(courseId, formData)
+      console.log('Course updated successfully:', course)
       setActive(1) // Move to Lessons
     } catch (e) {
-      setError(e.message)
+      console.error('Update failed:', e)
+      setError('Failed to update course: ' + e.message)
     } finally {
       setLoading(false)
     }
