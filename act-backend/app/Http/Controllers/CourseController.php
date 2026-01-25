@@ -331,7 +331,7 @@ class CourseController extends Controller
         try {
             // URL decode the path to handle special characters
             $decodedPath = urldecode($path);
-            $fullPath = 'resources/' . $decodedPath;
+            $fullPath = 'resources/' . $decodedPath; // Files are stored in storage/app/public/resources/
             
             \Log::info('Storage proxy request:', [
                 'original_path' => $path,
@@ -342,6 +342,7 @@ class CourseController extends Controller
             
             if (!Storage::disk('public')->exists($fullPath)) {
                 \Log::error('File not found in storage: ' . $fullPath);
+                \Log::info('Available files in resources:', Storage::disk('public')->files('resources'));
                 return response()->json(['message' => 'File not found: ' . $fullPath], 404);
             }
 
@@ -349,7 +350,7 @@ class CourseController extends Controller
 
             return response($file)
                 ->header('Content-Type', 'application/pdf')
-                ->header('Content-Disposition', 'attachment; filename="' . basename($decodedPath) . '"')
+                ->header('Content-Disposition', 'inline; filename="' . basename($decodedPath) . '"') // Changed to inline for viewing
                 ->header('Content-Length', strlen($file));
                 
         } catch (\Exception $e) {
