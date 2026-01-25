@@ -110,12 +110,27 @@ export default function InstructorCourseEdit() {
       }
 
       // Manual request with explicit FormData handling
+      const headers = {
+        'Accept': 'application/json'
+        // Note: DON'T set Content-Type for FormData - browser sets it automatically with boundary
+      }
+
+      // Add CSRF token if present (for Sanctum)
+      try {
+        const xsrfCookie = document.cookie.split('; ').find(row => row.startsWith('XSRF-TOKEN='))
+        if (xsrfCookie) {
+          const xsrfToken = xsrfCookie.split('=')[1]
+          if (xsrfToken) {
+            headers['X-XSRF-TOKEN'] = decodeURIComponent(xsrfToken)
+          }
+        }
+      } catch (e) {
+        // Ignore if cookie not found
+      }
+
       const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/instructor/courses/${courseId}`, {
         method: 'PUT',
-        headers: {
-          'Accept': 'application/json'
-          // Note: DON'T set Content-Type for FormData - browser sets it automatically with boundary
-        },
+        headers,
         credentials: 'include',
         body: formData
       })
