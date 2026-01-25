@@ -333,7 +333,15 @@ class CourseController extends Controller
             $decodedPath = urldecode($path);
             $fullPath = 'resources/' . $decodedPath;
             
+            \Log::info('Storage proxy request:', [
+                'original_path' => $path,
+                'decoded_path' => $decodedPath,
+                'full_path' => $fullPath,
+                'storage_exists' => Storage::disk('public')->exists($fullPath)
+            ]);
+            
             if (!Storage::disk('public')->exists($fullPath)) {
+                \Log::error('File not found in storage: ' . $fullPath);
                 return response()->json(['message' => 'File not found: ' . $fullPath], 404);
             }
 

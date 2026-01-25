@@ -52,6 +52,9 @@ export default function CourseDetail() {
   const openPDFViewer = (lesson, resourcePath) => {
     const filename = resourcePath.split('/').pop()
     const pdfUrl = `${import.meta.env.VITE_API_BASE_URL}/storage-proxy/${encodeURIComponent(filename)}`
+    console.log('Opening PDF with URL:', pdfUrl)
+    console.log('Original resource path:', resourcePath)
+    console.log('Filename:', filename)
     setPdfModal({
       isOpen: true,
       url: pdfUrl,
