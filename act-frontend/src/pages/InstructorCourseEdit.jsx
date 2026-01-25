@@ -42,18 +42,19 @@ export default function InstructorCourseEdit() {
 
   async function loadCourse() {
     try {
-      console.log('Loading course with ID:', id)
-      console.log('Getting all instructor courses and finding the right one')
+      console.log('🔄 LOADING COURSE WITH ID:', id)
+      console.log('📚 Getting all instructor courses and finding the right one')
       
       // Get all instructor courses and find the one we need
       const courses = await getInstructorCourses()
+      console.log('📋 All courses:', courses)
       const course = courses.find(c => c.id == id)
       
       if (!course) {
         throw new Error('Course not found or you do not have permission to edit it')
       }
       
-      console.log('Course loaded successfully:', course)
+      console.log('✅ Course loaded successfully:', course)
       setDetails({
         title: course.title,
         description: course.description,
@@ -65,7 +66,7 @@ export default function InstructorCourseEdit() {
       setLessons(course.lessons || [])
       setInitialLoad(false)
     } catch (e) {
-      console.error('Failed to load course:', e)
+      console.error('❌ Failed to load course:', e)
       setError('Failed to load course: ' + e.message)
       setInitialLoad(false)
     }
