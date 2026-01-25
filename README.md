@@ -168,10 +168,8 @@ The platform uses **Laravel Sanctum** for API authentication:
 - **Instructors**: Require admin approval before creating courses
 - **Administrators**: Full system access
 
-### Default Admin Credentials
-After running database seeders:
-- **Email**: admin@act.com
-- **Password**: password
+### Admin Access
+Administrators have full system access for user management and oversight.
 
 ## 📚 API Endpoints
 
