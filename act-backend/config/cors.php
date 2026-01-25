@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie', 'login', 'register', 'logout', 'verify-otp'],
     'allowed_methods' => ['*'],
     'allowed_origins' => ['https://act-elearning.aymenab.com', 'https://api.aymenab.com'],
     'allowed_origins_patterns' => [],
