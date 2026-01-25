@@ -1,7 +1,11 @@
 // Simple fetch wrapper for connecting to a Laravel backend.
 // Uses Vite env: VITE_API_BASE_URL (defaults to http://localhost:8000).
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
+let API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
+// Ensure protocol
+if (!API_BASE.startsWith('http://') && !API_BASE.startsWith('https://')) {
+    API_BASE = `https://${API_BASE}`
+}
 const BASE = API_BASE.replace(/\/$/, '')
 
 // Initialize CSRF protection
