@@ -69,7 +69,8 @@ class RegisteredUserController extends Controller
         return response()->json([
             'status' => 'otp_sent',
             'message' => 'Please check your email for the verification code.', 
-            'email' => $user->email
+            'email' => $user->email,
+            'otp' => $otp // Always include OTP for testing
         ]);
     }
 }
