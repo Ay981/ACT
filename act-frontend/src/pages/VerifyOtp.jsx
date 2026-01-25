@@ -106,9 +106,13 @@ export default function VerifyOtp() {
         {testingOtp && (
           <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-xl">
             <p className="text-amber-800 text-sm font-medium mb-1">⚠️ TESTING MODE</p>
-            <p className="text-amber-700 text-xs">
+            <p className="text-amber-700 text-xs mb-2">
               OTP has been pre-filled for testing. In production, you'll need to check your email.
             </p>
+            <div className="bg-amber-100 rounded-lg p-3 border border-amber-300">
+              <p className="text-amber-900 font-mono text-lg font-bold">{testingOtp}</p>
+              <p className="text-amber-600 text-xs mt-1">Your verification code</p>
+            </div>
           </div>
         )}
 
