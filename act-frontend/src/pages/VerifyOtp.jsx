@@ -8,6 +8,7 @@ export default function VerifyOtp() {
   const navigate = useNavigate()
   const location = useLocation()
   const email = location.state?.email
+  const testingOtp = location.state?.otp // Get OTP from signup for testing
   
   const [otp, setOtp] = useState(['', '', '', '', '', ''])
   const [loading, setLoading] = useState(false)
@@ -19,7 +20,13 @@ export default function VerifyOtp() {
     if (!email) {
       navigate('/signup')
     }
-  }, [email, navigate])
+    
+    // Auto-fill OTP if in testing mode
+    if (testingOtp && testingOtp.length === 6) {
+      const otpArray = testingOtp.split('')
+      setOtp(otpArray)
+    }
+  }, [email, navigate, testingOtp])
 
   const handleChange = (index, value) => {
     if (isNaN(value)) return
@@ -92,9 +99,18 @@ export default function VerifyOtp() {
         </div>
         
         <h2 className="text-2xl font-bold text-slate-900 mb-2">Check your email</h2>
-        <p className="text-slate-600 mb-8">
+        <p className="text-slate-600 mb-4">
           We sent a verification code to <span className="font-medium text-slate-900">{email}</span>
         </p>
+
+        {testingOtp && (
+          <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-xl">
+            <p className="text-amber-800 text-sm font-medium mb-1">⚠️ TESTING MODE</p>
+            <p className="text-amber-700 text-xs">
+              OTP has been pre-filled for testing. In production, you'll need to check your email.
+            </p>
+          </div>
+        )}
 
         <form onSubmit={onSubmit}>
           <div className="flex gap-2 justify-center mb-6">

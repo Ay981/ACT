@@ -38,10 +38,14 @@ export default function SignUp() {
         role
       })
       
-      // Check if OTP was sent - backend returns { status: 'otp_sent', email: '...' }
+      // Check if OTP was sent - backend returns { status: 'otp_sent', email: '...', otp: '...' }
       if (response?.status === 'otp_sent' && response?.email) {
-        // Navigate to OTP verification page with email in state
-        navigate('/verify-otp', { state: { email: response.email } })
+        // If OTP is in response (for testing), show it to user
+        if (response?.otp) {
+          alert(`📧 A verification code has been sent to ${response.email}\n\n⚠️ TESTING MODE ⚠️\nYour OTP code is: ${response.otp}\n\nNote: This is for testing purposes only. In production, the code will only be sent to your email.`)
+        }
+        // Navigate to OTP verification page with email and OTP in state
+        navigate('/verify-otp', { state: { email: response.email, otp: response.otp } })
       } else {
         // Fallback: if user is already logged in, go to dashboard
         navigate('/dashboard')
