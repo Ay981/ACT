@@ -13,6 +13,7 @@ import InstructorQuizShare from './pages/InstructorQuizShare.jsx'
 import InstructorQuizzesList from './pages/InstructorQuizzesList.jsx'
 import InstructorQuizResults from './pages/InstructorQuizResults.jsx'
 import InstructorCourseNew from './pages/InstructorCourseNew.jsx'
+import InstructorCourseEdit from './pages/InstructorCourseEdit.jsx'
 import AdminDashboard from './pages/AdminDashboard.jsx'
 import AdminReports from './pages/AdminReports.jsx'
 import AdminInstructors from './pages/AdminInstructors.jsx'
@@ -46,6 +47,7 @@ export default function App() {
       <Route path="/instructor/dashboard" element={<ProtectedAuth><ProtectedInstructor><InstructorDashboard /></ProtectedInstructor></ProtectedAuth>} />
       <Route path="/instructor/quizzes/new" element={<ProtectedAuth><ProtectedInstructor><InstructorQuizNew /></ProtectedInstructor></ProtectedAuth>} />
       <Route path="/instructor/courses/new" element={<ProtectedAuth><ProtectedInstructor><InstructorCourseNew /></ProtectedInstructor></ProtectedAuth>} />
+      <Route path="/instructor/courses/:id/edit" element={<ProtectedAuth><ProtectedInstructor><InstructorCourseEdit /></ProtectedInstructor></ProtectedAuth>} />
       <Route path="/instructor/quizzes/:id/share" element={<ProtectedAuth><ProtectedInstructor><InstructorQuizShare /></ProtectedInstructor></ProtectedAuth>} />
       <Route path="/instructor/quizzes/:id/results" element={<ProtectedAuth><ProtectedInstructor><InstructorQuizResults /></ProtectedInstructor></ProtectedAuth>} />
 

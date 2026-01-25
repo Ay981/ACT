@@ -77,6 +77,22 @@ export async function createCourse(formData) {
     return request('POST', '/api/instructor/courses', formData) 
 }
 
+export async function getCourse(id) {
+    return request('GET', `/api/courses/${id}`)
+}
+
+export async function updateCourse(id, formData) {
+    return request('PUT', `/api/instructor/courses/${id}`, formData) 
+}
+
+export async function updateLesson(courseId, lessonId, formData) {
+    return request('PUT', `/api/instructor/courses/${courseId}/lessons/${lessonId}`, formData) 
+}
+
+export async function deleteLesson(courseId, lessonId) {
+    return request('DELETE', `/api/instructor/courses/${courseId}/lessons/${lessonId}`) 
+}
+
 export async function addLesson(courseId, formData) {
     return request('POST', '/api/instructor/courses/' + courseId + '/lessons', formData)
 }

@@ -100,6 +100,12 @@ export default function InstructorDashboard(){
                         >
                          + Quiz
                        </Link>
+                       <Link 
+                          to={`/instructor/courses/${c.id}/edit`} 
+                          className="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 text-xs font-medium hover:border-primary-300 hover:text-primary-700 transition-colors shadow-sm"
+                        >
+                         Edit
+                       </Link>
                        <Link to={`/courses/${c.id}`} className="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 text-xs font-medium hover:border-primary-300 hover:text-primary-700 transition-colors shadow-sm">
                          Manage
                        </Link>

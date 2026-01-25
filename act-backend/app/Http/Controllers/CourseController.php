@@ -106,6 +106,106 @@ class CourseController extends Controller
         return response()->json($course, 201);
     }
 
+    public function update(Request $request, $id)
+    {
+        $course = Course::where('id', $id)
+            ->where('instructor_id', $request->user()->id)
+            ->firstOrFail();
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'category' => 'required|string',
+            'level' => 'required|string',
+            'price' => 'numeric|min:0',
+            'thumbnail' => 'nullable|image|max:2048', // Max 2MB
+        ]);
+
+        // Handle thumbnail update
+        if ($request->hasFile('thumbnail')) {
+            $path = $request->file('thumbnail')->store('thumbnails', 'public');
+            $validated['thumbnail'] = '/storage/' . $path;
+        }
+
+        $course->update([
+            'title' => $validated['title'],
+            'description' => $validated['description'] ?? '',
+            'category' => $validated['category'],
+            'level' => $validated['level'],
+            'price' => $validated['price'] ?? 0,
+            'thumbnail' => $validated['thumbnail'] ?? $course->thumbnail,
+        ]);
+
+        return response()->json($course, 200);
+    }
+
+    public function updateLesson(Request $request, $courseId, $lessonId)
+    {
+        $course = Course::where('id', $courseId)
+            ->where('instructor_id', $request->user()->id)
+            ->firstOrFail();
+
+        $lesson = Lesson::where('id', $lessonId)
+            ->where('course_id', $courseId)
+            ->firstOrFail();
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'video' => 'nullable|file|mimes:mp4,mov,ogg,webm,avi,wmv,flv,mkv,pdf,doc,docx|max:102400',
+            'youtube_url' => 'nullable|url',
+            'resource' => 'nullable|file|mimes:pdf,doc,docx|max:20480',
+        ]);
+
+        // Handle video file update
+        if ($request->hasFile('video')) {
+            $videoFile = $request->file('video');
+            $mime = $videoFile->getMimeType();
+            $ext = $videoFile->extension();
+            
+            if (in_array($ext, ['pdf', 'doc', 'docx']) || str_contains($mime, 'pdf') || str_contains($mime, 'word') || str_contains($mime, 'document')) {
+                $path = $videoFile->store('resources', 'public');
+                $validated['resource_path'] = '/storage/' . $path;
+                $validated['video_url'] = null;
+            } else {
+                $path = $videoFile->store('videos', 'public');
+                $validated['video_url'] = '/storage/' . $path;
+                $validated['resource_path'] = null;
+            }
+        }
+
+        // Handle resource file update
+        if ($request->hasFile('resource')) {
+            $path = $request->file('resource')->store('resources', 'public');
+            $validated['resource_path'] = '/storage/' . $path;
+        }
+
+        $lesson->update([
+            'title' => $validated['title'],
+            'description' => $validated['description'] ?? '',
+            'video_url' => $validated['video_url'] ?? $lesson->video_url,
+            'youtube_url' => $validated['youtube_url'] ?? $lesson->youtube_url,
+            'resource_path' => $validated['resource_path'] ?? $lesson->resource_path,
+        ]);
+
+        return response()->json($lesson, 200);
+    }
+
+    public function deleteLesson(Request $request, $courseId, $lessonId)
+    {
+        $course = Course::where('id', $courseId)
+            ->where('instructor_id', $request->user()->id)
+            ->firstOrFail();
+
+        $lesson = Lesson::where('id', $lessonId)
+            ->where('course_id', $courseId)
+            ->firstOrFail();
+
+        $lesson->delete();
+
+        return response()->json(['message' => 'Lesson deleted successfully'], 200);
+    }
+
     public function addLesson(Request $request, $courseId)
     {
         $course = Course::where('id', $courseId)
