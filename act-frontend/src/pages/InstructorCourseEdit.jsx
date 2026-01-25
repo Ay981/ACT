@@ -109,7 +109,23 @@ export default function InstructorCourseEdit() {
         console.log(key, value)
       }
 
-      const course = await updateCourse(courseId, formData)
+      // Manual request with explicit FormData handling
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/instructor/courses/${courseId}`, {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json'
+          // Note: DON'T set Content-Type for FormData - browser sets it automatically with boundary
+        },
+        credentials: 'include',
+        body: formData
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.message || `HTTP ${response.status}: ${response.statusText}`)
+      }
+
+      const course = await response.json()
       console.log('Course updated successfully:', course)
       setActive(1) // Move to Lessons
     } catch (e) {
