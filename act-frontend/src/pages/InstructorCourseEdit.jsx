@@ -90,57 +90,27 @@ export default function InstructorCourseEdit() {
     try {
       console.log('Updating course with details:', details)
       
-      // Create JSON data for text fields
-      const jsonData = {
-        title: details.title,
-        description: details.description,
-        category: details.category,
-        level: details.level,
-        price: details.price
-      }
-
-      // If there's a thumbnail, use FormData, otherwise use JSON
+      // Always use FormData for consistency
+      const formData = new FormData()
+      formData.append('title', details.title)
+      formData.append('description', details.description)
+      formData.append('category', details.category)
+      formData.append('level', details.level)
+      formData.append('price', details.price)
       if (details.thumbnail) {
-        console.log('Using FormData for file upload')
-        const formData = new FormData()
-        formData.append('title', details.title)
-        formData.append('description', details.description)
-        formData.append('category', details.category)
-        formData.append('level', details.level)
-        formData.append('price', details.price)
         formData.append('thumbnail', details.thumbnail)
-
-        console.log('FormData contents:')
-        for (let [key, value] of formData.entries()) {
-          console.log(key, value)
-        }
-
-        const course = await updateCourse(courseId, formData)
-        console.log('Course updated successfully with file:', course)
+        console.log('Including thumbnail in FormData')
       } else {
-        console.log('Using JSON for update (no file)')
-        console.log('JSON data:', jsonData)
-        
-        // Manual JSON request
-        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/instructor/courses/${courseId}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          credentials: 'include',
-          body: JSON.stringify(jsonData)
-        })
-
-        if (!response.ok) {
-          const error = await response.json()
-          throw new Error(error.message || `HTTP ${response.status}: ${response.statusText}`)
-        }
-
-        const course = await response.json()
-        console.log('Course updated successfully:', course)
+        console.log('No thumbnail included')
       }
-      
+
+      console.log('FormData contents:')
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value)
+      }
+
+      const course = await updateCourse(courseId, formData)
+      console.log('Course updated successfully:', course)
       setActive(1) // Move to Lessons
     } catch (e) {
       console.error('Update failed:', e)
