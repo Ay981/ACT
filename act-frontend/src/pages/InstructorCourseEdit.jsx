@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import AppLayout from '../layouts/AppLayout.jsx'
 
 // Import API functions
-import { createCourse, addLesson, generateCourseOutline, updateCourse, updateLesson, deleteLesson, getCourse } from '../lib/api.js'
+import { createCourse, addLesson, generateCourseOutline, updateCourse, updateLesson, deleteLesson, getInstructorCourses } from '../lib/api.js'
 
 const steps = ['Details', 'Lessons', 'Review']
 
@@ -43,8 +43,16 @@ export default function InstructorCourseEdit() {
   async function loadCourse() {
     try {
       console.log('Loading course with ID:', id)
-      console.log('Calling getCourse with instructor=true')
-      const course = await getCourse(id, true) // Use instructor endpoint
+      console.log('Getting all instructor courses and finding the right one')
+      
+      // Get all instructor courses and find the one we need
+      const courses = await getInstructorCourses()
+      const course = courses.find(c => c.id == id)
+      
+      if (!course) {
+        throw new Error('Course not found or you do not have permission to edit it')
+      }
+      
       console.log('Course loaded successfully:', course)
       setDetails({
         title: course.title,
