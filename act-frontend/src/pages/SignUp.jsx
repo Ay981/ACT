@@ -9,6 +9,7 @@ export default function SignUp() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
+  const [role, setRole] = useState('student')
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -34,7 +35,7 @@ export default function SignUp() {
         email, 
         password, 
         password_confirmation: passwordConfirmation,
-        role: 'student' // Default role
+        role
       })
       
       // Check if OTP was sent - backend returns { status: 'otp_sent', email: '...' }
@@ -96,6 +97,34 @@ export default function SignUp() {
                      placeholder="John Doe"
                      required
                    />
+                 </div>
+
+                 <div>
+                   <label className="block text-sm font-bold text-slate-700 mb-2">I am a</label>
+                   <div className="grid grid-cols-2 gap-3">
+                     <button
+                       type="button"
+                       onClick={() => setRole('student')}
+                       className={`p-3 rounded-xl border-2 transition-all text-sm font-medium ${
+                         role === 'student'
+                           ? 'border-slate-900 bg-slate-900 text-white'
+                           : 'border-slate-200 bg-slate-50 text-slate-700 hover:border-slate-300'
+                       }`}
+                     >
+                       🎓 Student
+                     </button>
+                     <button
+                       type="button"
+                       onClick={() => setRole('instructor')}
+                       className={`p-3 rounded-xl border-2 transition-all text-sm font-medium ${
+                         role === 'instructor'
+                           ? 'border-slate-900 bg-slate-900 text-white'
+                           : 'border-slate-200 bg-slate-50 text-slate-700 hover:border-slate-300'
+                       }`}
+                     >
+                       👨‍🏫 Instructor
+                     </button>
+                   </div>
                  </div>
 
                  <div>
