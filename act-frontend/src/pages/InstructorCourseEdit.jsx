@@ -2,72 +2,57 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import AppLayout from '../layouts/AppLayout.jsx'
 
-// Direct API call to get course
+// Import API functions
+import { createCourse, addLesson, generateCourseOutline, updateCourse, updateLesson, deleteLesson } from '../lib/api.js'
+
+// Import the request function for proper CORS handling
+async function request(method, path, body) {
+  const headers = { 'Accept': 'application/json' }
+
+  if (!(body instanceof FormData)) {
+      headers['Content-Type'] = 'application/json'
+  }
+
+  // Always attach CSRF token if present (for Sanctum)
+  try {
+      const xsrfCookie = document.cookie.split('; ').find(row => row.startsWith('XSRF-TOKEN='))
+      if (xsrfCookie) {
+          const xsrfToken = xsrfCookie.split('=')[1]
+          if (xsrfToken) {
+              headers['X-XSRF-TOKEN'] = decodeURIComponent(xsrfToken)
+          }
+      }
+  } catch (e) {
+      // Ignore if cookie not found
+  }
+
+  const options = {
+      method,
+      headers,
+      credentials: 'include',
+  }
+
+  if (body) {
+      options.body = body instanceof FormData ? body : JSON.stringify(body)
+  }
+
+  const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}${path}`, options)
+  
+  if (!res.ok) {
+    if (res.status === 503) {
+      throw new Error('Service temporarily unavailable')
+    }
+    const error = await res.json()
+    throw new Error(error.message || `HTTP ${res.status}: ${res.statusText}`)
+  }
+  
+  return res.json()
+}
+
+// Override getCourse to use the correct endpoint
 async function getCourse(id) {
-  const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/courses/${id}`, {
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-      'Accept': 'application/json'
-    }
-  })
-  if (!response.ok) {
-    throw new Error(`HTTP ${response.status}: ${response.statusText}`)
-  }
-  return response.json()
+  return request('GET', `/courses/${id}`)
 }
-
-// Direct API call to update course
-async function updateCourse(id, formData) {
-  const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/instructor/courses/${id}`, {
-    method: 'PUT',
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-      'Accept': 'application/json'
-    },
-    body: formData
-  })
-  if (!response.ok) {
-    const error = await response.json()
-    throw new Error(error.message || `HTTP ${response.status}: ${response.statusText}`)
-  }
-  return response.json()
-}
-
-// Direct API call to update lesson
-async function updateLesson(courseId, lessonId, formData) {
-  const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/instructor/courses/${courseId}/lessons/${lessonId}`, {
-    method: 'PUT',
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-      'Accept': 'application/json'
-    },
-    body: formData
-  })
-  if (!response.ok) {
-    const error = await response.json()
-    throw new Error(error.message || `HTTP ${response.status}: ${response.statusText}`)
-  }
-  return response.json()
-}
-
-// Direct API call to delete lesson
-async function deleteLesson(courseId, lessonId) {
-  const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/instructor/courses/${courseId}/lessons/${lessonId}`, {
-    method: 'DELETE',
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-      'Accept': 'application/json'
-    }
-  })
-  if (!response.ok) {
-    const error = await response.json()
-    throw new Error(error.message || `HTTP ${response.status}: ${response.statusText}`)
-  }
-  return response.json()
-}
-
-// Import other needed functions
-import { createCourse, addLesson, generateCourseOutline } from '../lib/api.js'
 
 const steps = ['Details', 'Lessons', 'Review']
 
