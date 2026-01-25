@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/courses', [\App\Http\Controllers\CourseController::class, 'all']);
 Route::get('/courses/{id}', [\App\Http\Controllers\CourseController::class, 'show']);
-Route::post('/lessons/{id}/download', [\App\Http\Controllers\CourseController::class, 'downloadResource']);
+Route::get('/lesson-download/{id}', [\App\Http\Controllers\CourseController::class, 'downloadResource']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', function (Request $request) {
