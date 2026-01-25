@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/courses', [\App\Http\Controllers\CourseController::class, 'all']);
 Route::get('/courses/{id}', [\App\Http\Controllers\CourseController::class, 'show']);
+Route::post('/lessons/{id}/download', [\App\Http\Controllers\CourseController::class, 'downloadResource']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', function (Request $request) {
@@ -42,7 +43,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/instructor/courses', [\App\Http\Controllers\CourseController::class, 'store']);
     Route::post('/courses/{id}/enroll', [\App\Http\Controllers\CourseController::class, 'enroll']);
     Route::post('/instructor/courses/{id}/lessons', [\App\Http\Controllers\CourseController::class, 'addLesson']);
-    Route::get('/lessons/{id}/download', [\App\Http\Controllers\CourseController::class, 'downloadResource']);
 
     Route::get('/instructor/dashboard', [\App\Http\Controllers\InstructorDashboardController::class, 'index']);
 

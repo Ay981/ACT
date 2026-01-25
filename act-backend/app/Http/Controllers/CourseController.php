@@ -185,14 +185,20 @@ class CourseController extends Controller
         $relativePath = str_replace('/storage/', '', $lesson->resource_path);
         
         if (!Storage::disk('public')->exists($relativePath)) {
-            return response()->json(['message' => 'File not found'], 404);
+            return response()->json(['message' => 'File not found: ' . $relativePath], 404);
         }
 
-        $file = Storage::disk('public')->get($relativePath);
-        $filename = basename($lesson->resource_path);
+        try {
+            $file = Storage::disk('public')->get($relativePath);
+            $filename = basename($lesson->resource_path);
 
-        return response($file)
-            ->header('Content-Type', 'application/pdf')
-            ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
+            return response($file)
+                ->header('Content-Type', 'application/pdf')
+                ->header('Content-Disposition', 'attachment; filename="' . $filename . '"')
+                ->header('Content-Length', strlen($file));
+        } catch (\Exception $e) {
+            \Log::error('Download error: ' . $e->getMessage());
+            return response()->json(['message' => 'Download failed: ' . $e->getMessage()], 500);
+        }
     }
 }
