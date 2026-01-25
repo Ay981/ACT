@@ -1,6 +1,6 @@
 FROM php:8.2-apache
 
-# Install system dependencies
+# Install system dependencies and PHP extensions in one layer
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
@@ -10,26 +10,18 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     curl \
+    && docker-php-ext-install -j$(nproc) pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install PHP extensions
-RUN docker-php-ext-install pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd
-
-# Enable Apache modules
-RUN a2enmod rewrite headers
-
-# Fix Apache error: More than one MPM loaded
-RUN a2dismod mpm_event mpm_worker || true
-RUN a2enmod mpm_prefork
-
-# Configure Apache DocumentRoot to point to public
+# Configure Apache (combine operations)
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
-RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
-
-# Use production PHP configuration
-RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+RUN a2dismod mpm_event mpm_worker || true \
+    && a2enmod rewrite headers mpm_prefork \
+    && sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
+    && sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf \
+    && echo "ServerName localhost" >> /etc/apache2/apache2.conf \
+    && mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 # Set working directory
 WORKDIR /var/www/html
@@ -41,23 +33,19 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY composer.json composer.lock ./
 
 # Install PHP dependencies without scripts (artisan doesn't exist yet)
-# Scripts will run after we copy all files
-RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --no-scripts
+# Use --prefer-dist and --no-scripts for faster install
+RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --no-scripts --no-plugins
 
 # Copy application files
 COPY . .
 
-# Now run composer scripts (package discovery, etc.) since artisan exists
-# This runs the post-install scripts that were skipped earlier
-RUN composer dump-autoload --optimize --no-interaction && \
-    php artisan package:discover --ansi || true
+# Run package discovery (quick operation)
+RUN php artisan package:discover --ansi || true
 
-# Copy and set permissions for entrypoint script
+# Copy entrypoint and set up storage in one step
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-
-# Create storage directories and set permissions
-RUN mkdir -p storage/framework/{sessions,views,cache} storage/logs bootstrap/cache \
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh \
+    && mkdir -p storage/framework/{sessions,views,cache} storage/logs bootstrap/cache \
     && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 

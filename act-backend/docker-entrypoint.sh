@@ -41,17 +41,24 @@ if [ -n "$DATABASE_URL" ] || [ -n "$DB_HOST" ]; then
     fi
 fi
 
-# Clear and cache configuration for production
+# Clear all caches first (critical for production)
 php artisan config:clear || true
 php artisan cache:clear || true
 php artisan route:clear || true
 php artisan view:clear || true
+php artisan optimize:clear || true
 
 # Cache configuration for better performance (only if APP_ENV is production)
 if [ "$APP_ENV" = "production" ]; then
-    php artisan config:cache || true
-    php artisan route:cache || true
-    php artisan view:cache || true
+    # Test if app can bootstrap before caching
+    if php artisan tinker --execute="echo 'OK';" > /dev/null 2>&1; then
+        php artisan config:cache || echo "Warning: Config cache failed"
+        # Skip route cache for now to avoid issues - routes will be loaded dynamically
+        # php artisan route:cache || echo "Warning: Route cache failed, using live routes"
+        php artisan view:cache || echo "Warning: View cache failed"
+    else
+        echo "Warning: App bootstrap failed, skipping cache operations"
+    fi
 fi
 
 # Run migrations
