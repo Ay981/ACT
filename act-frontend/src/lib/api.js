@@ -82,17 +82,24 @@ export async function addLesson(courseId, formData) {
 }
 
 async function request(method, path, body, signal) {
-  const headers = { 'Accept': 'application/json' }
-  
-  if (!(body instanceof FormData)) {
-      headers['Content-Type'] = 'application/json'
-  }
-  
-  // Auto-attach CSRF token if present
-  const xsrfToken = document.cookie.split('; ').find(row => row.startsWith('XSRF-TOKEN='))?.split('=')[1]
-  if (xsrfToken) {
-    headers['X-XSRF-TOKEN'] = decodeURIComponent(xsrfToken)
-  }
+    const headers = { 'Accept': 'application/json' }
+
+    if (!(body instanceof FormData)) {
+        headers['Content-Type'] = 'application/json'
+    }
+
+    // Always attach CSRF token if present (for Sanctum)
+    try {
+        const xsrfCookie = document.cookie.split('; ').find(row => row.startsWith('XSRF-TOKEN='))
+        if (xsrfCookie) {
+            const xsrfToken = xsrfCookie.split('=')[1]
+            if (xsrfToken) {
+                headers['X-XSRF-TOKEN'] = decodeURIComponent(xsrfToken)
+            }
+        }
+    } catch (e) {
+        // Ignore if cookie not found
+    }
 
   const options = {
     method,
