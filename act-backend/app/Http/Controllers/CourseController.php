@@ -26,9 +26,20 @@ class CourseController extends Controller
 
     public function show(Request $request, $id)
     {
-        $course = Course::with(['lessons' => function($query) {
-            $query->orderBy('order');
-        }, 'instructor'])->findOrFail($id);
+        // Check if this is an instructor request (from authenticated route)
+        if ($request->is('api/instructor/*')) {
+            $course = Course::where('id', $id)
+                ->where('instructor_id', $request->user()->id)
+                ->with(['lessons' => function($query) {
+                    $query->orderBy('order');
+                }])
+                ->firstOrFail();
+        } else {
+            // Public route - anyone can view
+            $course = Course::with(['lessons' => function($query) {
+                $query->orderBy('order');
+            }])->findOrFail($id);
+        }
 
         $user = $request->user('sanctum');
         $isEnrolled = false;
@@ -47,7 +58,6 @@ class CourseController extends Controller
         $course->is_enrolled = $isEnrolled;
 
         // Fetch related quizzes (linked by Course Title as Category)
-        // Note: Logic simplified to avoid query builder select/withCount conflicts
         $quizzes = \App\Models\Quiz::where('category', $course->title)
             ->where('status', 'published')
             ->withCount('questions')

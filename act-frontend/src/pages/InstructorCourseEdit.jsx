@@ -49,9 +49,9 @@ async function request(method, path, body) {
   return res.json()
 }
 
-// Override getCourse to use the correct endpoint
+// Override getCourse to use the authenticated endpoint
 async function getCourse(id) {
-  return request('GET', `/courses/${id}`)
+  return request('GET', `/instructor/courses/${id}`)
 }
 
 const steps = ['Details', 'Lessons', 'Review']
@@ -92,7 +92,7 @@ export default function InstructorCourseEdit() {
   async function loadCourse() {
     try {
       console.log('Loading course with ID:', id)
-      console.log('Calling direct API to:', `${import.meta.env.VITE_API_BASE_URL}/courses/${id}`)
+      console.log('Calling AUTHENTICATED API to: /instructor/courses/', id)
       const course = await getCourse(id)
       console.log('Course loaded successfully:', course)
       setDetails({
