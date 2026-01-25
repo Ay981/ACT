@@ -12,7 +12,7 @@ export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const { signup } = useAuth()
+  const { register } = useAuth()
 
   const onSubmit = async (e) => {
     e.preventDefault()
@@ -29,7 +29,7 @@ export default function SignUp() {
     setLoading(true)
 
     try {
-      await signup({ 
+      await register({ 
         name, 
         email, 
         password, 
