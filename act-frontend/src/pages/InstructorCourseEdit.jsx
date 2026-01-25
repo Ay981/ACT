@@ -3,55 +3,25 @@ import { useNavigate, useParams } from 'react-router-dom'
 import AppLayout from '../layouts/AppLayout.jsx'
 
 // Import API functions
-import { createCourse, addLesson, generateCourseOutline, updateCourse, updateLesson, deleteLesson } from '../lib/api.js'
-
-// Import the request function for proper CORS handling
-async function request(method, path, body) {
-  const headers = { 'Accept': 'application/json' }
-
-  if (!(body instanceof FormData)) {
-      headers['Content-Type'] = 'application/json'
-  }
-
-  // Always attach CSRF token if present (for Sanctum)
-  try {
-      const xsrfCookie = document.cookie.split('; ').find(row => row.startsWith('XSRF-TOKEN='))
-      if (xsrfCookie) {
-          const xsrfToken = xsrfCookie.split('=')[1]
-          if (xsrfToken) {
-              headers['X-XSRF-TOKEN'] = decodeURIComponent(xsrfToken)
-          }
-      }
-  } catch (e) {
-      // Ignore if cookie not found
-  }
-
-  const options = {
-      method,
-      headers,
-      credentials: 'include',
-  }
-
-  if (body) {
-      options.body = body instanceof FormData ? body : JSON.stringify(body)
-  }
-
-  const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}${path}`, options)
-  
-  if (!res.ok) {
-    if (res.status === 503) {
-      throw new Error('Service temporarily unavailable')
-    }
-    const error = await res.json()
-    throw new Error(error.message || `HTTP ${res.status}: ${res.statusText}`)
-  }
-  
-  return res.json()
-}
+import { createCourse, addLesson, generateCourseOutline, updateCourse, updateLesson, deleteLesson, getCourse as originalGetCourse } from '../lib/api.js'
 
 // Override getCourse to use the authenticated endpoint
 async function getCourse(id) {
-  return request('GET', `/instructor/courses/${id}`)
+  // Use the same request function but with instructor endpoint
+  const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/instructor/courses/${id}`, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    credentials: 'include'
+  })
+  
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+  }
+  
+  return response.json()
 }
 
 const steps = ['Details', 'Lessons', 'Review']
