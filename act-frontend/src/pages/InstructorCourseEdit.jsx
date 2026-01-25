@@ -104,6 +104,9 @@ export default function InstructorCourseEdit() {
         console.log('No thumbnail included')
       }
 
+      // Add _method field for Laravel FormData PUT workaround
+      formData.append('_method', 'PUT')
+
       console.log('FormData contents:')
       for (let [key, value] of formData.entries()) {
         console.log(key, value)
@@ -129,7 +132,7 @@ export default function InstructorCourseEdit() {
       }
 
       const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/instructor/courses/${courseId}`, {
-        method: 'PUT',
+        method: 'POST', // Use POST instead of PUT for FormData
         headers,
         credentials: 'include',
         body: formData
