@@ -14,12 +14,18 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->trustProxies(at: '*');
 
+        // Force SameSite=None for cookies (must be early in the stack)
+        $middleware->web(append: [
+            \App\Http\Middleware\ForceSameSiteNone::class,
+        ]);
+
         $middleware->api(
             prepend: [
                 \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             ],
             append: [
                 \App\Http\Middleware\CheckMaintenanceMode::class,
+                \App\Http\Middleware\ForceSameSiteNone::class,
             ]
         );
 

@@ -25,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         // Force SameSite=None for cross-domain cookies
+        // This must be set early, before any session/cookie operations
         config(['session.same_site' => 'none']);
         config(['session.secure' => true]);
 
