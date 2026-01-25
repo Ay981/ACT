@@ -21,6 +21,11 @@ RUN a2dismod mpm_event mpm_worker || true \
     && sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
     && sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf \
     && echo "ServerName localhost" >> /etc/apache2/apache2.conf \
+    && echo "<Directory ${APACHE_DOCUMENT_ROOT}>" >> /etc/apache2/apache2.conf \
+    && echo "    Options Indexes FollowSymLinks" >> /etc/apache2/apache2.conf \
+    && echo "    AllowOverride All" >> /etc/apache2/apache2.conf \
+    && echo "    Require all granted" >> /etc/apache2/apache2.conf \
+    && echo "</Directory>" >> /etc/apache2/apache2.conf \
     && mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 # Set working directory
