@@ -116,7 +116,7 @@ export default function InstructorCourseEdit() {
         }
 
         const course = await updateCourse(courseId, formData)
-        console.log('Course updated successfully:', course)
+        console.log('Course updated successfully with file:', course)
       } else {
         console.log('Using JSON for update (no file)')
         console.log('JSON data:', jsonData)
