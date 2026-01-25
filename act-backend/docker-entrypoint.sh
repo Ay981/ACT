@@ -70,6 +70,12 @@ php artisan migrate --force || {
     echo "Migration failed, but continuing..."
 }
 
+# Create storage link (critical for file uploads)
+echo "Creating storage link..."
+php artisan storage:link || {
+    echo "Storage link creation failed, but continuing..."
+}
+
 # Ensure storage permissions are correct
 chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache || true
 chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache || true
