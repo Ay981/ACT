@@ -41,7 +41,13 @@ class CourseController extends Controller
             }])->findOrFail($id);
         }
 
-        $user = $request->user('sanctum');
+        // Only check for authenticated user if token is provided
+        try {
+            $user = $request->user('sanctum');
+        } catch (\Exception $e) {
+            $user = null;
+        }
+        
         $isEnrolled = false;
         $isInstructor = false;
 

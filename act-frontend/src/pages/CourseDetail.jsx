@@ -11,7 +11,7 @@ import { getUser } from '../lib/api' // To check if current user is instructor
 const getAssetUrl = (path) => {
     if (!path) return 'https://placehold.co/600x400?text=No+Image';
     if (path.startsWith('http')) return path;
-    return `http://localhost:8000${path}`;
+    return `${import.meta.env.VITE_API_BASE_URL}${path}`;
 }
 
 export default function CourseDetail() {
