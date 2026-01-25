@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
-import AppLayout from '../layouts/AppLayout'
+import { useState, useEffect } from 'react'
+import { useParams, useNavigate, Link } from 'react-router-dom'
+import AppLayout from '../layouts/AppLayout.jsx'
+import PDFViewerModal from '../components/PDFViewerModal.jsx'
 import Spinner from '../components/Spinner'
 import CommentsSection from '../components/comments/CommentsSection'
 import { getCourse, enrollCourse } from '../lib/api'
@@ -22,6 +23,7 @@ export default function CourseDetail() {
   const [activeLesson, setActiveLesson] = useState(null)
   const [lessons, setLessons] = useState([])
   const [currentUser, setCurrentUser] = useState(null)
+  const [pdfModal, setPdfModal] = useState({ isOpen: false, url: '', title: '' })
 
   useEffect(() => {
     // optional: fetch current user to verify if they are instructor
@@ -46,6 +48,20 @@ export default function CourseDetail() {
       .catch(err => console.error("Failed to load course", err))
       .finally(() => setLoading(false))
   }, [id])
+
+  const openPDFViewer = (lesson, resourcePath) => {
+    const filename = resourcePath.split('/').pop()
+    const pdfUrl = `${import.meta.env.VITE_API_BASE_URL}/storage-proxy/${encodeURIComponent(filename)}`
+    setPdfModal({
+      isOpen: true,
+      url: pdfUrl,
+      title: `${lesson.title} - PDF Resource`
+    })
+  }
+
+  const closePDFViewer = () => {
+    setPdfModal({ isOpen: false, url: '', title: '' })
+  }
 
   const handleRegister = async () => {
     if (!currentUser) {
@@ -277,10 +293,18 @@ export default function CourseDetail() {
                                {lesson.video_url && <span className="text-xs text-slate-500 flex items-center gap-1"><svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Video</span>}
                                {lesson.youtube_url && <span className="text-xs text-red-500 flex items-center gap-1"><svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>YouTube</span>}
                                {lesson.resource_path && (
-                                   <a href={`${import.meta.env.VITE_API_BASE_URL}/storage-proxy/${encodeURIComponent(lesson.resource_path.split('/').pop())}`} download target="_blank" rel="noreferrer" onClick={e => e.stopPropagation()} className="text-xs text-blue-500 hover:text-blue-700 flex items-center gap-1">
-                                       <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                                       PDF Resource
-                                   </a>
+                                   <button 
+                                     onClick={(e) => {
+                                       e.stopPropagation()
+                                       openPDFViewer(lesson, lesson.resource_path)
+                                     }} 
+                                     className="text-xs text-blue-500 hover:text-blue-700 flex items-center gap-1"
+                                   >
+                                       <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                       </svg>
+                                       Read PDF
+                                   </button>
                                )}
                              </div>
                         </div>
@@ -345,6 +369,14 @@ export default function CourseDetail() {
           </aside>
         </section>
       </div>
+      
+      {/* PDF Viewer Modal */}
+      <PDFViewerModal 
+        isOpen={pdfModal.isOpen}
+        onClose={closePDFViewer}
+        pdfUrl={pdfModal.url}
+        title={pdfModal.title}
+      />
     </AppLayout>
   )
 }
