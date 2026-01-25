@@ -205,7 +205,9 @@ class CourseController extends Controller
     public function storageProxy($path)
     {
         try {
-            $fullPath = 'resources/' . $path;
+            // URL decode the path to handle special characters
+            $decodedPath = urldecode($path);
+            $fullPath = 'resources/' . $decodedPath;
             
             if (!Storage::disk('public')->exists($fullPath)) {
                 return response()->json(['message' => 'File not found: ' . $fullPath], 404);
@@ -215,7 +217,7 @@ class CourseController extends Controller
 
             return response($file)
                 ->header('Content-Type', 'application/pdf')
-                ->header('Content-Disposition', 'attachment; filename="' . $path . '"')
+                ->header('Content-Disposition', 'attachment; filename="' . basename($decodedPath) . '"')
                 ->header('Content-Length', strlen($file));
                 
         } catch (\Exception $e) {
