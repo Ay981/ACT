@@ -40,11 +40,17 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Copy composer files first (for better layer caching)
 COPY composer.json composer.lock ./
 
-# Install PHP dependencies (this layer will be cached if composer files don't change)
-RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
+# Install PHP dependencies without scripts (artisan doesn't exist yet)
+# Scripts will run after we copy all files
+RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --no-scripts
 
 # Copy application files
 COPY . .
+
+# Now run composer scripts (package discovery, etc.) since artisan exists
+# This runs the post-install scripts that were skipped earlier
+RUN composer dump-autoload --optimize --no-interaction && \
+    php artisan package:discover --ansi || true
 
 # Copy and set permissions for entrypoint script
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
