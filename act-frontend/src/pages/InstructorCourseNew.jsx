@@ -21,7 +21,7 @@ export default function InstructorCourseNew() {
 
   // Local state for lessons being added
   const [lessons, setLessons] = useState([])
-  const [newLesson, setNewLesson] = useState({ title: '', description: '', video: null, youtube_url: '', resource: null })
+  const [newLesson, setNewLesson] = useState({ title: '', description: '', youtube_url: '', resource_url: '' })
   
   const [loading, setLoading] = useState(false)
   const [aiLoading, setAiLoading] = useState(false)
@@ -95,14 +95,13 @@ export default function InstructorCourseNew() {
           const formData = new FormData()
           formData.append('title', newLesson.title)
           formData.append('description', newLesson.description)
-          if (newLesson.video) formData.append('video', newLesson.video)
           if (newLesson.youtube_url) formData.append('youtube_url', newLesson.youtube_url)
-          if (newLesson.resource) formData.append('resource', newLesson.resource)
+          if (newLesson.resource_url) formData.append('resource_url', newLesson.resource_url)
           
           const savedLesson = await addLesson(courseId, formData)
           
           setLessons([...lessons, savedLesson])
-          setNewLesson({ title: '', description: '', video: null, youtube_url: '', resource: null })
+          setNewLesson({ title: '', description: '', youtube_url: '', resource_url: '' })
       } catch (e) {
           setError(e.message)
       } finally {
@@ -221,45 +220,39 @@ export default function InstructorCourseNew() {
                     <div>
                         <label className="block text-sm font-medium text-slate-700">Lesson Title</label>
                         <input className="mt-1 block w-full rounded-md border-slate-300 shadow-sm px-3 py-2 border" 
+                               placeholder="e.g. Introduction to Machine Learning"
                                value={newLesson.title} onChange={e => setNewLesson({...newLesson, title: e.target.value})} />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-slate-700">Video Source</label>
-                        <div className="mt-1 p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-4">
+                        <label className="block text-sm font-medium text-slate-700">Description</label>
+                        <textarea className="mt-1 block w-full rounded-md border-slate-300 shadow-sm px-3 py-2 border" rows={3}
+                                  value={newLesson.description} onChange={e => setNewLesson({...newLesson, description: e.target.value})} />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-slate-700">Video Content</label>
+                        <div className="mt-1 p-4 bg-slate-50 rounded-xl border border-slate-200">
                             <div>
-                                <span className="text-xs font-bold text-slate-500 uppercase tracking-wide">Option A: Upload File</span>
-                                <input type="file" accept=".mp4,.mov,.ogg,.webm,.avi,.wmv,.flv,.mkv,.pdf,.doc,.docx,video/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" className="mt-1 block w-full text-sm text-slate-500" 
-                                    onChange={e => setNewLesson({...newLesson, video: e.target.files[0]})} />
-                                <p className="mt-1 text-xs text-slate-500">Supported formats: Video (MP4, MOV etc) OR Document (PDF, Word) (Max 100MB)</p>
-                            </div>
-                            <div className="relative">
-                                <div className="absolute inset-0 flex items-center" aria-hidden="true">
-                                    <div className="w-full border-t border-slate-200"></div>
-                                </div>
-                                <div className="relative flex justify-center">
-                                    <span className="bg-slate-50 px-2 text-xs text-slate-400 font-medium">OR USE LINK</span>
-                                </div>
-                            </div>
-                            <div>
-                                <span className="text-xs font-bold text-slate-500 uppercase tracking-wide">Option B: YouTube Link</span>
-                                <input className="mt-1 block w-full rounded-md border-slate-300 shadow-sm px-3 py-2 border placeholder:text-slate-400" 
-                                    placeholder="https://youtube.com/watch?v=..."
-                                    value={newLesson.youtube_url || ''} onChange={e => setNewLesson({...newLesson, youtube_url: e.target.value})} />
+                                <span className="text-xs font-bold text-slate-500 uppercase tracking-wide">YouTube Video URL</span>
+                                <input type="url" placeholder="https://youtube.com/watch?v=..." className="mt-2 block w-full rounded-md border-slate-300 px-3 py-2 border shadow-sm"
+                                    value={newLesson.youtube_url} onChange={e => setNewLesson({...newLesson, youtube_url: e.target.value})} />
+                                <p className="mt-1 text-xs text-slate-500">Add a YouTube video for this lesson</p>
                             </div>
                         </div>
                     </div>
                     
                     <div>
-                        <label className="block text-sm font-medium text-slate-700">Additional Resources (PDF/Word)</label>
-                        <input type="file" accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.pdf,.doc,.docx" className="mt-1 block w-full text-sm text-slate-500" 
-                               onChange={e => setNewLesson({...newLesson, resource: e.target.files[0]})} />
-                        <p className="mt-1 text-xs text-slate-500">Optional reading material.</p>
+                        <label className="block text-sm font-medium text-slate-700">Additional Resources</label>
+                        <input type="url" placeholder="https://drive.google.com/..." className="mt-1 block w-full rounded-md border-slate-300 px-3 py-2 border shadow-sm"
+                               value={newLesson.resource_url} onChange={e => setNewLesson({...newLesson, resource_url: e.target.value})} />
+                        <p className="mt-1 text-xs text-slate-500">Google Drive link to PDFs, documents, or other resources</p>
                     </div>
 
-                    <button onClick={handleAddLesson} disabled={loading || !newLesson.title}
-                            className="w-full bg-slate-900 text-white px-4 py-3 rounded-lg hover:bg-slate-800 font-medium shadow-lg shadow-slate-900/10 transition-all">
-                        {loading ? 'Adding Lesson...' : 'Add Lesson to Course'}
-                    </button>
+                    <div className="pt-4">
+                        <button onClick={handleAddLesson} disabled={loading || !newLesson.title} 
+                                className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 disabled:opacity-50">
+                            {loading ? 'Adding...' : 'Add Lesson'}
+                        </button>
+                    </div>
                 </div>
                 
                 <div className="pt-4 flex justify-end">

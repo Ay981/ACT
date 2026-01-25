@@ -239,49 +239,17 @@ class CourseController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'video' => 'nullable|file|mimes:mp4,mov,ogg,webm,avi,wmv,flv,mkv,pdf,doc,docx|max:102400', // Max 100MB, allowed PDF to be flexible
             'youtube_url' => 'nullable|url',
-            'resource' => 'nullable|file|mimes:pdf,doc,docx|max:20480', // Max 20MB
+            'resource_url' => 'nullable|url',
         ]);
-
-        $videoPath = null;
-        $resourcePath = null;
-
-        // Handle the 'video' input file - checking if it's actually a PDF or Doc
-        if ($request->hasFile('video')) {
-            $videoFile = $request->file('video');
-            $mime = $videoFile->getMimeType();
-            $ext = $videoFile->extension();
-            
-            // If user uploaded a PDF/Doc in the video slot, treat it as a resource
-            if (in_array($ext, ['pdf', 'doc', 'docx']) || str_contains($mime, 'pdf') || str_contains($mime, 'word') || str_contains($mime, 'document')) {
-                $path = $videoFile->store('resources', 'public');
-                $resourcePath = '/storage/' . $path;
-            } else {
-                // It's a video
-                $path = $videoFile->store('videos', 'public');
-                $videoPath = '/storage/' . $path;
-            }
-        }
-
-        // Handle the explicit 'resource' input file
-        if ($request->hasFile('resource')) {
-            $path = $request->file('resource')->store('resources', 'public');
-            // If we already have a resource from the video slot, we'll just overwrite/use this one
-            // or we could decide to reject, but overwriting with the explicit field is safer.
-            $resourcePath = '/storage/' . $path;
-        }
-
-        $count = $course->lessons()->count();
 
         $lesson = Lesson::create([
             'course_id' => $course->id,
             'title' => $validated['title'],
             'description' => $validated['description'] ?? '',
-            'video_url' => $videoPath,
             'youtube_url' => $validated['youtube_url'] ?? null,
-            'resource_path' => $resourcePath,
-            'order' => $count + 1,
+            'resource_url' => $validated['resource_url'] ?? null,
+            'order' => Lesson::where('course_id', $course->id)->max('order') + 1,
         ]);
 
         return response()->json($lesson, 201);
