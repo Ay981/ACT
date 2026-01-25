@@ -49,10 +49,13 @@ php artisan view:clear || true
 php artisan optimize:clear || true
 
 # Cache configuration for better performance (only if APP_ENV is production)
+# Note: We skip config:cache to allow environment variables to be read dynamically
+# This is important for SameSite cookie settings that need to be flexible
 if [ "$APP_ENV" = "production" ]; then
     # Test if app can bootstrap before caching
     if php artisan tinker --execute="echo 'OK';" > /dev/null 2>&1; then
-        php artisan config:cache || echo "Warning: Config cache failed"
+        # Skip config:cache to allow env() to work properly for session settings
+        # php artisan config:cache || echo "Warning: Config cache failed"
         # Skip route cache for now to avoid issues - routes will be loaded dynamically
         # php artisan route:cache || echo "Warning: Route cache failed, using live routes"
         php artisan view:cache || echo "Warning: View cache failed"
