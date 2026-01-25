@@ -268,9 +268,13 @@ npm run test
 
 ## 👥 Contributors
 
-- **Rami** - [GitHub Profile](https://github.com/Ra58ad) - Project Lead & Full-Stack Development
-- **Aymen** - Backend Development & API Architecture
-- **Additional Team Members** - UI/UX Design, Testing, and Project Management
+- **Rami** - [GitHub Profile](https://github.com/Ra58ad) - Project Lead & development team
+- **Aymen Abdulkerim** - development team
+- **Bemnet Eyob** - Development Team
+- **Nahim Teklu** - Development Team
+- **Rame Mahamat** - Development Team
+- **Sead Bushra** - Development Team
+- **Sofonias Yoseph** - Development Team
 
 ## 🤝 Contributing
 
