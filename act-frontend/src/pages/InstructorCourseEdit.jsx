@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import AppLayout from '../layouts/AppLayout.jsx'
-import { createCourse, addLesson, generateCourseOutline, getCourse, updateCourse, updateLesson, deleteLesson } from '../lib/api.js'
 
-// Direct API call to test
-async function getCourseDirect(id) {
+// Direct API call to get course
+async function getCourse(id) {
   const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/courses/${id}`, {
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -16,6 +15,9 @@ async function getCourseDirect(id) {
   }
   return response.json()
 }
+
+// Import other needed functions
+import { createCourse, addLesson, generateCourseOutline, updateCourse, updateLesson, deleteLesson } from '../lib/api.js'
 
 const steps = ['Details', 'Lessons', 'Review']
 
@@ -55,9 +57,9 @@ export default function InstructorCourseEdit() {
   async function loadCourse() {
     try {
       console.log('Loading course with ID:', id)
-      console.log('Trying direct API call first...')
-      const course = await getCourseDirect(id)
-      console.log('Course loaded via direct call:', course)
+      console.log('Calling direct API to:', `${import.meta.env.VITE_API_BASE_URL}/courses/${id}`)
+      const course = await getCourse(id)
+      console.log('Course loaded successfully:', course)
       setDetails({
         title: course.title,
         description: course.description,
@@ -69,26 +71,9 @@ export default function InstructorCourseEdit() {
       setLessons(course.lessons || [])
       setInitialLoad(false)
     } catch (e) {
-      console.error('Failed to load course with direct call:', e)
-      console.error('Trying with API function...')
-      try {
-        const course = await getCourse(id)
-        console.log('Course loaded via API function:', course)
-        setDetails({
-          title: course.title,
-          description: course.description,
-          category: course.category,
-          level: course.level,
-          price: course.price,
-          thumbnail: null
-        })
-        setLessons(course.lessons || [])
-        setInitialLoad(false)
-      } catch (e2) {
-        console.error('Both methods failed:', e2)
-        setError('Failed to load course: ' + e2.message)
-        setInitialLoad(false)
-      }
+      console.error('Failed to load course:', e)
+      setError('Failed to load course: ' + e.message)
+      setInitialLoad(false)
     }
   }
 
