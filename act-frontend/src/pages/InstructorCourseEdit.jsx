@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import AppLayout from '../layouts/AppLayout.jsx'
 
-// Import API functions
-import { createCourse, addLesson, generateCourseOutline, updateCourse, updateLesson, deleteLesson, getInstructorCourses } from '../lib/api.js'
+// Import API functions for updates
+import { createCourse, addLesson, generateCourseOutline, updateCourse, updateLesson, deleteLesson } from '../lib/api.js'
 
 const steps = ['Details', 'Lessons', 'Review']
 
 export default function InstructorCourseEdit() {
   const navigate = useNavigate()
   const { id } = useParams()
+  const location = useLocation()
   const [active, setActive] = useState(0)
   const [courseId, setCourseId] = useState(id)
   
@@ -32,45 +33,30 @@ export default function InstructorCourseEdit() {
   const [error, setError] = useState('')
   const [initialLoad, setInitialLoad] = useState(true)
 
-  // Load existing course data
+  // Load course data from passed state
   useEffect(() => {
-    console.log('InstructorCourseEdit mounted, id:', id, 'initialLoad:', initialLoad)
-    if (id && initialLoad) {
-      loadCourse()
-    }
-  }, [id, initialLoad])
-
-  async function loadCourse() {
-    try {
-      console.log('🔄 LOADING COURSE WITH ID:', id)
-      console.log('📚 Getting all instructor courses and finding the right one')
-      
-      // Get all instructor courses and find the one we need
-      const courses = await getInstructorCourses()
-      console.log('📋 All courses:', courses)
-      const course = courses.find(c => c.id == id)
-      
-      if (!course) {
-        throw new Error('Course not found or you do not have permission to edit it')
-      }
-      
-      console.log('✅ Course loaded successfully:', course)
+    console.log('🎯 InstructorCourseEdit mounted, id:', id)
+    console.log('📍 Location state:', location.state)
+    
+    if (location.state?.course) {
+      console.log('✅ Using passed course data:', location.state.course)
+      const course = location.state.course
       setDetails({
         title: course.title,
         description: course.description,
         category: course.category,
         level: course.level,
         price: course.price,
-        thumbnail: null // Don't load existing thumbnail, allow user to upload new one
+        thumbnail: null
       })
       setLessons(course.lessons || [])
       setInitialLoad(false)
-    } catch (e) {
-      console.error('❌ Failed to load course:', e)
-      setError('Failed to load course: ' + e.message)
+    } else {
+      console.log('⚠️ No course data passed, showing error')
+      setError('No course data available. Please go back and try again.')
       setInitialLoad(false)
     }
-  }
+  }, [id, location.state])
 
   // AI Magic
   async function handleAiMagic() {
