@@ -3,26 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import AppLayout from '../layouts/AppLayout.jsx'
 
 // Import API functions
-import { createCourse, addLesson, generateCourseOutline, updateCourse, updateLesson, deleteLesson, getCourse as originalGetCourse } from '../lib/api.js'
-
-// Override getCourse to use the authenticated endpoint
-async function getCourse(id) {
-  // Use the same request function but with instructor endpoint
-  const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/instructor/courses/${id}`, {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    credentials: 'include'
-  })
-  
-  if (!response.ok) {
-    throw new Error(`HTTP ${response.status}: ${response.statusText}`)
-  }
-  
-  return response.json()
-}
+import { createCourse, addLesson, generateCourseOutline, updateCourse, updateLesson, deleteLesson, getCourse } from '../lib/api.js'
 
 const steps = ['Details', 'Lessons', 'Review']
 
@@ -62,8 +43,8 @@ export default function InstructorCourseEdit() {
   async function loadCourse() {
     try {
       console.log('Loading course with ID:', id)
-      console.log('Calling AUTHENTICATED API to: /instructor/courses/', id)
-      const course = await getCourse(id)
+      console.log('Calling getCourse with instructor=true')
+      const course = await getCourse(id, true) // Use instructor endpoint
       console.log('Course loaded successfully:', course)
       setDetails({
         title: course.title,

@@ -77,8 +77,14 @@ export async function createCourse(formData) {
     return request('POST', '/api/instructor/courses', formData) 
 }
 
-export async function getCourse(id) {
-    return request('GET', `/api/courses/${id}`)
+export async function getCourse(id, isInstructor = false) {
+    if (isInstructor) {
+        // Use instructor endpoint for editing
+        return request('GET', `/api/instructor/courses/${id}`)
+    } else {
+        // Use public endpoint for viewing
+        return request('GET', `/api/courses/${id}`)
+    }
 }
 
 export async function updateCourse(id, formData) {
