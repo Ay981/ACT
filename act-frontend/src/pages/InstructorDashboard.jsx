@@ -102,9 +102,9 @@ export default function InstructorDashboard(){
                        </Link>
                        <Link 
                           to={`/instructor/courses/${c.id}/edit`} 
-                          className="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 text-xs font-medium hover:border-primary-300 hover:text-primary-700 transition-colors shadow-sm"
+                          className="px-3 py-1.5 rounded-lg bg-blue-500 text-white text-xs font-medium hover:bg-blue-600 transition-colors shadow-sm"
                         >
-                         Edit
+                         ✏️ Edit Course
                        </Link>
                        <Link to={`/courses/${c.id}`} className="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 text-xs font-medium hover:border-primary-300 hover:text-primary-700 transition-colors shadow-sm">
                          Manage
