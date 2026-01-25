@@ -58,6 +58,7 @@ export default function App() {
       <Route path="/quizzes/:id/take" element={<ProtectedAuth><QuizTake /></ProtectedAuth>} />
       <Route path="/quizzes/:id/result" element={<ProtectedAuth><QuizResult /></ProtectedAuth>} />
       <Route path="/settings" element={<ProtectedAuth><Settings /></ProtectedAuth>} />
+      <Route path="/storage/*" element={<Navigate to="/login" replace />} />
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   )

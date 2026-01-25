@@ -201,4 +201,26 @@ class CourseController extends Controller
             return response()->json(['message' => 'Download failed: ' . $e->getMessage()], 500);
         }
     }
+
+    public function storageProxy($path)
+    {
+        try {
+            $fullPath = 'resources/' . $path;
+            
+            if (!Storage::disk('public')->exists($fullPath)) {
+                return response()->json(['message' => 'File not found: ' . $fullPath], 404);
+            }
+
+            $file = Storage::disk('public')->get($fullPath);
+
+            return response($file)
+                ->header('Content-Type', 'application/pdf')
+                ->header('Content-Disposition', 'attachment; filename="' . $path . '"')
+                ->header('Content-Length', strlen($file));
+                
+        } catch (\Exception $e) {
+            \Log::error('Storage proxy error: ' . $e->getMessage());
+            return response()->json(['message' => 'Proxy failed: ' . $e->getMessage()], 500);
+        }
+    }
 }
