@@ -258,7 +258,7 @@ export default function Messages(){
 
   return (
     <AppLayout hideMobileFooter={showChat}>
-      <div className={`h-screen flex flex-col ${showChat ? '' : 'lg:h-[70vh]'}`} style={{ height: showChat ? 'calc(100vh)' : 'calc(100vh - 80px)', paddingBottom: showChat ? '0px' : '80px' }}>
+      <div className={`h-screen flex flex-col lg:h-[70vh]`} style={{ height: showChat ? 'calc(100vh)' : 'calc(100vh - 80px)', paddingBottom: showChat ? '0px' : '80px' }}>
         {/* Mobile Header */}
         <div className="lg:hidden bg-white border-b border-slate-200 px-4 py-3 flex items-center justify-between">
           <h1 className="text-lg font-semibold text-slate-900">Messages</h1>
@@ -287,7 +287,7 @@ export default function Messages(){
           </aside>
           
           {/* Chat Section */}
-          <section className={`${!selected || !showChat ? 'hidden lg:block' : 'block'} lg:flex-2 bg-white border border-slate-200 rounded-2xl lg:rounded-none lg:border-none overflow-hidden flex flex-col`} style={{ height: showChat ? 'calc(100vh - 200px)' : 'calc(70vh - 200px)', maxHeight: showChat ? 'calc(100vh - 200px)' : 'calc(70vh - 200px)' }}>
+          <section className={`${!selected ? 'hidden lg:block' : 'block'} lg:flex-2 bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col h-full lg:h-full`}>
             {selected ? (
               <>
                 {/* Mobile Header */}
