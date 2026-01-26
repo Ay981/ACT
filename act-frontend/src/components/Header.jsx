@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useNavigate, Link, NavLink, useLocation } from 'react-router-dom';
 import Logo from './Logo.jsx';
 import { useAuth } from '../contexts/AuthContext.jsx';
-import { getUnreadCount, getNotifications, markNotificationRead, getEnrolledCourses, getAdminInstructors } from '../lib/api.js';
+import { getUnreadCount, getNotifications, markNotificationRead, getEnrolledCourses, getAdminInstructors, markAllMessagesAsRead } from '../lib/api.js';
 
 export default function Header({ unreadCount: propUnread, notifications: propNotifs, setNotifications: propSetNotifs, refreshKey }) {
   const navigate = useNavigate()
@@ -61,11 +61,24 @@ export default function Header({ unreadCount: propUnread, notifications: propNot
   }
 
   const markAllRead = async () => {
-      const ids = finalNotifs.map(n => n.id)
-      if (setFinalNotifs) setFinalNotifs([])
-      for (const id of ids) {
-          await markNotificationRead(id).catch(console.error)
-      }
+    // Mark all notifications as read
+    const ids = finalNotifs.map(n => n.id)
+    if (setFinalNotifs) setFinalNotifs([])
+    for (const id of ids) {
+        await markNotificationRead(id).catch(console.error)
+    }
+    
+    // Also mark all messages as read
+    try {
+        await markAllMessagesAsRead()
+        // Trigger a refresh of the unread count
+        if (refreshKey) {
+            // This will trigger the useEffect in AppLayout to refresh unread count
+            window.dispatchEvent(new CustomEvent('refresh-header'))
+        }
+    } catch (err) {
+        console.error('Failed to mark all messages as read:', err)
+    }
   }
 
   useEffect(() => {

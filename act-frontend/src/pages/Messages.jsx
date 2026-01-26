@@ -77,8 +77,24 @@ export default function Messages(){
   useEffect(() => {
     if (selectedId) {
       startPolling()
+      // Mark conversation as read when selected
+      markConversationAsRead(selectedId)
     }
   }, [selectedId])
+
+  // Mark conversation as read
+  const markConversationAsRead = async (conversationId) => {
+    try {
+      const selected = items.find(i => i.id === conversationId)
+      if (selected && selected.participant) {
+        console.log('Marking conversation as read:', selected.participant)
+        await api.markAsRead(selected.participant)
+        console.log('Conversation marked as read')
+      }
+    } catch (err) {
+      console.error('Failed to mark conversation as read:', err)
+    }
+  }
 
   const selected = items.find(i => i.id === selectedId)
 

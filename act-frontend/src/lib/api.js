@@ -261,6 +261,10 @@ export async function markAsRead(partnerId) {
     return request('POST', `/api/messages/${partnerId}/read`)
 }
 
+export async function markAllMessagesAsRead() {
+    return request('POST', '/api/messages/read-all')
+}
+
 export async function getUnreadCount() {
     return request('GET', '/api/messages/unread')
 }
