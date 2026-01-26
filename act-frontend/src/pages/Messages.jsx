@@ -111,13 +111,17 @@ export default function Messages(){
     ;(async () => {
       try {
         const instructorId = String(deepLinkInstructor)
+        console.log('=== DEEP-LINK DEBUG ===')
+        console.log('Instructor ID from deep link:', instructorId)
 
         // Ensure the conversation exists
-        await api.initConversation(instructorId)
+        const initResult = await api.initConversation(instructorId)
+        console.log('initConversation result:', initResult)
 
         // Reload conversations to get the latest list (important if list was empty before)
         const refreshed = await loadConversations(false)
         const list = refreshed || []
+        console.log('Conversations after reload:', list)
 
         // Find the conversation that belongs to this instructor
         const match = list.find(c => (
@@ -128,13 +132,17 @@ export default function Messages(){
           String(c?.recipient_id) === instructorId ||
           String(c?.participant) === instructorId
         ))
+        console.log('Matched conversation for instructor:', match)
 
         if (match?.id) {
           setSelectedId(match.id)
+          console.log('Selected conversation ID:', match.id)
         }
         // Always open chat panel on mobile when deep-linking
         setShowChat(true)
+        console.log('=== END DEEP-LINK DEBUG ===')
       } catch (e) {
+        console.error('Deep-link error:', e)
         setShowChat(true)
       }
     })()
