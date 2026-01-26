@@ -1,7 +1,4 @@
 import { useState } from 'react'
-import AdminModal from '../AdminModal.jsx'
-import { submitReport } from '../../lib/api'
-import { useToast } from '../Toast.jsx'
 
 export default function MessageThread({ conversation, onSend }){
   if (!conversation) return (
@@ -28,20 +25,15 @@ export default function MessageThread({ conversation, onSend }){
 
 function Bubble({ message, align }){
   const [showReport, setShowReport] = useState(false)
-  const { success, error } = useToast()
   const isRight = align==='right'
   
   const handleReport = async (reason) => {
       try {
-          await submitReport({
-              reason,
-              reportable_id: message.id,
-              reportable_type: 'message'
-          })
-          success('Report submitted successfully')
+          // Temporarily disabled - using alert instead
+          alert(`Report submitted: ${reason}`)
           setShowReport(false)
       } catch (err) {
-          error('Failed to submit report: ' + (err.message || 'Unknown error'))
+          alert('Failed to submit report: ' + (err.message || 'Unknown error'))
       }
   }
 
