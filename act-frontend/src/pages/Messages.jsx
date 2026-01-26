@@ -12,39 +12,73 @@ export default function Messages(){
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  const loadConversations = async () => {
+  // Polling for new messages
+  const pollingRef = useRef(null)
+
+  const loadConversations = async (isBackground = false) => {
     try {
-      console.log('API object:', api)
-      console.log('getConversations function:', api.getConversations)
+      console.log('Loading conversations (background:', isBackground, ')')
       const data = await api.getConversations()
       console.log('Conversations loaded:', data)
-      setItems(data)
       
       // Auto-select first conversation if available
-      if (data.length > 0 && !selectedId) {
+      if (!isBackground && data.length > 0 && !selectedId) {
         setSelectedId(data[0].id)
         console.log('Auto-selected conversation:', data[0].id)
       }
+      
+      setItems(data)
     } catch (e) {
       console.error("Failed to load conversations", e)
       setError(e.message)
       // Set some dummy data to prevent white screen
-      setItems([{
-        id: 1,
-        title: "Test Conversation",
-        participant: "Test User",
-        messages: [
-          { id: 1, text: "Hello", sender: "student", at: new Date().toISOString() }
-        ]
-      }])
+      if (!isBackground) {
+        setItems([{
+          id: 1,
+          title: "Test Conversation",
+          participant: "Test User",
+          messages: [
+            { id: 1, text: "Hello", sender: "student", at: new Date().toISOString() }
+          ]
+        }])
+      }
     } finally {
-      setLoading(false)
+      if (!isBackground) setLoading(false)
+    }
+  }
+
+  // Start polling for real-time updates
+  const startPolling = () => {
+    if (pollingRef.current) clearInterval(pollingRef.current)
+    
+    pollingRef.current = setInterval(() => {
+      loadConversations(true) // Background refresh
+    }, 5000) // Poll every 5 seconds
+  }
+
+  // Stop polling
+  const stopPolling = () => {
+    if (pollingRef.current) {
+      clearInterval(pollingRef.current)
+      pollingRef.current = null
     }
   }
 
   useEffect(() => {
+    console.log('Messages component mounted')
     loadConversations()
+    startPolling()
+    
+    // Cleanup on unmount
+    return () => stopPolling()
   }, [])
+
+  // Restart polling when selected conversation changes
+  useEffect(() => {
+    if (selectedId) {
+      startPolling()
+    }
+  }, [selectedId])
 
   const selected = items.find(i => i.id === selectedId)
 
