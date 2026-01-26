@@ -15,8 +15,9 @@ export default function AdminReports(){
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '')
   const { success, error } = useToast()
   const navigate = useNavigate()
-  const [openDropdownId, setOpenDropdownId] = useState(null)
-  const dropdownRefs = useRef({})
+  // Temporarily disable dropdown to test
+  // const [openDropdownId, setOpenDropdownId] = useState(null)
+  // const dropdownRefs = useRef({})
 
   useEffect(() => {
     loadReports()
@@ -31,10 +32,12 @@ export default function AdminReports(){
     }
   }, [searchQuery, setSearchParams])
 
+  // Temporarily disable dropdown functionality
+  /*
   // Handle click outside for dropdowns
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (openDropdownId !== null && dropdownRefs.current[openDropdownId] && !dropdownRefs.current[openDropdownId].contains(event.target)) {
+      if (openDropdownId && dropdownRefs.current[openDropdownId] && !dropdownRefs.current[openDropdownId].contains(event.target)) {
         setOpenDropdownId(null)
       }
     }
@@ -46,6 +49,7 @@ export default function AdminReports(){
   const toggleDropdown = (id) => {
     setOpenDropdownId(openDropdownId === id ? null : id)
   }
+  */
 
   const handleContactUser = (userId) => {
     if (userId) {
@@ -197,53 +201,13 @@ export default function AdminReports(){
                                         Contact
                                     </button>
                                     
-                                    {/* Actions Dropdown */}
-                                    <div className="relative" ref={el => dropdownRefs.current[r.id] = el}>
-                                        <button 
-                                            onClick={() => toggleDropdown(r.id)}
-                                            className="px-3 py-1.5 bg-slate-100 text-slate-700 text-xs font-medium rounded-lg hover:bg-slate-200 transition-colors flex items-center gap-1"
-                                        >
-                                            Actions
-                                            <svg className={`w-3 h-3 transition-transform ${openDropdownId === r.id ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                            </svg>
-                                        </button>
-                                        
-                                        {openDropdownId === r.id && (
-                                            <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-lg shadow-lg border border-slate-200 py-1 z-10">
-                                                <button 
-                                                    onClick={() => { promptAction(r.id, 'dismiss'); toggleDropdown(r.id); }}
-                                                    className="w-full text-left px-3 py-2 text-xs text-slate-600 hover:bg-slate-50 transition-colors"
-                                                >
-                                                    Dismiss Report
-                                                </button>
-                                                <button 
-                                                    onClick={() => { promptAction(r.id, 'warn'); toggleDropdown(r.id); }}
-                                                    className="w-full text-left px-3 py-2 text-xs text-amber-600 hover:bg-amber-50 transition-colors"
-                                                >
-                                                    Warn User
-                                                </button>
-                                                <button 
-                                                    onClick={() => { promptAction(r.id, 'restrict'); toggleDropdown(r.id); }}
-                                                    className="w-full text-left px-3 py-2 text-xs text-orange-600 hover:bg-orange-50 transition-colors"
-                                                >
-                                                    Restrict User (7 days)
-                                                </button>
-                                                <button 
-                                                    onClick={() => { promptAction(r.id, 'ban'); toggleDropdown(r.id); }}
-                                                    className="w-full text-left px-3 py-2 text-xs text-red-600 hover:bg-red-50 transition-colors"
-                                                >
-                                                    Ban User
-                                                </button>
-                                                <button 
-                                                    onClick={() => { promptAction(r.id, 'delete_content'); toggleDropdown(r.id); }}
-                                                    className="w-full text-left px-3 py-2 text-xs text-rose-600 hover:bg-rose-50 transition-colors"
-                                                >
-                                                    Delete Content
-                                                </button>
-                                            </div>
-                                        )}
-                                    </div>
+                                    {/* Temporarily replace dropdown with simple buttons */}
+                                    <button 
+                                        onClick={() => promptAction(r.id, 'dismiss')}
+                                        className="px-3 py-1.5 bg-slate-100 text-slate-700 text-xs font-medium rounded-lg hover:bg-slate-200 transition-colors"
+                                    >
+                                        Actions
+                                    </button>
                                 </div>
                              </td>
                          </tr>
