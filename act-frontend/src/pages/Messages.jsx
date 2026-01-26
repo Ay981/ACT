@@ -258,7 +258,7 @@ export default function Messages(){
 
   return (
     <AppLayout hideMobileFooter={showChat}>
-      <div className={`h-screen flex flex-col lg:h-[70vh]`} style={{ height: showChat ? 'calc(100vh)' : 'calc(100vh - 80px)', paddingBottom: showChat ? '0px' : '80px' }}>
+      <div className="flex flex-col lg:h-[70vh] h-[calc(100vh-80px)]">
         {/* Mobile Header */}
         <div className="lg:hidden bg-white border-b border-slate-200 px-4 py-3 flex items-center justify-between">
           <h1 className="text-lg font-semibold text-slate-900">Messages</h1>
@@ -272,7 +272,7 @@ export default function Messages(){
         </div>
         
         {/* Mobile and Desktop Layout */}
-        <div className="flex-1 flex flex-col lg:flex-row">
+        <div className="flex-1 flex flex-col lg:flex-row min-h-0">
           {/* Conversation List */}
           <aside className={`${selected && showChat ? 'hidden lg:block' : 'block'} lg:flex-1 bg-white border-b lg:border-b-0 lg:border-r lg:border-slate-200 rounded-2xl lg:rounded-none lg:border-none overflow-hidden h-full lg:h-full`}>
             <div className="h-full overflow-y-auto">
@@ -327,7 +327,7 @@ export default function Messages(){
                 </div>
                 
                 {/* Messages */}
-                <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50" style={{ scrollBehavior: 'smooth' }}>
+                <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50 min-h-0" style={{ scrollBehavior: 'smooth' }}>
                   {selected.messages.map(msg => (
                     <div key={msg.id} className={`flex ${msg.sender === 'student' ? 'justify-end' : 'justify-start'}`}>
                       <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
