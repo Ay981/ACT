@@ -115,7 +115,7 @@ export default function Messages(){
         // Ensure the conversation exists
         await api.initConversation(instructorId)
 
-        // Reload conversations to get the latest list
+        // Reload conversations to get the latest list (important if list was empty before)
         const refreshed = await loadConversations(false)
         const list = refreshed || []
 
@@ -131,11 +131,9 @@ export default function Messages(){
 
         if (match?.id) {
           setSelectedId(match.id)
-          setShowChat(true)
-        } else {
-          // Fallback: open messages but no specific conversation selected
-          setShowChat(true)
         }
+        // Always open chat panel on mobile when deep-linking
+        setShowChat(true)
       } catch (e) {
         setShowChat(true)
       }
