@@ -25,15 +25,47 @@ export default function MessageThread({ conversation, onSend }){
 
 function Bubble({ message, align }){
   const [showReport, setShowReport] = useState(false)
+  const [showOtherModal, setShowOtherModal] = useState(false)
+  const [otherReason, setOtherReason] = useState('')
   const isRight = align==='right'
   
   const handleReport = async (reason) => {
+      if (reason === 'Other') {
+          setShowOtherModal(true)
+          return
+      }
+      
       try {
-          // Temporarily disabled - using alert instead
-          alert(`Report submitted: ${reason}`)
+          await submitReport({
+              reason,
+              reportable_id: message.id,
+              reportable_type: 'message'
+          })
+          success('Report submitted successfully')
           setShowReport(false)
       } catch (err) {
-          alert('Failed to submit report: ' + (err.message || 'Unknown error'))
+          error(err.message)
+      }
+  }
+
+  const handleOtherReasonSubmit = async () => {
+      if (!otherReason.trim()) {
+          error('Please provide a reason for your report')
+          return
+      }
+      
+      try {
+          await submitReport({
+              reason: otherReason.trim(),
+              reportable_id: message.id,
+              reportable_type: 'message'
+          })
+          success('Report submitted successfully')
+          setShowOtherModal(false)
+          setShowReport(false)
+          setOtherReason('')
+      } catch (err) {
+          error(err.message)
       }
   }
 

@@ -33,6 +33,27 @@ export default function CommentItem({ comment, currentUser, onReply, onEdit, onD
       }
   }
 
+  const handleOtherReasonSubmit = async () => {
+      if (!otherReason.trim()) {
+          error('Please provide a reason for your report')
+          return
+      }
+      
+      try {
+          await submitReport({
+              reason: otherReason.trim(),
+              reportable_id: comment.id,
+              reportable_type: 'comment'
+          })
+          success('Report submitted successfully')
+          setShowOtherModal(false)
+          setReportModalOpen(false)
+          setOtherReason('')
+      } catch (err) {
+          error(err.message)
+      }
+  }
+
   return (
     <div className="flex gap-3">
       <Avatar />
