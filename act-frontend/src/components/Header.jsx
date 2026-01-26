@@ -61,8 +61,13 @@ export default function Header({ unreadCount: propUnread, notifications: propNot
   }
 
   const markAllRead = async () => {
+    console.log('=== MARK ALL READ DEBUG ===')
+    console.log('Final notifications:', finalNotifs)
+    console.log('Final unread count:', finalUnread)
+    
     // Mark all notifications as read
     const ids = finalNotifs.map(n => n.id)
+    console.log('Notification IDs to mark as read:', ids)
     if (setFinalNotifs) setFinalNotifs([])
     for (const id of ids) {
         await markNotificationRead(id).catch(console.error)
@@ -70,15 +75,20 @@ export default function Header({ unreadCount: propUnread, notifications: propNot
     
     // Also mark all messages as read
     try {
-        await markAllMessagesAsRead()
+        console.log('Calling markAllMessagesAsRead...')
+        const response = await markAllMessagesAsRead()
+        console.log('markAllMessagesAsRead response:', response)
+        
         // Trigger a refresh of the unread count
         if (refreshKey) {
+            console.log('Triggering header refresh...')
             // This will trigger the useEffect in AppLayout to refresh unread count
             window.dispatchEvent(new CustomEvent('refresh-header'))
         }
     } catch (err) {
         console.error('Failed to mark all messages as read:', err)
     }
+    console.log('=== END MARK ALL READ DEBUG ===')
   }
 
   useEffect(() => {

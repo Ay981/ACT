@@ -87,9 +87,15 @@ export default function Messages(){
     try {
       const selected = items.find(i => i.id === conversationId)
       if (selected && selected.participant) {
-        console.log('Marking conversation as read:', selected.participant)
-        await api.markAsRead(selected.participant)
-        console.log('Conversation marked as read')
+        console.log('=== MARKING AS READ DEBUG ===')
+        console.log('Selected conversation:', selected)
+        console.log('Participant to mark as read:', selected.participant)
+        const response = await api.markAsRead(selected.participant)
+        console.log('Mark as read response:', response)
+        console.log('=== END MARK AS READ DEBUG ===')
+        
+        // Trigger header refresh to update unread count
+        window.dispatchEvent(new CustomEvent('refresh-header'))
       }
     } catch (err) {
       console.error('Failed to mark conversation as read:', err)
