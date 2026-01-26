@@ -321,7 +321,7 @@ export default function Messages(){
                 {/* Messages */}
                 <div
                   className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50 min-h-0 overscroll-contain touch-pan-y lg:overscroll-auto lg:touch-auto"
-                  style={{ WebkitOverflowScrolling: 'touch', paddingBottom: '96px' }}
+                  style={{ WebkitOverflowScrolling: 'touch', paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 132px)' }}
                 >
                   {selected.messages.map(msg => (
                     <div key={msg.id} className={`flex ${msg.sender === 'student' ? 'justify-end' : 'justify-start'}`}>
