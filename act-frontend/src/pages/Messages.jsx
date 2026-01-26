@@ -11,6 +11,7 @@ export default function Messages(){
   const [selectedId, setSelectedId] = useState(null)
   const [query, setQuery] = useState('')
   const [loading, setLoading] = useState(true)
+  const [showChat, setShowChat] = useState(false)
   const location = useLocation()
   const [searchParams] = useSearchParams()
   const initiatedRef = useRef(false) // Track if we've handled the route initiation
@@ -78,6 +79,8 @@ export default function Messages(){
                   currentItems = [newConv, ...currentItems]
                   setSelectedId(newConv.id)
               }
+              // Show chat on mobile when conversation is initiated
+              setShowChat(true)
           } catch (e) {
               console.error("Failed to init chat", e)
           }
@@ -110,6 +113,15 @@ export default function Messages(){
 
   const selected = items.find(i => i.id === selectedId)
 
+  const handleSelectConversation = (id) => {
+    setSelectedId(id)
+    setShowChat(true) // Show chat on mobile when conversation is selected
+  }
+
+  const handleBackToList = () => {
+    setShowChat(false) // Show conversation list on mobile
+  }
+
   const handleSend = async (text) => {
     if (!selected) return
 
@@ -137,19 +149,43 @@ export default function Messages(){
 
   return (
     <AppLayout>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <aside className="lg:col-span-1 bg-white border border-slate-200 rounded-2xl h-[70vh]">
-          <ConversationList items={items} selectedId={selectedId} onSelect={setSelectedId} query={query} onQueryChange={setQuery} />
+      <div className="h-[70vh] flex flex-col lg:flex-row gap-6">
+        {/* Conversation List - Always visible on desktop, shown on mobile when not in chat */}
+        <aside className={`${showChat ? 'hidden lg:block' : 'block'} lg:flex-1 bg-white border border-slate-200 rounded-2xl overflow-hidden`}>
+          <ConversationList items={items} selectedId={selectedId} onSelect={handleSelectConversation} query={query} onQueryChange={setQuery} />
         </aside>
-        <section className="lg:col-span-2 bg-white border border-slate-200 rounded-2xl h-[70vh] overflow-hidden flex flex-col">
+        
+        {/* Chat Section - Hidden on mobile until conversation selected, always visible on desktop */}
+        <section className={`${!showChat ? 'hidden lg:block' : 'block'} lg:flex-2 bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col`}>
           {selected ? (
             <>
+              {/* Mobile Back Button */}
+              <div className="lg:hidden flex items-center p-4 border-b border-slate-200">
+                <button 
+                  onClick={handleBackToList}
+                  className="mr-3 p-2 hover:bg-slate-100 rounded-lg transition-colors"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-slate-900">{selected.title}</h3>
+                </div>
+              </div>
+              
               <MessageThread conversation={selected} />
               <MessageComposer onSend={handleSend} />
             </>
           ) : (
             <div className="flex items-center justify-center h-full text-slate-500">
-               Select or start a conversation
+               <div className="text-center">
+                 <svg className="w-16 h-16 mx-auto mb-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                 </svg>
+                 <p className="text-lg font-medium">Select a conversation</p>
+                 <p className="text-sm mt-2">Choose a contact to start messaging</p>
+               </div>
             </div>
           )}
         </section>

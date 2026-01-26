@@ -5,6 +5,8 @@ import Spinner from '../components/Spinner'
 import CommentsSection from '../components/comments/CommentsSection'
 import { getCourse, enrollCourse } from '../lib/api'
 import { getUser } from '../lib/api' // To check if current user is instructor
+import { useToast } from '../components/Toast.jsx'
+import { useHeaderRefresh } from '../layouts/AppLayout.jsx'
 
 // Helper for assets
 const getAssetUrl = (path) => {
@@ -15,13 +17,15 @@ const getAssetUrl = (path) => {
 
 export default function CourseDetail() {
   const { id } = useParams()
-  
+  const navigate = useNavigate()
   const [course, setCourse] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [isRegistered, setIsRegistered] = useState(false)
-  const [activeLesson, setActiveLesson] = useState(null)
   const [lessons, setLessons] = useState([])
+  const [isRegistered, setIsRegistered] = useState(false)
   const [currentUser, setCurrentUser] = useState(null)
+  const { success, error } = useToast()
+  const refreshHeader = useHeaderRefresh()
+  const [activeLesson, setActiveLesson] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     // optional: fetch current user to verify if they are instructor
@@ -63,16 +67,18 @@ export default function CourseDetail() {
         const refreshed = await getCourse(id)
         setCourse(refreshed)
         setLessons(refreshed.lessons || [])
-        alert("Successfully enrolled!")
+        success("Successfully enrolled!")
+        // Refresh header to update enrolled courses
+        refreshHeader()
     } catch (error) {
         console.error("Enrollment failed", error)
         if (error.status === 401) {
-            alert("Please log in to continue.")
+            error("Please log in to continue.")
             window.location.href = '/login'
         } else if (error.response?.data?.message) {
-            alert(error.response.data.message)
+            error(error.response.data.message)
         } else {
-            alert("Failed to register for course. Please try again.")
+            error("Enrollment failed. Please try again.")
         }
     }
   }

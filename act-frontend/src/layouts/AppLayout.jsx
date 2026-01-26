@@ -1,5 +1,5 @@
 
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, createContext, useContext } from 'react';
 import { useNavigate, Link, NavLink } from 'react-router-dom';
 import Logo from '../components/Logo.jsx';
 import Footer from '../components/Footer.jsx';
@@ -8,11 +8,24 @@ import { useAuth } from '../contexts/AuthContext.jsx';
 import { getUnreadCount, getNotifications, markNotificationRead } from '../lib/api.js';
 import { ToastProvider } from '../components/Toast.jsx';
 
+// Create context for header refresh
+const HeaderRefreshContext = createContext()
+
+export function useHeaderRefresh() {
+  return useContext(HeaderRefreshContext)
+}
+
 export default function AppLayout({ children }) {
   const [unreadCount, setUnreadCount] = useState(0)
   const [notifications, setNotifications] = useState([])
+  const [headerRefreshKey, setHeaderRefreshKey] = useState(0)
   const firstLoad = useRef(true)
   const { user } = useAuth()
+
+  // Function to refresh header data (e.g., after enrollment)
+  const refreshHeader = () => {
+    setHeaderRefreshKey(prev => prev + 1)
+  }
 
   useEffect(() => {
     if (!user) return
@@ -53,14 +66,21 @@ export default function AppLayout({ children }) {
 
   return (
     <ToastProvider>
-      <div className="min-h-screen bg-slate-50 flex flex-col">
-        <Header unreadCount={unreadCount} notifications={notifications} setNotifications={setNotifications} />
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 flex gap-6 w-full flex-1">
-          <Sidebar unreadCount={unreadCount} user={user} />
-          <main className="flex-1 min-w-0">{children}</main>
+      <HeaderRefreshContext.Provider value={refreshHeader}>
+        <div className="min-h-screen bg-slate-50 flex flex-col">
+          <Header 
+            unreadCount={unreadCount} 
+            notifications={notifications} 
+            setNotifications={setNotifications}
+            refreshKey={headerRefreshKey}
+          />
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 flex gap-6 w-full flex-1">
+            <Sidebar unreadCount={unreadCount} user={user} />
+            <main className="flex-1 min-w-0">{children}</main>
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
+      </HeaderRefreshContext.Provider>
     </ToastProvider>
   )
 }

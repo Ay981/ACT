@@ -4,7 +4,7 @@ import Logo from './Logo.jsx';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import { getUnreadCount, getNotifications, markNotificationRead, getEnrolledCourses, getAdminInstructors } from '../lib/api.js';
 
-export default function Header({ unreadCount: propUnread, notifications: propNotifs, setNotifications: propSetNotifs }) {
+export default function Header({ unreadCount: propUnread, notifications: propNotifs, setNotifications: propSetNotifs, refreshKey }) {
   const navigate = useNavigate()
   const location = useLocation()
   const { user, logout } = useAuth()
@@ -40,7 +40,7 @@ export default function Header({ unreadCount: propUnread, notifications: propNot
         getAdminInstructors().then(setAllInstructors).catch(console.error)
       }
     }
-  }, [user])
+  }, [user, refreshKey])
 
   const displayNotifications = [
     ...(finalUnread > 0 ? [{ id: 'msg-1', text: `You have ${finalUnread} unread messages`, sub: 'Check your inbox now', type: 'message' }] : []),
