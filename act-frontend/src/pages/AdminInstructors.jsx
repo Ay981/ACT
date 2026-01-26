@@ -1,6 +1,6 @@
 import AppLayout from '../layouts/AppLayout.jsx'
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { getAdminInstructors, deleteAdminInstructor, approveAdminInstructor } from '../lib/api.js'
 
 export default function AdminInstructors() {
@@ -38,10 +38,6 @@ export default function AdminInstructors() {
       } catch (e) {
           alert('Failed to approve: ' + e.message)
       }
-  }
-
-  const handleContact = (instructorId) => {
-    navigate(`/messages?instructor=${instructorId}`)
   }
 
   return (
@@ -99,7 +95,16 @@ export default function AdminInstructors() {
                     {instructor.status === 'Pending' && (
                         <button onClick={() => handleApprove(instructor.id)} className="text-green-600 hover:text-green-900 mr-4">Approve</button>
                     )}
-                    <button onClick={() => handleContact(instructor.id)} className="text-primary-600 hover:text-primary-900 mr-4">Contact</button>
+                    <Link 
+                      to="/messages" 
+                      state={{ initiateChat: instructor.id }}
+                      className="text-primary-600 hover:text-primary-900 mr-4 flex items-center gap-2"
+                    >
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                      </svg>
+                      Contact
+                    </Link>
                     <button onClick={() => handleDelete(instructor.id)} className="text-red-600 hover:text-red-900">Remove</button>
                   </td>
                 </tr>
