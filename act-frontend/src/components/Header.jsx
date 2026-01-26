@@ -1,16 +1,20 @@
 import { useState, useRef, useEffect } from 'react';
-import { useNavigate, Link, NavLink } from 'react-router-dom';
+import { useNavigate, Link, NavLink, useLocation } from 'react-router-dom';
 import Logo from './Logo.jsx';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import { getUnreadCount, getNotifications, markNotificationRead } from '../lib/api.js';
 
 export default function Header({ unreadCount: propUnread, notifications: propNotifs, setNotifications: propSetNotifs }) {
   const navigate = useNavigate()
+  const location = useLocation()
   const { user, logout } = useAuth()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [isNotifOpen, setIsNotifOpen] = useState(false)
   const dropdownRef = useRef(null)
   const notifRef = useRef(null)
+
+  // Check if current page is login or signup
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/signup'
 
   // Local state for independent usage (GuestLayout)
   const [unreadCount, setUnreadCount] = useState(0)
@@ -84,10 +88,10 @@ export default function Header({ unreadCount: propUnread, notifications: propNot
              </Link>
            </div>
 
-           <span className="text-slate-700 font-semibold cursor-pointer hover:text-primary-600 hidden md:block">Categories</span>
+           <span className={`text-slate-700 font-semibold cursor-pointer hover:text-primary-600 ${isAuthPage ? 'hidden' : 'hidden md:block'}`}>Categories</span>
 
            {/* Search Bar */}
-           <div className="hidden md:flex items-center gap-2 bg-slate-100 rounded-full px-4 py-2 w-96 focus-within:ring-2 focus-within:ring-primary-100 transition-all border border-transparent focus-within:border-primary-200">
+           <div className={`${isAuthPage ? 'hidden' : 'hidden md:flex'} items-center gap-2 bg-slate-100 rounded-full px-4 py-2 w-96 focus-within:ring-2 focus-within:ring-primary-100 transition-all border border-transparent focus-within:border-primary-200`}>
             <SearchIcon className="w-4 h-4 text-slate-500" />
             <input 
               className="bg-transparent outline-none text-sm w-full placeholder:text-slate-400" 
