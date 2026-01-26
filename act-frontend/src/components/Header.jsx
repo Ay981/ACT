@@ -4,7 +4,7 @@ import Logo from './Logo.jsx';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import { getUnreadCount, getNotifications, markNotificationRead, getEnrolledCourses, getAdminInstructors } from '../lib/api.js';
 
-export default function Header({ unreadCount: propUnread, notifications: propNotifs, setNotifications: propSetNotifs, refreshKey }) {
+export default function Header({ unreadCount: propUnread, setUnreadCount: propSetUnread, notifications: propNotifs, setNotifications: propSetNotifs, refreshKey }) {
   const navigate = useNavigate()
   const location = useLocation()
   const { user, logout } = useAuth()
@@ -71,6 +71,13 @@ export default function Header({ unreadCount: propUnread, notifications: propNot
     if (setFinalNotifs) setFinalNotifs([])
     for (const id of ids) {
         await markNotificationRead(id).catch(console.error)
+    }
+    
+    // Since we can't mark all messages as read via API, manually set unread count to 0
+    // The backend will correct this if needed on the next refresh
+    if (propUnread !== undefined && propSetUnread) {
+      console.log('Manually setting unread count to 0')
+      propSetUnread(0)
     }
     
     // Trigger a refresh of the unread count (this will update from the backend)

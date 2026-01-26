@@ -70,6 +70,7 @@ export default function AppLayout({ children }) {
         <div className="min-h-screen bg-slate-50 flex flex-col">
           <Header 
             unreadCount={unreadCount} 
+            setUnreadCount={setUnreadCount}
             notifications={notifications} 
             setNotifications={setNotifications}
             refreshKey={headerRefreshKey}
