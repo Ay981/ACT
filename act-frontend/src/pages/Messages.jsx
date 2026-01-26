@@ -118,25 +118,34 @@ export default function Messages(){
         const initResult = await api.initConversation(instructorId)
         console.log('initConversation result:', initResult)
 
+        // If initConversation returns a conversation with an id, select it immediately
+        const initId = initResult?.id
+        if (initId) {
+          setSelectedId(initId)
+          console.log('Selected conversation from initConversation result:', initId)
+        }
+
         // Reload conversations to get the latest list (important if list was empty before)
         const refreshed = await loadConversations(false)
         const list = refreshed || []
         console.log('Conversations after reload:', list)
 
-        // Find the conversation that belongs to this instructor
-        const match = list.find(c => (
-          String(c?.participant_id) === instructorId ||
-          String(c?.participant?.id) === instructorId ||
-          String(c?.partner_id) === instructorId ||
-          String(c?.user_id) === instructorId ||
-          String(c?.recipient_id) === instructorId ||
-          String(c?.participant) === instructorId
-        ))
-        console.log('Matched conversation for instructor:', match)
+        // If we didn't already select via initResult, try to find by matching instructor
+        if (!initId) {
+          const match = list.find(c => (
+            String(c?.participant_id) === instructorId ||
+            String(c?.participant?.id) === instructorId ||
+            String(c?.partner_id) === instructorId ||
+            String(c?.user_id) === instructorId ||
+            String(c?.recipient_id) === instructorId ||
+            String(c?.participant) === instructorId
+          ))
+          console.log('Matched conversation for instructor:', match)
 
-        if (match?.id) {
-          setSelectedId(match.id)
-          console.log('Selected conversation ID:', match.id)
+          if (match?.id) {
+            setSelectedId(match.id)
+            console.log('Selected conversation ID from match:', match.id)
+          }
         }
         // Always open chat panel on mobile when deep-linking
         setShowChat(true)
