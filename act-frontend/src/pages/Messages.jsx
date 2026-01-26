@@ -250,7 +250,7 @@ export default function Messages(){
 
   return (
     <AppLayout>
-      <div className="h-screen flex flex-col" style={{ height: 'calc(100vh - 80px)', paddingBottom: '80px' }}>
+      <div className={`h-screen flex flex-col ${showChat ? 'lg:h-[70vh]' : ''}`} style={{ height: showChat ? 'calc(100vh)' : 'calc(100vh - 80px)', paddingBottom: showChat ? '0px' : '80px' }}>
         {/* Mobile Header */}
         <div className="lg:hidden bg-white border-b border-slate-200 px-4 py-3 flex items-center justify-between">
           <h1 className="text-lg font-semibold text-slate-900">Messages</h1>
@@ -279,7 +279,7 @@ export default function Messages(){
           </aside>
           
           {/* Chat Section */}
-          <section className={`${!selected || !showChat ? 'hidden lg:block' : 'block'} lg:flex-2 bg-white border border-slate-200 rounded-2xl lg:rounded-none lg:border-none overflow-hidden flex flex-col h-full lg:h-full`} style={{ marginBottom: '80px' }}>
+          <section className={`${!selected || !showChat ? 'hidden lg:block' : 'block'} lg:flex-2 bg-white border border-slate-200 rounded-2xl lg:rounded-none lg:border-none overflow-hidden flex flex-col h-full lg:h-full`} style={{ marginBottom: showChat ? '0px' : '80px' }}>
             {selected ? (
               <>
                 {/* Mobile Header */}
@@ -337,7 +337,7 @@ export default function Messages(){
                 </div>
                 
                 {/* Message Input */}
-                <div className="p-4 border-t border-slate-200 bg-white sticky bottom-0 z-10" style={{ marginBottom: '80px' }}>
+                <div className="p-4 border-t border-slate-200 bg-white sticky bottom-0 z-10" style={{ marginBottom: showChat ? '0px' : '80px' }}>
                   <div className="flex gap-2">
                     <input 
                       type="text" 
