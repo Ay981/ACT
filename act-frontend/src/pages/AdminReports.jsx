@@ -1,17 +1,29 @@
 import AppLayout from '../layouts/AppLayout.jsx'
 import { useState, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { getAdminReports, resolveReport } from '../lib/api'
 import AdminModal from '../components/AdminModal.jsx'
 
 export default function AdminReports(){
+  const [searchParams, setSearchParams] = useSearchParams()
   const [filter, setFilter] = useState('All') // Filter currently only client-side since API returns all pending
   const [reports, setReports] = useState([])
   const [loading, setLoading] = useState(true)
   const [confirmation, setConfirmation] = useState({ isOpen: false, id: null, action: null })
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '')
 
   useEffect(() => {
     loadReports()
   }, [])
+
+  // Update URL when search query changes
+  useEffect(() => {
+    if (searchQuery) {
+      setSearchParams({ search: searchQuery })
+    } else {
+      setSearchParams({})
+    }
+  }, [searchQuery, setSearchParams])
 
   const loadReports = async () => {
     setLoading(true)
@@ -56,7 +68,16 @@ export default function AdminReports(){
 
   // The backend currently only returns 'pending' reports. 
   // If we want history, we'd need to update the controller.
-  const filteredReports = reports 
+  const filteredReports = reports.filter(report => {
+    if (!searchQuery) return true
+    const q = searchQuery.toLowerCase()
+    return (
+      report.title?.toLowerCase().includes(q) ||
+      report.description?.toLowerCase().includes(q) ||
+      report.reported_user?.toLowerCase().includes(q) ||
+      report.reported_by?.toLowerCase().includes(q)
+    )
+  }) 
 
   return (
     <AppLayout>
@@ -65,6 +86,26 @@ export default function AdminReports(){
             <h1 className="text-2xl font-bold text-slate-800">Reports & Issues</h1>
             <p className="text-slate-500">Manage user reports and platform issues.</p>
         </header>
+
+        <div className="flex items-center gap-4 mb-6">
+          <div className="flex-1 max-w-md">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search reports by title, description, or users..."
+              className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            />
+          </div>
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              className="px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+            >
+              Clear
+            </button>
+          )}
+        </div>
 
         <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
              <table className="w-full text-sm text-left">
