@@ -3,6 +3,8 @@ import ConversationList from '../components/messages/ConversationList.jsx'
 import { useState, useEffect, useRef } from 'react'
 import * as api from '../lib/api.js'
 
+// Cache bust: 2026-01-26-11-55
+
 export default function Messages(){
   const [items, setItems] = useState([])
   const [selectedId, setSelectedId] = useState(null)
@@ -66,8 +68,6 @@ export default function Messages(){
         messages: [...c.messages, newMessage],
         lastMessageAt: new Date().toISOString(),
       }) : c))
-      // Revert optimistic update
-      loadConversations() 
     }
   }
 
