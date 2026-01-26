@@ -1,17 +1,20 @@
 import AppLayout from '../layouts/AppLayout.jsx'
 import ConversationList from '../components/messages/ConversationList.jsx'
 import { useState, useEffect, useRef } from 'react'
+import { useLocation } from 'react-router-dom'
 import * as api from '../lib/api.js'
 
 // Cache bust: 2026-01-26-12-03
 
 export default function Messages(){
+  const location = useLocation()
   const [items, setItems] = useState([])
   const [selectedId, setSelectedId] = useState(null)
   const [query, setQuery] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [showChat, setShowChat] = useState(false)
+  const initHandledRef = useRef(false)
 
   // Polling for new messages
   const pollingRef = useRef(null)
@@ -39,8 +42,11 @@ export default function Messages(){
         return conv
       })
       
+      const params = new URLSearchParams(location.search)
+      const hasDeepLink = !!(location.state?.initiateChat || params.get('instructor'))
+
       // Auto-select first conversation if available
-      if (!isBackground && dataWithReadState.length > 0 && !selectedId) {
+      if (!isBackground && dataWithReadState.length > 0 && !selectedId && !hasDeepLink) {
         setSelectedId(dataWithReadState[0].id)
         console.log('Auto-selected conversation:', dataWithReadState[0].id)
       }
@@ -90,6 +96,32 @@ export default function Messages(){
     // Cleanup on unmount
     return () => stopPolling()
   }, [])
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search)
+    const deepLinkInstructor = location.state?.initiateChat || params.get('instructor')
+    if (!deepLinkInstructor) return
+    if (initHandledRef.current) return
+    if (loading) return
+    initHandledRef.current = true
+
+    ;(async () => {
+      try {
+        const conv = await api.initConversation(deepLinkInstructor)
+        const convId = conv?.id || conv?.conversation_id || conv?.conversation?.id
+        if (convId) {
+          setSelectedId(convId)
+          setShowChat(true)
+          return
+        }
+
+        await loadConversations(false)
+        setShowChat(true)
+      } catch (e) {
+        setShowChat(true)
+      }
+    })()
+  }, [location.search, location.state, loading])
 
   // Restart polling when selected conversation changes
   useEffect(() => {
