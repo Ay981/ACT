@@ -51,26 +51,21 @@ export default function Messages(){
     setSelectedId(id)
   }
 
-  const handleSend = async (text) => {
-    if (!selected) return
-
-    // Optimistic update
-    const tempId = Math.random().toString(36).slice(2,9)
-    const newMessage = { id: tempId, sender: 'student', text, at: new Date().toISOString() }
-    
-    setItems(prev => prev.map(c => c.id === selectedId ? ({
-      ...c,
-      messages: [...c.messages, newMessage],
-      lastMessageAt: new Date().toISOString(),
-    }) : c))
-
-    try {
-      await sendMessage(selected.id, text)
-      // Re-fetch to confirm sync
-      loadConversations()
-    } catch (err) {
-      console.error("Failed to send message", err)
-      alert("Failed to send message")
+  const handleSend = (text) => {
+    console.log('Sending message:', text)
+    // Don't actually send, just add to state for now
+    if (selected) {
+      const newMessage = { 
+        id: Date.now(), 
+        sender: 'student', 
+        text, 
+        at: new Date().toISOString() 
+      }
+      setItems(prev => prev.map(c => c.id === selectedId ? ({
+        ...c,
+        messages: [...c.messages, newMessage],
+        lastMessageAt: new Date().toISOString(),
+      }) : c))
       // Revert optimistic update
       loadConversations() 
     }
