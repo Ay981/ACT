@@ -1,8 +1,10 @@
 import AppLayout from '../layouts/AppLayout.jsx'
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { getAdminInstructors, deleteAdminInstructor, approveAdminInstructor } from '../lib/api.js'
 
 export default function AdminInstructors() {
+  const navigate = useNavigate()
   const [instructors, setInstructors] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -36,6 +38,10 @@ export default function AdminInstructors() {
       } catch (e) {
           alert('Failed to approve: ' + e.message)
       }
+  }
+
+  const handleContact = (instructorId) => {
+    navigate(`/messages?instructor=${instructorId}`)
   }
 
   return (
@@ -93,6 +99,7 @@ export default function AdminInstructors() {
                     {instructor.status === 'Pending' && (
                         <button onClick={() => handleApprove(instructor.id)} className="text-green-600 hover:text-green-900 mr-4">Approve</button>
                     )}
+                    <button onClick={() => handleContact(instructor.id)} className="text-primary-600 hover:text-primary-900 mr-4">Contact</button>
                     <button onClick={() => handleDelete(instructor.id)} className="text-red-600 hover:text-red-900">Remove</button>
                   </td>
                 </tr>
