@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import CommentComposer, { Avatar } from './CommentComposer.jsx'
 import { submitReport } from '../../lib/api'
+import { useToast } from '../Toast.jsx'
 
 export default function CommentItem({ comment, currentUser, onReply, onEdit, onDelete, onLike }) {
   const [replying, setReplying] = useState(false)
   const [editing, setEditing] = useState(false)
   const [reportModalOpen, setReportModalOpen] = useState(false)
+  const { success, error } = useToast()
 
   const submitReply = (text) => {
     onReply?.(comment.id, text)
@@ -24,10 +26,10 @@ export default function CommentItem({ comment, currentUser, onReply, onEdit, onD
               reportable_id: comment.id,
               reportable_type: 'comment'
           })
-          alert('Report submitted successfully')
+          success('Report submitted successfully')
           setReportModalOpen(false)
       } catch (err) {
-          alert(err.message)
+          error(err.message)
       }
   }
 
