@@ -1,5 +1,5 @@
-
 import { useRef, useEffect, useState, createContext, useContext } from 'react';
+// Cache bust: 2026-01-26-13-35-fix-cogicon
 import { useNavigate, Link, NavLink } from 'react-router-dom';
 import Logo from '../components/Logo.jsx';
 import Footer from '../components/Footer.jsx';
