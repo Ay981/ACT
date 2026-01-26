@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Login from './pages/Login.jsx'
 import Dashboard from './pages/Dashboard.jsx'
+import SmartDashboard from './pages/SmartDashboard.jsx'
 import Messages from './pages/Messages.jsx'
 import CourseDetail from './pages/CourseDetail.jsx'
 import Courses from './pages/Courses.jsx'
@@ -37,7 +38,8 @@ export default function App() {
       <Route path="/verify-otp" element={<ProtectedGuest><VerifyOtp /></ProtectedGuest>} />
       <Route path="/forgot-password" element={<ProtectedGuest><ForgotPassword /></ProtectedGuest>} />
 
-      <Route path="/dashboard" element={<ProtectedAuth><Dashboard /></ProtectedAuth>} />
+      <Route path="/dashboard" element={<ProtectedAuth><SmartDashboard /></ProtectedAuth>} />
+      <Route path="/student-dashboard" element={<ProtectedAuth><Dashboard /></ProtectedAuth>} />
       <Route path="/courses" element={<ProtectedAuth><Courses /></ProtectedAuth>} />
       <Route path="/messages" element={<ProtectedAuth><Messages /></ProtectedAuth>} />
       <Route path="/courses/:id" element={<ProtectedAuth><CourseDetail /></ProtectedAuth>} />
