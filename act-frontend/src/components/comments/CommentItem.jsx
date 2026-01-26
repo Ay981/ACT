@@ -97,7 +97,7 @@ export default function CommentItem({ comment, currentUser, onReply, onEdit, onD
                 <div className="bg-white rounded-lg p-6 max-w-sm w-full shadow-lg">
                     <h3 className="text-lg font-bold mb-4">Report Comment</h3>
                     <div className="space-y-2">
-                        {['Hate Speech', 'Spam', 'Harassment', 'Misinformation'].map(r => (
+                        {['Hate Speech', 'Spam', 'Harassment', 'Misinformation', 'Other'].map(r => (
                             <button key={r} onClick={() => handleReport(r)} className="w-full text-left px-4 py-2 hover:bg-slate-100 rounded border border-slate-200">
                                 {r}
                             </button>

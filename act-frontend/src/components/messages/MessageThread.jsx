@@ -27,6 +27,7 @@ function Bubble({ message, align }){
   const [showReport, setShowReport] = useState(false)
   const [showOtherModal, setShowOtherModal] = useState(false)
   const [otherReason, setOtherReason] = useState('')
+  const { success, error } = useToast()
   const isRight = align==='right'
   
   const handleReport = async (reason) => {
