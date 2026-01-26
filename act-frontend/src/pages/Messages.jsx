@@ -135,8 +135,15 @@ export default function Messages(){
 
         // Reload conversations to get the latest list (important if list was empty before)
         const refreshed = await loadConversations(false)
-        const list = refreshed || []
+        let list = refreshed || []
         console.log('Conversations after reload:', list)
+
+        // If we selected a new conversation via initConversation and it's not in the list, add it back
+        if (initId && initResult && !list.some(c => c.id === initId)) {
+          list = [initResult, ...list]
+          setItems(list)
+          console.log('Added new conversation back to list after reload')
+        }
 
         // If we didn't already select via initResult, try to find by matching instructor
         if (!initId) {
