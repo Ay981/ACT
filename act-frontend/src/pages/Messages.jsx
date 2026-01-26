@@ -72,9 +72,10 @@ export default function Messages(){
       lastMessageAt: new Date().toISOString(),
     }) : c))
 
-    // Actually send to API
+    // Actually send to API - use participant as recipient
     try {
-      await api.sendMessage(selected.id, text)
+      console.log('Sending to recipient:', selected.participant)
+      await api.sendMessage(selected.participant, text)
       console.log('Message sent successfully to server')
     } catch (err) {
       console.error('Failed to send message to server:', err)
