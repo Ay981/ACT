@@ -6,6 +6,7 @@ import Footer from '../components/Footer.jsx';
 import Header from '../components/Header.jsx';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import { getUnreadCount, getNotifications, markNotificationRead } from '../lib/api.js';
+import { ToastProvider } from '../components/Toast.jsx';
 
 export default function AppLayout({ children }) {
   const [unreadCount, setUnreadCount] = useState(0)
@@ -51,14 +52,16 @@ export default function AppLayout({ children }) {
   }, [user])
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
-      <Header unreadCount={unreadCount} notifications={notifications} setNotifications={setNotifications} />
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 flex gap-6 w-full flex-1">
-        <Sidebar unreadCount={unreadCount} user={user} />
-        <main className="flex-1 min-w-0">{children}</main>
+    <ToastProvider>
+      <div className="min-h-screen bg-slate-50 flex flex-col">
+        <Header unreadCount={unreadCount} notifications={notifications} setNotifications={setNotifications} />
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 flex gap-6 w-full flex-1">
+          <Sidebar unreadCount={unreadCount} user={user} />
+          <main className="flex-1 min-w-0">{children}</main>
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </ToastProvider>
   )
 }
 

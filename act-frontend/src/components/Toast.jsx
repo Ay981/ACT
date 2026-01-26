@@ -30,26 +30,40 @@ export function ToastProvider({ children }) {
   return (
     <ToastContext.Provider value={{ addToast, success, error, info }}>
       {children}
-      <div className="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none">
+      <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none">
         {toasts.map((toast) => (
           <div
             key={toast.id}
             className={`
-              pointer-events-auto min-w-[300px] px-4 py-3 rounded-lg shadow-lg border-l-4 transform transition-all animate-in slide-in-from-right fade-in duration-300
-              ${toast.type === 'success' ? 'bg-white border-green-500 text-slate-800' : ''}
-              ${toast.type === 'error' ? 'bg-white border-red-500 text-slate-800' : ''}
-              ${toast.type === 'info' ? 'bg-slate-800 border-slate-600 text-white' : ''}
-              flex items-center justify-between
+              pointer-events-auto min-w-[200px] px-6 py-4 rounded-2xl shadow-2xl transform transition-all animate-in zoom-in-95 fade-in duration-300
+              ${toast.type === 'success' ? 'bg-white border-2 border-green-500 text-slate-800' : ''}
+              ${toast.type === 'error' ? 'bg-white border-2 border-red-500 text-slate-800' : ''}
+              ${toast.type === 'info' ? 'bg-slate-800 border-2 border-slate-600 text-white' : ''}
+              flex flex-col items-center justify-center text-center
             `}
           >
-            <div className="flex items-center gap-3">
-               {toast.type === 'success' && <svg className="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>}
-               {toast.type === 'error' && <svg className="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
-               <span className="text-sm font-medium">{toast.message}</span>
-            </div>
-            <button onClick={() => removeToast(toast.id)} className="ml-4 text-slate-400 hover:text-slate-600">
-               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-            </button>
+            {toast.type === 'success' && (
+              <div className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center mb-3">
+                <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+            )}
+            {toast.type === 'error' && (
+              <div className="w-12 h-12 rounded-full bg-red-500 flex items-center justify-center mb-3">
+                <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </div>
+            )}
+            {toast.type === 'info' && (
+              <div className="w-12 h-12 rounded-full bg-slate-600 flex items-center justify-center mb-3">
+                <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+            )}
+            <span className="text-sm font-semibold">{toast.message}</span>
           </div>
         ))}
       </div>

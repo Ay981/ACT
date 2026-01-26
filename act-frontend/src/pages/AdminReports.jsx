@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { getAdminReports, resolveReport } from '../lib/api'
 import AdminModal from '../components/AdminModal.jsx'
+import { useToast } from '../components/Toast.jsx'
 
 export default function AdminReports(){
   const [searchParams, setSearchParams] = useSearchParams()
@@ -11,6 +12,7 @@ export default function AdminReports(){
   const [loading, setLoading] = useState(true)
   const [confirmation, setConfirmation] = useState({ isOpen: false, id: null, action: null })
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '')
+  const { success, error } = useToast()
 
   useEffect(() => {
     loadReports()
@@ -49,8 +51,9 @@ export default function AdminReports(){
         await resolveReport(id, action)
         setReports(prev => prev.filter(r => r.id !== id))
         setConfirmation({ isOpen: false, id: null, action: null })
+        success('Report action completed successfully')
     } catch (e) {
-        alert('Failed to process action')
+        error('Failed to process action')
         setConfirmation({ isOpen: false, id: null, action: null })
     }
   }
