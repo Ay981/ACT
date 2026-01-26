@@ -15,8 +15,8 @@ class CheckMaintenanceMode
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // 1. Check if maintenance mode is enabled
-        $isMaintenance = Cache::get('maintenance_mode');
+        // 1. Check if maintenance mode is enabled (FORCE DISABLED)
+        $isMaintenance = false; // Cache::get('maintenance_mode');
         
         if (!$isMaintenance) {
             return $next($request);
