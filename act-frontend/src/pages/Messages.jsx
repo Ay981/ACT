@@ -72,36 +72,62 @@ export default function Messages(){
       lastMessageAt: new Date().toISOString(),
     }) : c))
 
-    // Actually send to API - try to find the correct recipient ID
+    // Actually send to API - try different approaches
     try {
       console.log('=== SENDING MESSAGE DEBUG ===')
       console.log('Selected conversation:', selected)
-      console.log('Sending to recipient:', selected.participant)
-      console.log('Messages in conversation:', selected.messages)
+      console.log('Conversation ID:', selected.id)
+      console.log('Participant:', selected.participant)
       
-      // Try to find recipient ID from messages (look for instructor messages)
+      // Try multiple approaches to find the right recipient ID
       let recipientId = selected.participant
+      
+      // Approach 1: Try conversation ID
+      console.log('=== TRYING CONVERSATION ID ===')
+      try {
+        const response1 = await api.sendMessage(selected.id, text)
+        console.log('SUCCESS with conversation ID:', response1)
+        console.log('=== END DEBUG ===')
+        return
+      } catch (err1) {
+        console.log('FAILED with conversation ID:', err1.message)
+      }
+      
+      // Approach 2: Try participant username
+      console.log('=== TRYING PARTICIPANT USERNAME ===')
+      try {
+        const response2 = await api.sendMessage(selected.participant, text)
+        console.log('SUCCESS with participant username:', response2)
+        console.log('=== END DEBUG ===')
+        return
+      } catch (err2) {
+        console.log('FAILED with participant username:', err2.message)
+      }
+      
+      // Approach 3: Try to extract user ID from messages
       if (selected.messages && selected.messages.length > 0) {
         const instructorMessage = selected.messages.find(msg => msg.sender === 'instructor')
         if (instructorMessage && instructorMessage.sender_id) {
-          recipientId = instructorMessage.sender_id
-          console.log('Found recipient ID from messages:', recipientId)
+          console.log('=== TRYING SENDER_ID FROM MESSAGES ===')
+          try {
+            const response3 = await api.sendMessage(instructorMessage.sender_id, text)
+            console.log('SUCCESS with sender_id:', response3)
+            console.log('=== END DEBUG ===')
+            return
+          } catch (err3) {
+            console.log('FAILED with sender_id:', err3.message)
+          }
         }
       }
       
-      console.log('Final recipient ID:', recipientId)
-      console.log('Message data:', { recipient_id: recipientId, message: text })
-      const response = await api.sendMessage(recipientId, text)
-      console.log('API response:', response)
-      console.log('Message sent successfully to server')
-      console.log('=== END DEBUG ===')
+      // If all approaches fail
+      throw new Error('All sending approaches failed')
+      
     } catch (err) {
-      console.error('=== ERROR DEBUG ===')
-      console.error('Failed to send message to server:', err)
-      console.error('Error details:', err.response?.data || err.message)
-      console.error('Full error object:', err)
+      console.error('=== FINAL ERROR DEBUG ===')
+      console.error('All approaches failed:', err)
       console.error('=== END ERROR DEBUG ===')
-      alert('Failed to send message: ' + (err.response?.data?.message || err.message || 'Server Error'))
+      alert('Failed to send message: ' + err.message)
       // Remove the optimistic update on error
       setItems(prev => prev.map(c => c.id === selectedId ? ({
         ...c,
