@@ -356,11 +356,10 @@ For detailed API documentation including request/response examples, validation r
 
 ## �� Contributors
 
-- **Rami** - [GitHub Profile](https://github.com/Ra58ad) - Project Lead & development team
-- **Aymen Abdulkerim** - development team
+- **Aymen Abdulkerim** - Lead Developer
+- **Rame Mahamat** - [GitHub Profile](https://github.com/Ra58ad) - Project Lead & development team
 - **Bemnet Eyob** - Development Team
 - **Nahim Teklu** - Development Team
-- **Rame Mahamat** - Development Team
 - **Sead Bushra** - Development Team
 - **Sofonias Yoseph** - Development Team
 

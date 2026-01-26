@@ -106,7 +106,7 @@ export default function QuizTake() {
         <div className="bg-white border border-slate-200 rounded-2xl p-6">
           <h1 className="text-xl font-semibold">Quiz not found</h1>
           <p className="mt-2 text-slate-600">The requested quiz does not exist.</p>
-          <Link to="/courses/ai-foundations" className="mt-4 inline-block px-4 py-2 rounded-xl bg-primary-600 text-white hover:bg-primary-700">Back to Course</Link>
+          <Link to="/courses/" className="mt-4 inline-block px-4 py-2 rounded-xl bg-primary-600 text-white hover:bg-primary-700">Back to Course</Link>
         </div>
       </AppLayout>
     )
