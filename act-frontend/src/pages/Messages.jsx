@@ -91,6 +91,11 @@ export default function Messages(){
         console.log('Selected conversation:', selected)
         console.log('Participant to mark as read:', selected.participant)
         
+        // Clear unread count for this conversation immediately
+        setItems(prev => prev.map(c => 
+          c.id === conversationId ? { ...c, unread: 0 } : c
+        ))
+        
         // Try the API call first
         try {
           const response = await api.markAsRead(selected.participant)
@@ -235,9 +240,16 @@ export default function Messages(){
           {selected ? (
             <div className="h-full flex flex-col">
               {/* Header */}
-              <div className="px-4 py-3 border-b border-slate-200">
-                <h3 className="font-semibold">{selected.title}</h3>
-                <p className="text-sm text-slate-600">{selected.participant}</p>
+              <div className="px-4 py-3 border-b border-slate-200 flex justify-between items-center">
+                <div>
+                  <h3 className="font-semibold">{selected.title}</h3>
+                  <p className="text-sm text-slate-600">{selected.participant}</p>
+                </div>
+                {selected.unread > 0 && (
+                  <span className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                    {selected.unread}
+                  </span>
+                )}
               </div>
               
               {/* Messages */}
