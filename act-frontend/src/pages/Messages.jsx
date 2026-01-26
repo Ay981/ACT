@@ -3,7 +3,7 @@ import ConversationList from '../components/messages/ConversationList.jsx'
 import { useState, useEffect, useRef } from 'react'
 import * as api from '../lib/api.js'
 
-// Cache bust: 2026-01-26-11-55
+// Cache bust: 2026-01-26-12-03
 
 export default function Messages(){
   const [items, setItems] = useState([])
