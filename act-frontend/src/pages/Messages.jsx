@@ -53,6 +53,7 @@ export default function Messages(){
       }
       
       setItems(dataWithReadState)
+      return dataWithReadState
     } catch (e) {
       console.error("Failed to load conversations", e)
       setError(e.message)
@@ -67,6 +68,7 @@ export default function Messages(){
           ]
         }])
       }
+      return null
     } finally {
       if (!isBackground) setLoading(false)
     }
@@ -108,15 +110,29 @@ export default function Messages(){
 
     ;(async () => {
       try {
-        const conv = await api.initConversation(deepLinkInstructor)
-        const convId = conv?.id || conv?.conversation_id || conv?.conversation?.id
-        if (convId) {
-          setSelectedId(convId)
+        const partnerKey = String(deepLinkInstructor)
+        const created = await api.initConversation(deepLinkInstructor)
+
+        const createdId = created?.id || created?.conversation_id || created?.conversation?.id
+        if (createdId) {
+          setSelectedId(createdId)
           setShowChat(true)
           return
         }
 
-        await loadConversations(false)
+        const refreshed = await loadConversations(false)
+        const list = refreshed || []
+
+        const match = list.find(c => (
+          String(c?.participant_id) === partnerKey ||
+          String(c?.participant?.id) === partnerKey ||
+          String(c?.partner_id) === partnerKey ||
+          String(c?.user_id) === partnerKey ||
+          String(c?.recipient_id) === partnerKey ||
+          String(c?.participant) === partnerKey
+        ))
+
+        if (match?.id) setSelectedId(match.id)
         setShowChat(true)
       } catch (e) {
         setShowChat(true)
