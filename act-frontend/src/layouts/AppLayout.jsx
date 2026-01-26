@@ -32,34 +32,64 @@ export default function AppLayout({ children }) {
 
     const fetchUpdates = async () => {
        try {
-          // Check if user recently marked all messages as read
+          // Check if user has marked all messages as read (persistent until new messages arrive)
           const markedAllRead = localStorage.getItem('messages_marked_all_read')
-          const recentlyMarked = markedAllRead && (Date.now() - parseInt(markedAllRead)) < 30000 // 30 seconds
+          const markedAllReadCount = localStorage.getItem('messages_marked_all_read_count')
+          const manualAdjustment = localStorage.getItem('manual_unread_adjustment')
+          const currentUnread = localStorage.getItem('current_unread_count')
           
           // Fetch Messages Count
           const { count } = await getUnreadCount()
           setUnreadCount(prev => {
+             let finalCount = count
+             
+             // If there's a manual adjustment, use the stored count instead of backend
+             if (manualAdjustment && currentUnread) {
+               const timeSinceAdjustment = Date.now() - parseInt(manualAdjustment)
+               // Use manual count for 2 minutes, then revert to backend
+               if (timeSinceAdjustment < 120000) { // 2 minutes
+                 console.log('Using manual unread count adjustment:', currentUnread)
+                 finalCount = parseInt(currentUnread)
+               } else {
+                 // Clear manual adjustment after 2 minutes
+                 localStorage.removeItem('manual_unread_adjustment')
+                 localStorage.removeItem('current_unread_count')
+               }
+             }
+             
              // Don't notify on initial load
              if (firstLoad.current) {
                 firstLoad.current = false
-                return count
+                // If user marked all as read before, keep showing 0 until new messages arrive
+                if (markedAllRead && markedAllReadCount && finalCount <= parseInt(markedAllReadCount)) {
+                  console.log('Keeping unread count at 0 - user marked all as read and no new messages')
+                  return 0
+                }
+                return finalCount
              }
              
-             // If user recently marked all as read, keep it at 0 for a while
-             if (recentlyMarked && count > 0) {
-                console.log('User recently marked all as read, keeping count at 0')
-                return 0
+             // If user marked all as read and count hasn't increased, keep at 0
+             if (markedAllRead && markedAllReadCount && finalCount <= parseInt(markedAllReadCount)) {
+               console.log('Keeping unread count at 0 - no new messages since mark all read')
+               return 0
+             }
+             
+             // New messages arrived since mark all read, clear the flag and show new count
+             if (markedAllRead && finalCount > parseInt(markedAllReadCount)) {
+               console.log('New messages arrived, clearing mark all read flag')
+               localStorage.removeItem('messages_marked_all_read')
+               localStorage.removeItem('messages_marked_all_read_count')
              }
              
              // Notify if count increased
-             if (count > prev && prev > 0) {
+             if (finalCount > prev && prev > 0) {
                 // Show notification for new messages
                 new Notification(`New Messages`, {
-                   body: `You have ${count} unread message${count > 1 ? 's' : ''}`,
+                   body: `You have ${finalCount} unread message${finalCount > 1 ? 's' : ''}`,
                    icon: '/favicon.ico'
                 })
              }
-             return count
+             return finalCount
           })
 
           // Fetch Notifications

@@ -87,17 +87,39 @@ export default function Messages(){
     try {
       const selected = items.find(i => i.id === conversationId)
       if (selected && selected.participant) {
-        console.log('=== MARKING AS READ DEBUG ===')
+        console.log('=== MARKING CONVERSATION AS READ DEBUG ===')
         console.log('Selected conversation:', selected)
         console.log('Participant to mark as read:', selected.participant)
         
-        // Temporarily disable individual mark as read since it's failing
-        // Let the polling handle unread count updates
-        console.log('Individual mark as read temporarily disabled - using polling instead')
+        // Try the API call first
+        try {
+          const response = await api.markAsRead(selected.participant)
+          console.log('Mark as read response:', response)
+        } catch (apiError) {
+          console.log('API mark as read failed, using manual approach:', apiError.message)
+          
+          // Manual approach: reduce unread count by the number of unread messages in this conversation
+          const unreadInThisConversation = selected.messages?.filter(msg => 
+            msg.sender !== 'student' && !msg.is_read
+          ).length || 0
+          
+          if (unreadInThisConversation > 0) {
+            console.log(`Manually reducing unread count by ${unreadInThisConversation}`)
+            
+            // Get current unread count from localStorage or use a default
+            const currentUnread = parseInt(localStorage.getItem('current_unread_count') || '0')
+            const newUnread = Math.max(0, currentUnread - unreadInThisConversation)
+            
+            // Update localStorage to track the reduction
+            localStorage.setItem('current_unread_count', newUnread.toString())
+            localStorage.setItem('manual_unread_adjustment', Date.now().toString())
+            
+            // Trigger header refresh
+            window.dispatchEvent(new CustomEvent('refresh-header'))
+          }
+        }
         
-        // Trigger header refresh to update unread count
-        window.dispatchEvent(new CustomEvent('refresh-header'))
-        console.log('=== END MARK AS READ DEBUG ===')
+        console.log('=== END MARKING CONVERSATION AS READ DEBUG ===')
       }
     } catch (err) {
       console.error('Failed to mark conversation as read:', err)
