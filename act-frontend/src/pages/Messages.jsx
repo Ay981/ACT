@@ -14,6 +14,7 @@ export default function Messages(){
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [showChat, setShowChat] = useState(false)
+  const [draft, setDraft] = useState('')
   const initHandledRef = useRef(false)
 
   // Polling for new messages
@@ -383,21 +384,21 @@ export default function Messages(){
                         <input 
                           type="text" 
                           placeholder="Type a message..."
-                          ref={mobileInputRef}
+                          value={draft}
+                          onChange={(e) => setDraft(e.target.value)}
                           className="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                           onKeyPress={(e) => {
-                            if (e.key === 'Enter' && e.target.value.trim()) {
-                              handleSend(e.target.value)
-                              e.target.value = ''
+                            if (e.key === 'Enter' && draft.trim()) {
+                              handleSend(draft)
+                              setDraft('')
                             }
                           }}
                         />
                         <button 
                           onClick={() => {
-                            const input = mobileInputRef.current
-                            if (input && input.value.trim()) {
-                              handleSend(input.value)
-                              input.value = ''
+                            if (draft.trim()) {
+                              handleSend(draft)
+                              setDraft('')
                             }
                           }}
                           className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
@@ -414,21 +415,21 @@ export default function Messages(){
                       <input 
                         type="text" 
                         placeholder="Type a message..."
-                        ref={desktopInputRef}
+                        value={draft}
+                        onChange={(e) => setDraft(e.target.value)}
                         className="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                         onKeyPress={(e) => {
-                          if (e.key === 'Enter' && e.target.value.trim()) {
-                            handleSend(e.target.value)
-                            e.target.value = ''
+                          if (e.key === 'Enter' && draft.trim()) {
+                            handleSend(draft)
+                            setDraft('')
                           }
                         }}
                       />
                       <button 
                         onClick={() => {
-                          const input = desktopInputRef.current
-                          if (input && input.value.trim()) {
-                            handleSend(input.value)
-                            input.value = ''
+                          if (draft.trim()) {
+                            handleSend(draft)
+                            setDraft('')
                           }
                         }}
                         className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
