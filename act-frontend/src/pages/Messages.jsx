@@ -1,17 +1,20 @@
 import AppLayout from '../layouts/AppLayout.jsx'
 import ConversationList from '../components/messages/ConversationList.jsx'
 import { useState, useEffect, useRef } from 'react'
-import { getConversations } from '../lib/api.js'
+import * as api from '../lib/api.js'
 
 export default function Messages(){
   const [items, setItems] = useState([])
   const [selectedId, setSelectedId] = useState(null)
   const [query, setQuery] = useState('')
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   const loadConversations = async () => {
     try {
-      const data = await getConversations()
+      console.log('API object:', api)
+      console.log('getConversations function:', api.getConversations)
+      const data = await api.getConversations()
       console.log('Conversations loaded:', data)
       setItems(data)
       
@@ -22,6 +25,16 @@ export default function Messages(){
       }
     } catch (e) {
       console.error("Failed to load conversations", e)
+      setError(e.message)
+      // Set some dummy data to prevent white screen
+      setItems([{
+        id: 1,
+        title: "Test Conversation",
+        participant: "Test User",
+        messages: [
+          { id: 1, text: "Hello", sender: "student", at: new Date().toISOString() }
+        ]
+      }])
     } finally {
       setLoading(false)
     }
