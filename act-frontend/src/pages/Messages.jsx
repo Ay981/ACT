@@ -287,7 +287,7 @@ export default function Messages(){
           </aside>
           
           {/* Chat Section */}
-          <section className={`${!selected || !showChat ? 'hidden lg:block' : 'block'} lg:flex-2 bg-white border border-slate-200 rounded-2xl lg:rounded-none lg:border-none overflow-hidden flex flex-col h-full lg:h-full`} style={{ marginBottom: showChat ? '0px' : '0px', height: showChat ? 'calc(100vh - 120px)' : 'auto' }}>
+          <section className={`${!selected || !showChat ? 'hidden lg:block' : 'block'} lg:flex-2 bg-white border border-slate-200 rounded-2xl lg:rounded-none lg:border-none overflow-hidden flex flex-col`} style={{ height: showChat ? 'calc(100vh - 200px)' : 'calc(70vh - 200px)', maxHeight: showChat ? 'calc(100vh - 200px)' : 'calc(70vh - 200px)' }}>
             {selected ? (
               <>
                 {/* Mobile Header */}
@@ -347,7 +347,7 @@ export default function Messages(){
                 </div>
                 
                 {/* Message Input */}
-                <div className="p-4 border-t border-slate-200 bg-white sticky bottom-0 z-10" style={{ marginBottom: showChat ? '0px' : '80px' }}>
+                <div className="p-4 border-t border-slate-200 bg-white">
                   <div className="flex gap-2">
                     <input 
                       type="text" 
