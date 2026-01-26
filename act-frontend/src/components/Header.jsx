@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useNavigate, Link, NavLink, useLocation } from 'react-router-dom';
 import Logo from './Logo.jsx';
 import { useAuth } from '../contexts/AuthContext.jsx';
-import { getUnreadCount, getNotifications, markNotificationRead, getEnrolledCourses, getAdminInstructors } from '../lib/api.js';
+import { getUnreadCount, getNotifications, markNotificationRead } from '../lib/api.js';
 
 export default function Header({ unreadCount: propUnread, setUnreadCount: propSetUnread, notifications: propNotifs, setNotifications: propSetNotifs, refreshKey, onMenuClick, sidebarOpen }) {
   const navigate = useNavigate()
@@ -10,10 +10,8 @@ export default function Header({ unreadCount: propUnread, setUnreadCount: propSe
   const { user, logout } = useAuth()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [isNotifOpen, setIsNotifOpen] = useState(false)
-  const [isInstructorDropdownOpen, setIsInstructorDropdownOpen] = useState(false)
   const dropdownRef = useRef(null)
   const notifRef = useRef(null)
-  const instructorDropdownRef = useRef(null)
 
   // Check if current page is login or signup
   const isAuthPage = location.pathname === '/login' || location.pathname === '/signup'
@@ -21,26 +19,11 @@ export default function Header({ unreadCount: propUnread, setUnreadCount: propSe
   // Local state for independent usage (GuestLayout)
   const [unreadCount, setUnreadCount] = useState(0)
   const [notifications, setNotifications] = useState([])
-  const [enrolledCourses, setEnrolledCourses] = useState([])
-  const [allInstructors, setAllInstructors] = useState([])
   
   // Use props if provided, otherwise local (though for guest these are usually empty)
   const finalUnread = propUnread !== undefined ? propUnread : unreadCount
   const finalNotifs = propNotifs !== undefined ? propNotifs : notifications
   const setFinalNotifs = propSetNotifs || setNotifications
-
-  // Load instructors for dropdown
-  useEffect(() => {
-    if (user) {
-      if (user.role === 'student') {
-        // Students get instructors from their enrolled courses
-        getEnrolledCourses().then(setEnrolledCourses).catch(console.error)
-      } else if (user.role === 'admin') {
-        // Admins get all instructors in the system
-        getAdminInstructors().then(setAllInstructors).catch(console.error)
-      }
-    }
-  }, [user, refreshKey])
 
   const displayNotifications = [
     ...(finalUnread > 0 ? [{ id: 'msg-1', text: `You have ${finalUnread} unread messages`, sub: 'Check your inbox now', type: 'message' }] : []),
@@ -144,25 +127,6 @@ export default function Header({ unreadCount: propUnread, setUnreadCount: propSe
 
   const isInstructor = user?.role === 'instructor'
   const isStudentDashboard = user?.role === 'student' && location.pathname === '/dashboard'
-
-  // Get unique instructors from enrolled courses or all instructors for admin
-  const getUniqueInstructors = () => {
-    if (user?.role === 'admin') {
-      // Admins see all instructors in the system
-      return allInstructors
-    } else {
-      // Students get instructors from their enrolled courses
-      const instructors = new Map()
-      enrolledCourses.forEach(course => {
-        if (course.instructor && !instructors.has(course.instructor.id)) {
-          instructors.set(course.instructor.id, course.instructor)
-        }
-      })
-      return Array.from(instructors.values())
-    }
-  }
-
-  const uniqueInstructors = getUniqueInstructors()
 
   return (
     <header className="sticky top-0 z-30 bg-white/80 backdrop-blur border-b border-slate-200">
@@ -273,66 +237,7 @@ export default function Header({ unreadCount: propUnread, setUnreadCount: propSe
               </div>
             )}
           </div>
-           {!isStudentDashboard && !isInstructor && (user?.role === 'student' || user?.role === 'admin') && (
-             <div className="relative" ref={instructorDropdownRef}>
-               <button 
-                 onClick={() => setIsInstructorDropdownOpen(!isInstructorDropdownOpen)}
-                 className="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-primary-600 text-white hover:bg-primary-700 text-sm"
-               >
-                 Contact Instructor
-                 <svg className={`w-4 h-4 transition-transform ${isInstructorDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"/>
-                 </svg>
-               </button>
-               
-               {isInstructorDropdownOpen && (
-                 <div className="absolute right-0 top-full mt-2 w-72 bg-white rounded-xl shadow-lg border border-slate-100 py-2 z-50 animate-in fade-in zoom-in-95 duration-200">
-                   <div className="px-4 py-2 border-b border-slate-100">
-                     <span className="font-semibold text-slate-900 text-sm">
-                       {user?.role === 'admin' ? 'All Instructors' : 'Your Instructors'}
-                     </span>
-                   </div>
-                   <div className="max-h-64 overflow-y-auto">
-                     {uniqueInstructors.length === 0 ? (
-                       <div className="px-4 py-4 text-center text-sm text-slate-500">
-                         {user?.role === 'admin' ? 'No instructors found in system' : 'No instructors found'}
-                       </div>
-                     ) : (
-                       uniqueInstructors.map(instructor => (
-                         <div 
-                           key={instructor.id}
-                           onClick={() => {
-                             navigate(`/messages?instructor=${instructor.id}`)
-                             setIsInstructorDropdownOpen(false)
-                           }}
-                           className="px-4 py-3 hover:bg-slate-50 cursor-pointer border-b border-slate-50 last:border-0"
-                         >
-                           <div className="flex items-center gap-3">
-                             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-400 to-primary-700 text-white font-semibold text-xs flex items-center justify-center uppercase">
-                               {instructor.name?.charAt(0) || 'I'}
-                             </div>
-                             <div className="flex-1 min-w-0">
-                               <p className="text-sm font-medium text-slate-800 truncate">{instructor.name}</p>
-                               <p className="text-xs text-slate-500 truncate">{instructor.email}</p>
-                             </div>
-                           </div>
-                         </div>
-                       ))
-                     )}
-                   </div>
-                   <div className="px-4 py-2 border-t border-slate-100">
-                     <Link 
-                       to="/messages"
-                       onClick={() => setIsInstructorDropdownOpen(false)}
-                       className="text-xs text-primary-600 font-medium hover:underline"
-                     >
-                       View All Messages →
-                     </Link>
-                   </div>
-                 </div>
-               )}
-             </div>
-           )}
+           {/* Contact Instructor dropdown removed from student dashboard header */}
           
           {/* User Profile Dropdown */}
           <div className="relative" ref={dropdownRef}>
