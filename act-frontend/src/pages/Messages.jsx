@@ -340,36 +340,70 @@ export default function Messages(){
                 </div>
                 
                 {/* Message Input */}
-                <div
-                  className="p-4 border-t border-slate-200 bg-white sticky bottom-0 z-10"
-                  style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 12px)' }}
-                >
-                  <div className="flex gap-2">
-                    <input 
-                      type="text" 
-                      placeholder="Type a message..."
-                      className="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-                      onKeyPress={(e) => {
-                        if (e.key === 'Enter' && e.target.value.trim()) {
-                          handleSend(e.target.value)
-                          e.target.value = ''
-                        }
-                      }}
-                    />
-                    <button 
-                      onClick={() => {
-                        const input = document.querySelector('input[type="text"]')
-                        if (input && input.value.trim()) {
-                          handleSend(input.value)
-                          input.value = ''
-                        }
-                      }}
-                      className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
-                    >
-                      Send
-                    </button>
+                <>
+                  {/* Mobile: fixed input bar (prevents disappearing on scroll/address-bar changes) */}
+                  <div
+                    className="lg:hidden fixed left-0 right-0 bottom-0 z-50 bg-white border-t border-slate-200 p-4"
+                    style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 12px)' }}
+                  >
+                    <div className="mx-auto max-w-7xl">
+                      <div className="flex gap-2">
+                        <input 
+                          type="text" 
+                          placeholder="Type a message..."
+                          className="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                          onKeyPress={(e) => {
+                            if (e.key === 'Enter' && e.target.value.trim()) {
+                              handleSend(e.target.value)
+                              e.target.value = ''
+                            }
+                          }}
+                        />
+                        <button 
+                          onClick={() => {
+                            const input = document.querySelector('input[type="text"]')
+                            if (input && input.value.trim()) {
+                              handleSend(input.value)
+                              input.value = ''
+                            }
+                          }}
+                          className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
+                        >
+                          Send
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                </div>
+
+                  {/* Desktop: sticky within panel */}
+                  <div className="hidden lg:block p-4 border-t border-slate-200 bg-white sticky bottom-0 z-10">
+                    <div className="flex gap-2">
+                      <input 
+                        type="text" 
+                        placeholder="Type a message..."
+                        className="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                        onKeyPress={(e) => {
+                          if (e.key === 'Enter' && e.target.value.trim()) {
+                            handleSend(e.target.value)
+                            e.target.value = ''
+                          }
+                        }}
+                      />
+                      <button 
+                        onClick={() => {
+                          const input = document.querySelector('input[type="text"]')
+                          if (input && input.value.trim()) {
+                            handleSend(input.value)
+                            input.value = ''
+                          }
+                        }}
+                        className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
+                      >
+                        Send
+                      </button>
+                    </div>
+                  </div>
+                </>
               </div>
             ) : (
               <div className="flex items-center justify-center h-full text-slate-500">
