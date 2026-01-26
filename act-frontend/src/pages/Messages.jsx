@@ -21,13 +21,30 @@ export default function Messages(){
       const data = await api.getConversations()
       console.log('Conversations loaded:', data)
       
+      // Apply localStorage read state to conversations
+      const dataWithReadState = data.map(conv => {
+        const readTime = localStorage.getItem(`conversation_${conv.id}_read`)
+        if (readTime) {
+          // If conversation was marked as read within last 10 minutes, keep unread at 0
+          const timeSinceRead = Date.now() - parseInt(readTime)
+          if (timeSinceRead < 600000) { // 10 minutes
+            console.log(`Keeping conversation ${conv.id} as read`)
+            return { ...conv, unread: 0 }
+          } else {
+            // Clear old read state
+            localStorage.removeItem(`conversation_${conv.id}_read`)
+          }
+        }
+        return conv
+      })
+      
       // Auto-select first conversation if available
-      if (!isBackground && data.length > 0 && !selectedId) {
-        setSelectedId(data[0].id)
-        console.log('Auto-selected conversation:', data[0].id)
+      if (!isBackground && dataWithReadState.length > 0 && !selectedId) {
+        setSelectedId(dataWithReadState[0].id)
+        console.log('Auto-selected conversation:', dataWithReadState[0].id)
       }
       
-      setItems(data)
+      setItems(dataWithReadState)
     } catch (e) {
       console.error("Failed to load conversations", e)
       setError(e.message)
@@ -95,6 +112,9 @@ export default function Messages(){
         setItems(prev => prev.map(c => 
           c.id === conversationId ? { ...c, unread: 0 } : c
         ))
+        
+        // Store the cleared state in localStorage to persist through polling
+        localStorage.setItem(`conversation_${conversationId}_read`, Date.now().toString())
         
         // Try the API call first
         try {

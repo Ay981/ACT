@@ -46,12 +46,12 @@ export default function AppLayout({ children }) {
              // If there's a manual adjustment, use the stored count instead of backend
              if (manualAdjustment && currentUnread) {
                const timeSinceAdjustment = Date.now() - parseInt(manualAdjustment)
-               // Use manual count for 2 minutes, then revert to backend
-               if (timeSinceAdjustment < 120000) { // 2 minutes
+               // Use manual count for 10 minutes, then revert to backend
+               if (timeSinceAdjustment < 600000) { // 10 minutes
                  console.log('Using manual unread count adjustment:', currentUnread)
                  finalCount = parseInt(currentUnread)
                } else {
-                 // Clear manual adjustment after 2 minutes
+                 // Clear manual adjustment after 10 minutes
                  localStorage.removeItem('manual_unread_adjustment')
                  localStorage.removeItem('current_unread_count')
                }
