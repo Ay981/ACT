@@ -1,6 +1,11 @@
 import { useState } from 'react'
+import { useAuth } from '../../contexts/AuthContext.jsx'
+import { submitReport } from '../../lib/api'
+import { useToast } from '../Toast.jsx'
 
 export default function MessageThread({ conversation, onSend }){
+  const { user } = useAuth()
+  
   if (!conversation) return (
     <div className="h-full grid place-items-center text-slate-600">Select a conversation</div>
   )
@@ -13,7 +18,7 @@ export default function MessageThread({ conversation, onSend }){
       </header>
       <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50">
         {conversation.messages.map(msg => (
-          <Bubble key={msg.id} message={msg} align={msg.sender==='student'?'right':'left'} />
+          <Bubble key={msg.id} message={msg} align={msg.sender_id === user?.id ? 'right' : 'left'} />
         ))}
       </div>
       <footer>
