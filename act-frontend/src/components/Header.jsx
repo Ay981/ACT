@@ -143,6 +143,7 @@ export default function Header({ unreadCount: propUnread, setUnreadCount: propSe
   }
 
   const isInstructor = user?.role === 'instructor'
+  const isStudentDashboard = user?.role === 'student' && location.pathname === '/dashboard'
 
   // Get unique instructors from enrolled courses or all instructors for admin
   const getUniqueInstructors = () => {
@@ -272,7 +273,7 @@ export default function Header({ unreadCount: propUnread, setUnreadCount: propSe
               </div>
             )}
           </div>
-           {!isInstructor && (user?.role === 'student' || user?.role === 'admin') && (
+           {!isStudentDashboard && !isInstructor && (user?.role === 'student' || user?.role === 'admin') && (
              <div className="relative" ref={instructorDropdownRef}>
                <button 
                  onClick={() => setIsInstructorDropdownOpen(!isInstructorDropdownOpen)}
