@@ -123,6 +123,14 @@ export default function Messages(){
         if (initId) {
           setSelectedId(initId)
           console.log('Selected conversation from initConversation result:', initId)
+          // Ensure the new conversation appears in the UI immediately
+          setItems(prev => {
+            const exists = prev.some(c => c.id === initId)
+            if (!exists && initResult) {
+              return [initResult, ...prev]
+            }
+            return prev
+          })
         }
 
         // Reload conversations to get the latest list (important if list was empty before)
