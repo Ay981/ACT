@@ -1,23 +1,18 @@
 import AppLayout from '../layouts/AppLayout.jsx'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { getAdminReports, resolveReport } from '../lib/api'
 import AdminModal from '../components/AdminModal.jsx'
 import { useToast } from '../components/Toast.jsx'
-import { useNavigate } from 'react-router-dom'
 
 export default function AdminReports(){
   const [searchParams, setSearchParams] = useSearchParams()
-  const [filter, setFilter] = useState('All') // Filter currently only client-side since API returns all pending
+  const [filter, setFilter] = useState('All')
   const [reports, setReports] = useState([])
   const [loading, setLoading] = useState(true)
   const [confirmation, setConfirmation] = useState({ isOpen: false, id: null, action: null })
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '')
   const { success, error } = useToast()
-  const navigate = useNavigate()
-  // Temporarily disable dropdown to test
-  // const [openDropdownId, setOpenDropdownId] = useState(null)
-  // const dropdownRefs = useRef({})
 
   useEffect(() => {
     loadReports()
@@ -31,33 +26,6 @@ export default function AdminReports(){
       setSearchParams({})
     }
   }, [searchQuery, setSearchParams])
-
-  // Temporarily disable dropdown functionality
-  /*
-  // Handle click outside for dropdowns
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (openDropdownId && dropdownRefs.current[openDropdownId] && !dropdownRefs.current[openDropdownId].contains(event.target)) {
-        setOpenDropdownId(null)
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [openDropdownId])
-
-  const toggleDropdown = (id) => {
-    setOpenDropdownId(openDropdownId === id ? null : id)
-  }
-  */
-
-  const handleContactUser = (userId) => {
-    if (userId) {
-        navigate(`/messages?instructor=${userId}`)
-    } else {
-        error('Unable to contact user - user ID not found')
-    }
-  }
 
   const loadReports = async () => {
     setLoading(true)
@@ -186,29 +154,10 @@ export default function AdminReports(){
                                 </div>
                              </td>
                              <td className="px-6 py-4 text-slate-500">{new Date(r.created_at).toLocaleDateString()}</td>
-                             <td className="px-6 py-4">
-                                <div className="flex items-center gap-2 justify-end">
-                                    {/* Contact Button */}
-                                    <button 
-                                        onClick={() => handleContactUser(r.reportedUser?.id)}
-                                        disabled={!r.reportedUser?.id}
-                                        className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
-                                            r.reportedUser?.id 
-                                                ? 'bg-primary-600 text-white hover:bg-primary-700' 
-                                                : 'bg-slate-100 text-slate-400 cursor-not-allowed'
-                                        }`}
-                                    >
-                                        Contact
-                                    </button>
-                                    
-                                    {/* Temporarily replace dropdown with simple buttons */}
-                                    <button 
-                                        onClick={() => promptAction(r.id, 'dismiss')}
-                                        className="px-3 py-1.5 bg-slate-100 text-slate-700 text-xs font-medium rounded-lg hover:bg-slate-200 transition-colors"
-                                    >
-                                        Actions
-                                    </button>
-                                </div>
+                             <td className="px-6 py-4 text-right">
+                                 <button onClick={() => promptAction(r.id, 'dismiss')} className="text-slate-500 hover:text-slate-700 text-xs font-medium">Dismiss</button>
+                                 <button onClick={() => promptAction(r.id, 'warn')} className="text-amber-600 hover:text-amber-700 text-xs font-medium ml-2">Warn</button>
+                                 <button onClick={() => promptAction(r.id, 'ban')} className="text-red-600 hover:text-red-700 text-xs font-medium ml-2">Ban</button>
                              </td>
                          </tr>
                      ))}
