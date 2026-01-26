@@ -74,14 +74,19 @@ export default function Messages(){
 
     // Actually send to API - use participant as recipient
     try {
+      console.log('=== SENDING MESSAGE DEBUG ===')
       console.log('Sending to recipient:', selected.participant)
       console.log('Message data:', { recipient_id: selected.participant, message: text })
       const response = await api.sendMessage(selected.participant, text)
       console.log('API response:', response)
       console.log('Message sent successfully to server')
+      console.log('=== END DEBUG ===')
     } catch (err) {
+      console.error('=== ERROR DEBUG ===')
       console.error('Failed to send message to server:', err)
       console.error('Error details:', err.response?.data || err.message)
+      console.error('Full error object:', err)
+      console.error('=== END ERROR DEBUG ===')
       alert('Failed to send message: ' + (err.response?.data?.message || err.message || 'Server Error'))
       // Remove the optimistic update on error
       setItems(prev => prev.map(c => c.id === selectedId ? ({
