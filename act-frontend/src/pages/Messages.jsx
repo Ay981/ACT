@@ -4,7 +4,7 @@ import MessageThread from '../components/messages/MessageThread.jsx'
 import MessageComposer from '../components/messages/MessageComposer.jsx'
 import { useState, useEffect, useRef } from 'react'
 import { getConversations, sendMessage, initConversation, markAsRead } from '../lib/api.js'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useSearchParams } from 'react-router-dom'
 
 export default function Messages(){
   const [items, setItems] = useState([])
@@ -12,6 +12,7 @@ export default function Messages(){
   const [query, setQuery] = useState('')
   const [loading, setLoading] = useState(true)
   const location = useLocation()
+  const [searchParams] = useSearchParams()
   const initiatedRef = useRef(false) // Track if we've handled the route initiation
 
   const selectedIdRef = useRef(selectedId)
@@ -54,8 +55,8 @@ export default function Messages(){
     getConversations().then(async data => {
       let currentItems = data
       
-      // Handle navigation from course page (only on first load)
-      const initiateChatUserId = location.state?.initiateChat
+      // Handle navigation from course page or URL parameter (only on first load)
+      const initiateChatUserId = location.state?.initiateChat || searchParams.get('instructor')
       if (!isBackground && initiateChatUserId && !initiatedRef.current) {
           initiatedRef.current = true
           // Check if we already have a conversation with this user
