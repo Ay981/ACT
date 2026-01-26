@@ -90,12 +90,14 @@ export default function Messages(){
         console.log('=== MARKING AS READ DEBUG ===')
         console.log('Selected conversation:', selected)
         console.log('Participant to mark as read:', selected.participant)
-        const response = await api.markAsRead(selected.participant)
-        console.log('Mark as read response:', response)
-        console.log('=== END MARK AS READ DEBUG ===')
+        
+        // Temporarily disable individual mark as read since it's failing
+        // Let the polling handle unread count updates
+        console.log('Individual mark as read temporarily disabled - using polling instead')
         
         // Trigger header refresh to update unread count
         window.dispatchEvent(new CustomEvent('refresh-header'))
+        console.log('=== END MARK AS READ DEBUG ===')
       }
     } catch (err) {
       console.error('Failed to mark conversation as read:', err)
