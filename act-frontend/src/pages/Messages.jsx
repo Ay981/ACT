@@ -72,13 +72,26 @@ export default function Messages(){
       lastMessageAt: new Date().toISOString(),
     }) : c))
 
-    // Actually send to API - use participant as recipient
+    // Actually send to API - try to find the correct recipient ID
     try {
       console.log('=== SENDING MESSAGE DEBUG ===')
       console.log('Selected conversation:', selected)
       console.log('Sending to recipient:', selected.participant)
-      console.log('Message data:', { recipient_id: selected.participant, message: text })
-      const response = await api.sendMessage(selected.participant, text)
+      console.log('Messages in conversation:', selected.messages)
+      
+      // Try to find recipient ID from messages (look for instructor messages)
+      let recipientId = selected.participant
+      if (selected.messages && selected.messages.length > 0) {
+        const instructorMessage = selected.messages.find(msg => msg.sender === 'instructor')
+        if (instructorMessage && instructorMessage.sender_id) {
+          recipientId = instructorMessage.sender_id
+          console.log('Found recipient ID from messages:', recipientId)
+        }
+      }
+      
+      console.log('Final recipient ID:', recipientId)
+      console.log('Message data:', { recipient_id: recipientId, message: text })
+      const response = await api.sendMessage(recipientId, text)
       console.log('API response:', response)
       console.log('Message sent successfully to server')
       console.log('=== END DEBUG ===')
