@@ -249,7 +249,7 @@ export default function Messages(){
   }
 
   return (
-    <AppLayout>
+    <AppLayout hideFooter={showChat}>
       <div className={`h-screen flex flex-col ${showChat ? 'lg:h-[70vh]' : ''}`} style={{ height: showChat ? 'calc(100vh)' : 'calc(100vh - 80px)', paddingBottom: showChat ? '0px' : '80px' }}>
         {/* Mobile Header */}
         <div className="lg:hidden bg-white border-b border-slate-200 px-4 py-3 flex items-center justify-between">
