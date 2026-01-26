@@ -204,34 +204,16 @@ export default function InstructorQuizNew() {
               </div>
               <div>
                 <label className="text-sm text-slate-600">Number of Questions</label>
-                <div className="relative mt-1">
-                  <input 
-                    type="number" 
-                    min="1" 
-                    max="50" 
-                    className="w-full rounded-xl border border-slate-300 px-3 py-2 pr-10 focus:ring-primary-500 focus:border-primary-500" 
-                    value={form.questionCount} 
-                    onChange={e=>setForm({...form, questionCount: e.target.value === '' ? '' : Number(e.target.value)})} 
-                  />
-                  <div className="absolute inset-y-0 right-0 flex flex-col border-l border-slate-200">
-                    <button 
-                      className="flex-1 px-2 hover:bg-slate-50 text-slate-500 rounded-tr-xl border-b border-slate-200"
-                      onClick={() => setForm(f => ({...f, questionCount: Math.min(50, (Number(f.questionCount) || 0) + 1)}))}
-                      type="button"
-                    >
-                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" /></svg>
-                    </button>
-                    <button 
-                      className="flex-1 px-2 hover:bg-slate-50 text-slate-500 rounded-br-xl"
-                      onClick={() => setForm(f => ({...f, questionCount: Math.max(1, (Number(f.questionCount) || 0) - 1)}))}
-                      type="button"
-                    >
-                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-                    </button>
-                  </div>
-                </div>
-                <p className="mt-1 text-xs text-slate-500">How many questions to draft during generation</p>
+                <input 
+                  type="number" 
+                  min="1" 
+                  max="50" 
+                  className="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2 focus:ring-primary-500 focus:border-primary-500" 
+                  value={form.questionCount} 
+                  onChange={e=>setForm({...form, questionCount: e.target.value === '' ? '' : Number(e.target.value)})} 
+                />
               </div>
+              <p className="mt-1 text-xs text-slate-500">How many questions to draft during generation</p>
               <div className="flex items-center gap-2">
                 <input id="immediate" type="checkbox" checked={form.immediateResults} onChange={e=>setForm({...form, immediateResults:e.target.checked})} />
                 <label htmlFor="immediate" className="text-sm text-slate-700">Show results immediately</label>
