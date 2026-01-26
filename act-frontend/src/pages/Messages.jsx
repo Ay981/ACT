@@ -347,7 +347,7 @@ export default function Messages(){
                 </div>
                 
                 {/* Message Input */}
-                <div className="p-4 border-t border-slate-200 bg-white">
+                <div className="p-4 border-t border-slate-200 bg-white sticky bottom-0 z-10">
                   <div className="flex gap-2">
                     <input 
                       type="text" 
