@@ -12,7 +12,6 @@ export default function Messages(){
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [showChat, setShowChat] = useState(false)
-  const messagesEndRef = useRef(null)
 
   // Polling for new messages
   const pollingRef = useRef(null)
@@ -165,13 +164,6 @@ export default function Messages(){
   const handleBackToList = () => {
     setShowChat(false)
   }
-
-  // Auto-scroll to bottom when messages change
-  useEffect(() => {
-    if (selectedId && messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
-    }
-  }, [selected?.messages, selectedId])
 
   const handleSend = async (text) => {
     console.log('Sending message:', text)
@@ -342,8 +334,6 @@ export default function Messages(){
                       </div>
                     </div>
                   ))}
-                  {/* Auto-scroll anchor */}
-                  <div ref={messagesEndRef} />
                 </div>
                 
                 {/* Message Input */}
