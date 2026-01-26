@@ -7,6 +7,8 @@ export default function CommentItem({ comment, currentUser, onReply, onEdit, onD
   const [replying, setReplying] = useState(false)
   const [editing, setEditing] = useState(false)
   const [reportModalOpen, setReportModalOpen] = useState(false)
+  const [otherReason, setOtherReason] = useState('')
+  const [showOtherModal, setShowOtherModal] = useState(false)
   const { success, error } = useToast()
 
   const submitReply = (text) => {
