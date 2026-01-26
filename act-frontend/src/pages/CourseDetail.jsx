@@ -5,8 +5,8 @@ import Spinner from '../components/Spinner'
 import CommentsSection from '../components/comments/CommentsSection'
 import { getCourse, enrollCourse } from '../lib/api'
 import { getUser } from '../lib/api' // To check if current user is instructor
-import { useToast } from '../components/Toast.jsx'
-import { useHeaderRefresh } from '../layouts/AppLayout.jsx'
+// import { useToast } from '../components/Toast.jsx'
+// import { useHeaderRefresh } from '../layouts/AppLayout.jsx'
 
 // Helper for assets
 const getAssetUrl = (path) => {
@@ -22,8 +22,8 @@ export default function CourseDetail() {
   const [lessons, setLessons] = useState([])
   const [isRegistered, setIsRegistered] = useState(false)
   const [currentUser, setCurrentUser] = useState(null)
-  const { success, error } = useToast()
-  const refreshHeader = useHeaderRefresh()
+  // const { success, error } = useToast()
+  // const refreshHeader = useHeaderRefresh()
   const [activeLesson, setActiveLesson] = useState(null)
   const [loading, setLoading] = useState(true)
 
@@ -67,18 +67,22 @@ export default function CourseDetail() {
         const refreshed = await getCourse(id)
         setCourse(refreshed)
         setLessons(refreshed.lessons || [])
-        success("Successfully enrolled!")
+        // success("Successfully enrolled!")
+        alert("Successfully enrolled!")
         // Refresh header to update enrolled courses
-        refreshHeader()
+        // refreshHeader()
     } catch (error) {
         console.error("Enrollment failed", error)
         if (error.status === 401) {
-            error("Please log in to continue.")
+            // error("Please log in to continue.")
+            alert("Please log in to continue.")
             window.location.href = '/login'
         } else if (error.response?.data?.message) {
-            error(error.response.data.message)
+            // error(error.response.data.message)
+            alert(error.response.data.message)
         } else {
-            error("Enrollment failed. Please try again.")
+            // error("Enrollment failed. Please try again.")
+            alert("Enrollment failed. Please try again.")
         }
     }
   }
