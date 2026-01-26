@@ -51,17 +51,36 @@ export default function Messages(){
             <h2 className="text-lg font-semibold mb-4">Selected Conversation</h2>
             <p className="text-slate-600">ID: {selected.id}</p>
             <p className="text-slate-600">Title: {selected.title}</p>
+            <p className="text-slate-600">Participant: {selected.participant}</p>
             <p className="text-slate-600">Messages: {selected.messages?.length || 0}</p>
+            <p className="text-slate-600">Unread: {selected.unread || 0}</p>
+            
+            {/* Debug messages array */}
+            <div className="mt-4 p-4 bg-slate-100 rounded-lg">
+              <p className="text-sm font-medium mb-2">Messages Array Debug:</p>
+              <pre className="text-xs bg-white p-2 rounded overflow-auto max-h-32">
+                {JSON.stringify(selected.messages, null, 2)}
+              </pre>
+            </div>
             
             {/* Show messages */}
             <div className="mt-4 space-y-2">
-              {selected.messages?.map((msg, index) => (
-                <div key={msg.id || index} className="p-3 bg-slate-50 rounded-lg">
-                  <p className="text-sm font-medium">From: {msg.sender}</p>
-                  <p className="text-sm">{msg.text}</p>
-                  <p className="text-xs text-slate-500">{new Date(msg.at).toLocaleString()}</p>
-                </div>
-              )) || <p className="text-slate-500">No messages</p>}
+              {selected.messages && selected.messages.length > 0 ? (
+                selected.messages.map((msg, index) => (
+                  <div key={msg.id || index} className="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                    <p className="text-sm font-medium text-blue-600">From: {msg.sender || 'Unknown'}</p>
+                    <p className="text-sm text-slate-800 mt-1">{msg.text || 'No text'}</p>
+                    <p className="text-xs text-slate-500 mt-1">
+                      Time: {msg.at ? new Date(msg.at).toLocaleString() : 'No timestamp'}
+                    </p>
+                    <p className="text-xs text-slate-400 mt-1">
+                      Message ID: {msg.id || 'No ID'}
+                    </p>
+                  </div>
+                ))
+              ) : (
+                <p className="text-slate-500">No messages found</p>
+              )}
             </div>
           </div>
         )}
