@@ -174,7 +174,7 @@ export default function Header({ unreadCount: propUnread, setUnreadCount: propSe
              </Link>
            </div>
 
-           <span className={`text-slate-700 font-semibold cursor-pointer hover:text-primary-600 ${isAuthPage ? 'hidden' : 'hidden md:block'}`}>Categories</span>
+           {/* <span className={`text-slate-700 font-semibold cursor-pointer hover:text-primary-600 ${isAuthPage ? 'hidden' : 'hidden md:block'}`}>Categories</span> */}
 
            {/* Search Bar */}
            <div className={`${isAuthPage ? 'hidden' : 'hidden md:flex'} items-center gap-2 bg-slate-100 rounded-full px-4 py-2 w-96 focus-within:ring-2 focus-within:ring-primary-100 transition-all border border-transparent focus-within:border-primary-200`}>
