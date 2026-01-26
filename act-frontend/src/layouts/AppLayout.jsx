@@ -32,13 +32,32 @@ export default function AppLayout({ children }) {
 
     const fetchUpdates = async () => {
        try {
+          // Check if user recently marked all messages as read
+          const markedAllRead = localStorage.getItem('messages_marked_all_read')
+          const recentlyMarked = markedAllRead && (Date.now() - parseInt(markedAllRead)) < 30000 // 30 seconds
+          
           // Fetch Messages Count
           const { count } = await getUnreadCount()
           setUnreadCount(prev => {
              // Don't notify on initial load
              if (firstLoad.current) {
-                 firstLoad.current = false
-                 return count
+                firstLoad.current = false
+                return count
+             }
+             
+             // If user recently marked all as read, keep it at 0 for a while
+             if (recentlyMarked && count > 0) {
+                console.log('User recently marked all as read, keeping count at 0')
+                return 0
+             }
+             
+             // Notify if count increased
+             if (count > prev && prev > 0) {
+                // Show notification for new messages
+                new Notification(`New Messages`, {
+                   body: `You have ${count} unread message${count > 1 ? 's' : ''}`,
+                   icon: '/favicon.ico'
+                })
              }
              return count
           })

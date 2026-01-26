@@ -78,6 +78,9 @@ export default function Header({ unreadCount: propUnread, setUnreadCount: propSe
     if (propUnread !== undefined && propSetUnread) {
       console.log('Manually setting unread count to 0')
       propSetUnread(0)
+      
+      // Also set a flag to prevent polling from immediately overriding
+      localStorage.setItem('messages_marked_all_read', Date.now().toString())
     }
     
     // Trigger a refresh of the unread count (this will update from the backend)
