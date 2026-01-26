@@ -110,30 +110,32 @@ export default function Messages(){
 
     ;(async () => {
       try {
-        const partnerKey = String(deepLinkInstructor)
-        const created = await api.initConversation(deepLinkInstructor)
+        const instructorId = String(deepLinkInstructor)
 
-        const createdId = created?.id || created?.conversation_id || created?.conversation?.id
-        if (createdId) {
-          setSelectedId(createdId)
-          setShowChat(true)
-          return
-        }
+        // Ensure the conversation exists
+        await api.initConversation(instructorId)
 
+        // Reload conversations to get the latest list
         const refreshed = await loadConversations(false)
         const list = refreshed || []
 
+        // Find the conversation that belongs to this instructor
         const match = list.find(c => (
-          String(c?.participant_id) === partnerKey ||
-          String(c?.participant?.id) === partnerKey ||
-          String(c?.partner_id) === partnerKey ||
-          String(c?.user_id) === partnerKey ||
-          String(c?.recipient_id) === partnerKey ||
-          String(c?.participant) === partnerKey
+          String(c?.participant_id) === instructorId ||
+          String(c?.participant?.id) === instructorId ||
+          String(c?.partner_id) === instructorId ||
+          String(c?.user_id) === instructorId ||
+          String(c?.recipient_id) === instructorId ||
+          String(c?.participant) === instructorId
         ))
 
-        if (match?.id) setSelectedId(match.id)
-        setShowChat(true)
+        if (match?.id) {
+          setSelectedId(match.id)
+          setShowChat(true)
+        } else {
+          // Fallback: open messages but no specific conversation selected
+          setShowChat(true)
+        }
       } catch (e) {
         setShowChat(true)
       }
