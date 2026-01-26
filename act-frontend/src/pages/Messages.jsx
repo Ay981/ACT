@@ -266,8 +266,8 @@ export default function Messages(){
         {/* Mobile and Desktop Layout */}
         <div className="flex-1 flex flex-col lg:flex-row min-h-0">
           {/* Conversation List */}
-          <aside className={`${selected && showChat ? 'hidden lg:block' : 'block'} lg:flex-1 bg-white border-b lg:border-b-0 lg:border-r lg:border-slate-200 rounded-2xl lg:rounded-none lg:border-none overflow-hidden h-full lg:h-full`}>
-            <div className="h-full overflow-y-auto">
+          <aside className={`${selected && showChat ? 'hidden lg:block' : 'block'} lg:flex-1 bg-white border-b lg:border-b-0 lg:border-r lg:border-slate-200 rounded-2xl lg:rounded-none lg:border-none overflow-hidden flex flex-col min-h-0`}>
+            <div className="flex-1 min-h-0 overflow-y-auto">
               <ConversationList 
                 items={items} 
                 selectedId={selectedId} 
