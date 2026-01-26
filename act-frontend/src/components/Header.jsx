@@ -4,7 +4,7 @@ import Logo from './Logo.jsx';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import { getUnreadCount, getNotifications, markNotificationRead, getEnrolledCourses, getAdminInstructors } from '../lib/api.js';
 
-export default function Header({ unreadCount: propUnread, setUnreadCount: propSetUnread, notifications: propNotifs, setNotifications: propSetNotifs, refreshKey }) {
+export default function Header({ unreadCount: propUnread, setUnreadCount: propSetUnread, notifications: propNotifs, setNotifications: propSetNotifs, refreshKey, onMenuClick, sidebarOpen }) {
   const navigate = useNavigate()
   const location = useLocation()
   const { user, logout } = useAuth()
@@ -167,6 +167,21 @@ export default function Header({ unreadCount: propUnread, setUnreadCount: propSe
     <header className="sticky top-0 z-30 bg-white/80 backdrop-blur border-b border-slate-200">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <div className="flex items-center gap-6">
+          {user && !isAuthPage && (
+            <button
+              type="button"
+              onClick={onMenuClick}
+              className="md:hidden -ml-2 p-2 rounded-lg hover:bg-slate-100 text-slate-700"
+              aria-label="Open menu"
+              aria-expanded={!!sidebarOpen}
+            >
+              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 6h16" />
+                <path d="M4 12h16" />
+                <path d="M4 18h16" />
+              </svg>
+            </button>
+          )}
            {/* Left Logos */}
            <div className="flex items-center gap-2">
              <Link to="/">
