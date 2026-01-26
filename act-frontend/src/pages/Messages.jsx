@@ -6,6 +6,7 @@ import { getConversations } from '../lib/api.js'
 export default function Messages(){
   const [test, setTest] = useState('loading')
   const [items, setItems] = useState([])
+  const [selectedId, setSelectedId] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -21,11 +22,21 @@ export default function Messages(){
       const data = await getConversations()
       setItems(data)
       console.log('Loaded conversations:', data)
+      
+      // Auto-select first conversation if available
+      if (data.length > 0 && !selectedId) {
+        setSelectedId(data[0].id)
+      }
     } catch (e) {
       console.error("Failed to load conversations", e)
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleSelectConversation = (id) => {
+    console.log('Selected conversation:', id)
+    setSelectedId(id)
   }
 
   return (
@@ -45,8 +56,8 @@ export default function Messages(){
         <div className="mt-8 max-w-md">
           <ConversationList 
             items={items} 
-            selectedId={null} 
-            onSelect={(id) => console.log('Selected conversation:', id)}
+            selectedId={selectedId} 
+            onSelect={handleSelectConversation}
             query="" 
             onQueryChange={() => {}} 
           />
