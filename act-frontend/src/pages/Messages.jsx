@@ -383,6 +383,7 @@ export default function Messages(){
                         <input 
                           type="text" 
                           placeholder="Type a message..."
+                          ref={mobileInputRef}
                           className="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                           onKeyPress={(e) => {
                             if (e.key === 'Enter' && e.target.value.trim()) {
@@ -393,7 +394,7 @@ export default function Messages(){
                         />
                         <button 
                           onClick={() => {
-                            const input = document.querySelector('input[type="text"]')
+                            const input = mobileInputRef.current
                             if (input && input.value.trim()) {
                               handleSend(input.value)
                               input.value = ''
@@ -413,6 +414,7 @@ export default function Messages(){
                       <input 
                         type="text" 
                         placeholder="Type a message..."
+                        ref={desktopInputRef}
                         className="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                         onKeyPress={(e) => {
                           if (e.key === 'Enter' && e.target.value.trim()) {
@@ -423,7 +425,7 @@ export default function Messages(){
                       />
                       <button 
                         onClick={() => {
-                          const input = document.querySelector('input[type="text"]')
+                          const input = desktopInputRef.current
                           if (input && input.value.trim()) {
                             handleSend(input.value)
                             input.value = ''
