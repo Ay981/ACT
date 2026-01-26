@@ -163,47 +163,58 @@ export default function Messages(){
         
         {/* Mobile Content */}
         <div className="flex-1 flex flex-col overflow-hidden">
-          {/* Conversation List - Always visible on mobile when not in chat */}
-          <aside className={`${showChat ? 'hidden' : 'block'} flex-1 bg-white`}>
-            <ConversationList items={items} selectedId={selectedId} onSelect={handleSelectConversation} query={query} onQueryChange={setQuery} />
-          </aside>
-          
-          {/* Chat Section - Hidden on mobile until conversation selected */}
-          <section className={`${!showChat ? 'hidden' : 'block'} flex-1 bg-white flex flex-col`}>
-            {selected ? (
-              <>
-                {/* Mobile Back Button */}
-                <div className="flex items-center p-4 border-b border-slate-200 bg-white">
-                  <button 
-                    onClick={handleBackToList}
-                    className="mr-3 p-2 hover:bg-slate-100 rounded-lg transition-colors"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                    </svg>
-                  </button>
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-slate-900">{selected.title}</h3>
-                  </div>
-                </div>
-                
-                <div className="flex-1 overflow-hidden">
-                  <MessageThread conversation={selected} />
-                </div>
-                <MessageComposer onSend={handleSend} />
-              </>
-            ) : (
-              <div className="flex items-center justify-center h-full text-slate-500">
-                 <div className="text-center p-8">
-                   <svg className="w-16 h-16 mx-auto mb-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                   </svg>
-                   <p className="text-lg font-medium">Select a conversation</p>
-                   <p className="text-sm mt-2">Choose a contact to start messaging</p>
-                 </div>
+          {loading ? (
+            <div className="flex items-center justify-center h-full">
+              <div className="text-center">
+                <div className="w-8 h-8 border-4 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                <p className="text-slate-500">Loading conversations...</p>
               </div>
-            )}
-          </section>
+            </div>
+          ) : (
+            <>
+              {/* Conversation List - Always visible on mobile when not in chat */}
+              <aside className={`${showChat ? 'hidden' : 'block'} flex-1 bg-white`}>
+                <ConversationList items={items} selectedId={selectedId} onSelect={handleSelectConversation} query={query} onQueryChange={setQuery} />
+              </aside>
+              
+              {/* Chat Section - Hidden on mobile until conversation selected */}
+              <section className={`${!showChat ? 'hidden' : 'block'} flex-1 bg-white flex flex-col`}>
+                {selected ? (
+                  <>
+                    {/* Mobile Back Button */}
+                    <div className="flex items-center p-4 border-b border-slate-200 bg-white">
+                      <button 
+                        onClick={handleBackToList}
+                        className="mr-3 p-2 hover:bg-slate-100 rounded-lg transition-colors"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                        </svg>
+                      </button>
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-slate-900">{selected.title}</h3>
+                      </div>
+                    </div>
+                    
+                    <div className="flex-1 overflow-hidden">
+                      <MessageThread conversation={selected} />
+                    </div>
+                    <MessageComposer onSend={handleSend} />
+                  </>
+                ) : (
+                  <div className="flex items-center justify-center h-full text-slate-500">
+                     <div className="text-center p-8">
+                       <svg className="w-16 h-16 mx-auto mb-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                       </svg>
+                       <p className="text-lg font-medium">Select a conversation</p>
+                       <p className="text-sm mt-2">Choose a contact to start messaging</p>
+                     </div>
+                  </div>
+                )}
+              </section>
+            </>
+          )}
         </div>
       </div>
 
@@ -211,30 +222,41 @@ export default function Messages(){
       <div className="hidden lg:block">
         <AppLayout>
           <div className="h-[70vh] flex flex-col lg:flex-row gap-6">
-            {/* Conversation List - Always visible on desktop */}
-            <aside className="flex-1 bg-white border border-slate-200 rounded-2xl overflow-hidden h-full">
-              <ConversationList items={items} selectedId={selectedId} onSelect={handleSelectConversation} query={query} onQueryChange={setQuery} />
-            </aside>
-            
-            {/* Chat Section - Always visible on desktop */}
-            <section className="flex-2 bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col h-full">
-              {selected ? (
-                <>
-                  <MessageThread conversation={selected} />
-                  <MessageComposer onSend={handleSend} />
-                </>
-              ) : (
-                <div className="flex items-center justify-center h-full text-slate-500">
-                   <div className="text-center">
-                     <svg className="w-16 h-16 mx-auto mb-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                     </svg>
-                     <p className="text-lg font-medium">Select a conversation</p>
-                     <p className="text-sm mt-2">Choose a contact to start messaging</p>
-                   </div>
+            {loading ? (
+              <div className="flex items-center justify-center h-full w-full">
+                <div className="text-center">
+                  <div className="w-8 h-8 border-4 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                  <p className="text-slate-500">Loading conversations...</p>
                 </div>
-              )}
-            </section>
+              </div>
+            ) : (
+              <>
+                {/* Conversation List - Always visible on desktop */}
+                <aside className="flex-1 bg-white border border-slate-200 rounded-2xl overflow-hidden h-full">
+                  <ConversationList items={items} selectedId={selectedId} onSelect={handleSelectConversation} query={query} onQueryChange={setQuery} />
+                </aside>
+                
+                {/* Chat Section - Always visible on desktop */}
+                <section className="flex-2 bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col h-full">
+                  {selected ? (
+                    <>
+                      <MessageThread conversation={selected} />
+                      <MessageComposer onSend={handleSend} />
+                    </>
+                  ) : (
+                    <div className="flex items-center justify-center h-full text-slate-500">
+                       <div className="text-center">
+                         <svg className="w-16 h-16 mx-auto mb-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                         </svg>
+                         <p className="text-lg font-medium">Select a conversation</p>
+                         <p className="text-sm mt-2">Choose a contact to start messaging</p>
+                       </div>
+                    </div>
+                  )}
+                </section>
+              </>
+            )}
           </div>
         </AppLayout>
       </div>
