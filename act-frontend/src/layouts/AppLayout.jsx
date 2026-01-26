@@ -15,7 +15,7 @@ export function useHeaderRefresh() {
   return useContext(HeaderRefreshContext)
 }
 
-export default function AppLayout({ children, hideMobileFooter = false }) {
+export default function AppLayout({ children, hideFooter = false }) {
   const [unreadCount, setUnreadCount] = useState(0)
   const [notifications, setNotifications] = useState([])
   const [headerRefreshKey, setHeaderRefreshKey] = useState(0)
@@ -128,9 +128,7 @@ export default function AppLayout({ children, hideMobileFooter = false }) {
             <Sidebar unreadCount={unreadCount} user={user} />
             <main className="flex-1 min-w-0">{children}</main>
           </div>
-          <div className={`${hideMobileFooter ? 'hidden md:block' : 'block'}`}>
-            <Footer />
-          </div>
+          {!hideFooter && <Footer />}
         </div>
       </HeaderRefreshContext.Provider>
     </ToastProvider>
