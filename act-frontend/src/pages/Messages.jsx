@@ -1,7 +1,5 @@
 import AppLayout from '../layouts/AppLayout.jsx'
 import ConversationList from '../components/messages/ConversationList.jsx'
-import MessageThread from '../components/messages/MessageThread.jsx'
-import MessageComposer from '../components/messages/MessageComposer.jsx'
 import { useState, useEffect, useRef } from 'react'
 import { getConversations, sendMessage } from '../lib/api.js'
 
@@ -79,13 +77,63 @@ export default function Messages(){
           />
         </aside>
         
-        {/* Chat Section */}
+        {/* Chat Section - Temporarily simplified */}
         <section className="lg:flex-2 bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col h-full">
           {selected ? (
-            <>
-              <MessageThread conversation={selected} />
-              <MessageComposer onSend={handleSend} />
-            </>
+            <div className="h-full flex flex-col">
+              {/* Header */}
+              <div className="px-4 py-3 border-b border-slate-200">
+                <h3 className="font-semibold">{selected.title}</h3>
+                <p className="text-sm text-slate-600">{selected.participant}</p>
+              </div>
+              
+              {/* Messages */}
+              <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50">
+                {selected.messages.map(msg => (
+                  <div key={msg.id} className={`flex ${msg.sender === 'student' ? 'justify-end' : 'justify-start'}`}>
+                    <div className={`max-w-xs px-4 py-2 rounded-lg ${
+                      msg.sender === 'student' 
+                        ? 'bg-primary-600 text-white' 
+                        : 'bg-slate-200 text-slate-800'
+                    }`}>
+                      <p className="text-sm">{msg.text}</p>
+                      <p className="text-xs opacity-70 mt-1">
+                        {new Date(msg.at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              {/* Simple Message Input */}
+              <div className="p-4 border-t border-slate-200">
+                <div className="flex gap-2">
+                  <input 
+                    type="text" 
+                    placeholder="Type a message..."
+                    className="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter' && e.target.value.trim()) {
+                        handleSend(e.target.value)
+                        e.target.value = ''
+                      }
+                    }}
+                  />
+                  <button 
+                    onClick={() => {
+                      const input = document.querySelector('input[type="text"]')
+                      if (input && input.value.trim()) {
+                        handleSend(input.value)
+                        input.value = ''
+                      }
+                    }}
+                    className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
+                  >
+                    Send
+                  </button>
+                </div>
+              </div>
+            </div>
           ) : (
             <div className="flex items-center justify-center h-full text-slate-500">
                <div className="text-center">
