@@ -53,20 +53,36 @@ export default function Messages(){
     setSelectedId(id)
   }
 
-  const handleSend = (text) => {
+  const handleSend = async (text) => {
     console.log('Sending message:', text)
-    // Don't actually send, just add to state for now
-    if (selected) {
-      const newMessage = { 
-        id: Date.now(), 
-        sender: 'student', 
-        text, 
-        at: new Date().toISOString() 
-      }
+    if (!selected) return
+
+    // Optimistic update - show message immediately
+    const tempId = Date.now().toString()
+    const newMessage = { 
+      id: tempId, 
+      sender: 'student', 
+      text, 
+      at: new Date().toISOString() 
+    }
+    
+    setItems(prev => prev.map(c => c.id === selectedId ? ({
+      ...c,
+      messages: [...c.messages, newMessage],
+      lastMessageAt: new Date().toISOString(),
+    }) : c))
+
+    // Actually send to API
+    try {
+      await api.sendMessage(selected.id, text)
+      console.log('Message sent successfully to server')
+    } catch (err) {
+      console.error('Failed to send message to server:', err)
+      alert('Failed to send message')
+      // Remove the optimistic update on error
       setItems(prev => prev.map(c => c.id === selectedId ? ({
         ...c,
-        messages: [...c.messages, newMessage],
-        lastMessageAt: new Date().toISOString(),
+        messages: c.messages.filter(m => m.id !== tempId),
       }) : c))
     }
   }
