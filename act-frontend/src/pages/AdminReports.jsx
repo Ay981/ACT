@@ -77,10 +77,12 @@ export default function AdminReports(){
     if (!searchQuery) return true
     const q = searchQuery.toLowerCase()
     return (
-      report.title?.toLowerCase().includes(q) ||
-      report.description?.toLowerCase().includes(q) ||
-      report.reported_user?.toLowerCase().includes(q) ||
-      report.reported_by?.toLowerCase().includes(q)
+      report.reason?.toLowerCase().includes(q) ||
+      report.reportable_type?.toLowerCase().includes(q) ||
+      report.reportedUser?.name?.toLowerCase().includes(q) ||
+      report.reporter?.name?.toLowerCase().includes(q) ||
+      report.reportable?.content?.toLowerCase().includes(q) ||
+      report.reportable?.message?.toLowerCase().includes(q)
     )
   }) 
 
