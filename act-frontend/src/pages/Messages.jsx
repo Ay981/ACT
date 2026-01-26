@@ -1,7 +1,7 @@
 import AppLayout from '../layouts/AppLayout.jsx'
 import ConversationList from '../components/messages/ConversationList.jsx'
 import { useState, useEffect, useRef } from 'react'
-import { getConversations, sendMessage } from '../lib/api.js'
+import { getConversations } from '../lib/api.js'
 
 export default function Messages(){
   const [items, setItems] = useState([])
