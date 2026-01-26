@@ -279,7 +279,7 @@ export default function Messages(){
           </aside>
           
           {/* Chat Section */}
-          <section className={`${!selected ? 'hidden lg:block' : 'block'} lg:flex-2 bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col h-full lg:h-full`}>
+          <section className={`${selected && showChat ? 'block' : 'hidden'} lg:block lg:flex-2 bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col h-full lg:h-full`}>
             {selected ? (
               <>
                 {/* Mobile Header */}
