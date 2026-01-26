@@ -111,6 +111,41 @@ function Bubble({ message, align }){
              </button>
         </div>
     </AdminModal>
+
+    {/* Other Reason Modal */}
+    {showOtherModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+            <div className="bg-white rounded-lg p-6 max-w-md w-full shadow-lg">
+                <h3 className="text-lg font-bold mb-4">Specify Reason</h3>
+                <p className="text-sm text-slate-600 mb-4">Please provide details about why you're reporting this message:</p>
+                <textarea
+                    value={otherReason}
+                    onChange={(e) => setOtherReason(e.target.value)}
+                    placeholder="Describe the issue..."
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+                    rows={4}
+                    autoFocus
+                />
+                <div className="flex gap-3 mt-4">
+                    <button 
+                        onClick={() => {
+                            setShowOtherModal(false)
+                            setOtherReason('')
+                        }}
+                        className="flex-1 px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-lg"
+                    >
+                        Cancel
+                    </button>
+                    <button 
+                        onClick={handleOtherReasonSubmit}
+                        className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                    >
+                        Submit Report
+                    </button>
+                </div>
+            </div>
+        </div>
+    )}
     </>
   )
 }
