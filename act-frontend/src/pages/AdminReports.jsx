@@ -48,7 +48,11 @@ export default function AdminReports(){
   }
 
   const handleContactUser = (userId) => {
-    navigate(`/messages?instructor=${userId}`)
+    if (userId) {
+        navigate(`/messages?instructor=${userId}`)
+    } else {
+        error('Unable to contact user - user ID not found')
+    }
   }
 
   const loadReports = async () => {
@@ -183,7 +187,12 @@ export default function AdminReports(){
                                     {/* Contact Button */}
                                     <button 
                                         onClick={() => handleContactUser(r.reportedUser?.id)}
-                                        className="px-3 py-1.5 bg-primary-600 text-white text-xs font-medium rounded-lg hover:bg-primary-700 transition-colors"
+                                        disabled={!r.reportedUser?.id}
+                                        className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
+                                            r.reportedUser?.id 
+                                                ? 'bg-primary-600 text-white hover:bg-primary-700' 
+                                                : 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                                        }`}
                                     >
                                         Contact
                                     </button>
