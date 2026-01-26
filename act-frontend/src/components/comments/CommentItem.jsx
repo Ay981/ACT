@@ -22,6 +22,11 @@ export default function CommentItem({ comment, currentUser, onReply, onEdit, onD
   }
 
   const handleReport = async (reason) => {
+      if (reason === 'Other') {
+          setShowOtherModal(true)
+          return
+      }
+      
       try {
           await submitReport({
               reason,
