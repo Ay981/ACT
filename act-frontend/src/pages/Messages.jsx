@@ -75,6 +75,7 @@ export default function Messages(){
     // Actually send to API - use participant as recipient
     try {
       console.log('=== SENDING MESSAGE DEBUG ===')
+      console.log('Selected conversation:', selected)
       console.log('Sending to recipient:', selected.participant)
       console.log('Message data:', { recipient_id: selected.participant, message: text })
       const response = await api.sendMessage(selected.participant, text)
