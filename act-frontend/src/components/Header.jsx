@@ -75,7 +75,13 @@ export default function Header({ unreadCount: propUnread, notifications: propNot
     }
   }
 
-  const isInstructor = user?.role === 'instructor'
+  const handleSearch = (searchQuery) => {
+    if (searchQuery.trim()) {
+      navigate(`/courses?search=${encodeURIComponent(searchQuery.trim())}`)
+    } else {
+      navigate('/courses')
+    }
+  }
 
   return (
     <header className="sticky top-0 z-30 bg-white/80 backdrop-blur border-b border-slate-200">
@@ -95,10 +101,10 @@ export default function Header({ unreadCount: propUnread, notifications: propNot
             <SearchIcon className="w-4 h-4 text-slate-500" />
             <input 
               className="bg-transparent outline-none text-sm w-full placeholder:text-slate-400" 
-              placeholder="Search..." 
+              placeholder="Search courses..." 
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
-                   console.log('Searching:', e.target.value)
+                   handleSearch(e.target.value)
                 }
               }}
             />

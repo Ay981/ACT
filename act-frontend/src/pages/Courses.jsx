@@ -3,17 +3,28 @@ import CourseCard from '../components/CourseCard.jsx'
 import QuickCommentModal from '../components/QuickCommentModal.jsx'
 import { getAllCourses } from '../lib/api.js'
 import { useMemo, useState, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import Spinner from '../components/Spinner.jsx'
 
 export default function Courses(){
   const [courses, setCourses] = useState([])
   const [loading, setLoading] = useState(true)
-  const [query, setQuery] = useState('')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [query, setQuery] = useState(searchParams.get('search') || '')
   const [level, setLevel] = useState('All')
 
   useEffect(() => {
     getAllCourses().then(setCourses).catch(console.error).finally(() => setLoading(false))
   }, [])
+
+  // Update URL when search query changes
+  useEffect(() => {
+    if (query) {
+      setSearchParams({ search: query })
+    } else {
+      setSearchParams({})
+    }
+  }, [query, setSearchParams])
 
   const filtered = useMemo(() => {
     return courses.filter(c => {
