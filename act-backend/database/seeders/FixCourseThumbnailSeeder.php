@@ -13,15 +13,17 @@ class FixCourseThumbnailSeeder extends Seeder
      */
     public function run(): void
     {
-        // Fix course 1 thumbnail if it's empty or null
+        // Fix course 1 thumbnail with a working URL
         $course = Course::find(1);
-        if ($course && (is_null($course->thumbnail) || $course->thumbnail === '')) {
+        if ($course) {
+            // Use a reliable Unsplash image that always works
             $course->update([
-                'thumbnail' => '/storage/thumbnails/KYXC1OQb0WdOwBAaXzKuO095uT0M6DyYxmvvm2Je.jpg'
+                'thumbnail' => 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
             ]);
             $this->command->info('Fixed thumbnail for course: ' . $course->title);
+            $this->command->info('New thumbnail: ' . $course->thumbnail);
         } else {
-            $this->command->info('Course 1 already has a thumbnail or does not exist');
+            $this->command->info('Course 1 does not exist');
         }
     }
 }
