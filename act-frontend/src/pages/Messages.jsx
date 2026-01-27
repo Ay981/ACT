@@ -52,7 +52,20 @@ export default function Messages(){
         console.log('Auto-selected conversation:', dataWithReadState[0].id)
       }
       
-      setItems(dataWithReadState)
+      // During background polling, preserve the currently selected conversation
+      if (isBackground && selectedId) {
+        // Only update items if the selected conversation still exists in the new data
+        const selectedStillExists = dataWithReadState.some(conv => conv.id === selectedId)
+        if (selectedStillExists) {
+          setItems(dataWithReadState)
+        } else {
+          // If selected conversation no longer exists, update items and clear selection
+          setItems(dataWithReadState)
+          setSelectedId(null)
+        }
+      } else {
+        setItems(dataWithReadState)
+      }
       return dataWithReadState
     } catch (e) {
       console.error("Failed to load conversations", e)
