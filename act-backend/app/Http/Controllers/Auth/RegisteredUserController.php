@@ -50,27 +50,28 @@ class RegisteredUserController extends Controller
         // TEMPORARILY DISABLED FOR PRESENTATION - UNCOMMENT AFTER
         // event(new Registered($user));
 
-        try {
-            // Send email immediately (not queued)
-            // TEMPORARILY DISABLED FOR PRESENTATION - UNCOMMENT AFTER
-            // Mail::to($user->email)->send(new OtpMail($otp));
-            // \Log::info('OTP email sent successfully to: ' . $user->email);
-            \Log::info('OTP email SKIPPED for presentation to: ' . $user->email);
-        } catch (\Exception $e) {
-            \Illuminate\Support\Facades\Log::error('OTP Mail Error: ' . $e->getMessage());
-            \Log::error('Mail config: ' . json_encode([
-                'host' => config('mail.mailers.smtp.host'),
-                'port' => config('mail.mailers.smtp.port'),
-                'from' => config('mail.from.address')
-            ]));
-            // Fallback: return OTP in response for testing
-            return response()->json([
-                'status' => 'otp_sent',
-                'message' => 'Email failed. Your OTP is: ' . $otp . ' Error: ' . $e->getMessage(), 
-                'email' => $user->email,
-                'otp' => $otp // Include OTP for testing
-            ]);
-        }
+        // COMPLETELY SKIP EMAIL FOR PRESENTATION
+        // try {
+        //     // Send email immediately (not queued)
+        //     // TEMPORARILY DISABLED FOR PRESENTATION - UNCOMMENT AFTER
+        //     // Mail::to($user->email)->send(new OtpMail($otp));
+        //     // \Log::info('OTP email sent successfully to: ' . $user->email);
+        //     \Log::info('OTP email SKIPPED for presentation to: ' . $user->email);
+        // } catch (\Exception $e) {
+        //     \Illuminate\Support\Facades\Log::error('OTP Mail Error: ' . $e->getMessage());
+        //     \Log::error('Mail config: ' . json_encode([
+        //         'host' => config('mail.mailers.smtp.host'),
+        //         'port' => config('mail.mailers.smtp.port'),
+        //         'from' => config('mail.from.address')
+        //     ]));
+        //     // Fallback: return OTP in response for testing
+        //     return response()->json([
+        //         'status' => 'otp_sent',
+        //         'message' => 'Email failed. Your OTP is: ' . $otp . ' Error: ' . $e->getMessage(), 
+        //         'email' => $user->email,
+        //         'otp' => $otp // Include OTP for testing
+        //     ]);
+        // }
 
         // Do not login immediately
         // Auth::login($user);
