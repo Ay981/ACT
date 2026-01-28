@@ -40,7 +40,15 @@ export function AuthProvider({ children }) {
   }
 
   const register = async (data) => {
+      const startTime = performance.now();
+      console.log('🚀 Starting registration...');
+      
       const response = await apiRegister(data)
+      
+      const endTime = performance.now();
+      console.log(`⚡ Registration completed in ${(endTime - startTime).toFixed(2)}ms`);
+      console.log('📦 Response:', response);
+      
       // Skip refreshUser for OTP flow - user isn't logged in yet
       // This was causing delay in signup
       // try {

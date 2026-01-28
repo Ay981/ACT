@@ -39,7 +39,15 @@ export async function register(userData) {
   // 1. Get CSRF cookie first
   // await getCsrfToken()
   // 2. Register
-  return request('POST', '/register', userData)
+  console.log('📤 Sending register request...', userData);
+  const startTime = performance.now();
+  
+  const response = await request('POST', '/register', userData);
+  
+  const endTime = performance.now();
+  console.log(`📨 API response received in ${(endTime - startTime).toFixed(2)}ms`);
+  
+  return response;
 }
 
 export async function verifyOtp(data) {
@@ -105,6 +113,9 @@ export async function addLesson(courseId, formData) {
 }
 
 async function request(method, path, body, signal) {
+    const startTime = performance.now();
+    console.log(`🌐 ${method} ${path} - Starting request...`);
+    
     const headers = { 'Accept': 'application/json' }
 
     if (!(body instanceof FormData)) {
@@ -135,7 +146,10 @@ async function request(method, path, body, signal) {
       options.body = body instanceof FormData ? body : JSON.stringify(body)
   }
 
+  const fetchStart = performance.now();
   const res = await fetch(`${BASE}${path}`, options)
+  const fetchEnd = performance.now();
+  console.log(`📡 Fetch completed in ${(fetchEnd - fetchStart).toFixed(2)}ms - Status: ${res.status}`);
   
   if (!res.ok) {
     if (res.status === 503) {
@@ -148,12 +162,23 @@ async function request(method, path, body, signal) {
     }
 
     const text = await res.text().catch(() => '')
+    const parseStart = performance.now();
     try {
         const json = JSON.parse(text)
-        const error = new Error(json.message || `API Error ${res.status}`)
-        error.status = res.status
-        error.response = { data: json } // Mimic axios structure for compatibility
-        throw error
+        const parseEnd = performance.now();
+        console.log(`📋 JSON parsing took ${(parseEnd - parseStart).toFixed(2)}ms`);
+        
+        const totalEnd = performance.now();
+        console.log(`🏁 TOTAL REQUEST took ${(totalEnd - startTime).toFixed(2)}ms`);
+        
+        if (!res.ok) {
+            const error = new Error(json.message || `API Error ${res.status}`)
+            error.status = res.status
+            error.response = { data: json } // Mimic axios structure for compatibility
+            throw error
+        }
+        
+        return json
     } catch (e) {
         if (e.response) throw e // It's our parsed error
         throw new Error(`API ${method} ${path} failed: ${res.status} ${text}`)

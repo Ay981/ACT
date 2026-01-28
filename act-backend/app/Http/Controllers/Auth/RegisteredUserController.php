@@ -23,15 +23,20 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
+        $start = microtime(true);
+        
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'role' => ['nullable', 'string', 'in:student,instructor,admin'],
         ]);
+        
+        \Log::info('Validation took: ' . (microtime(true) - $start) . ' seconds');
 
         $otp = rand(100000, 999999);
 
+        $userStart = microtime(true);
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -40,6 +45,7 @@ class RegisteredUserController extends Controller
             'otp_code' => $otp,
             'otp_expires_at' => now()->addMinutes(10),
         ]);
+        \Log::info('User creation took: ' . (microtime(true) - $userStart) . ' seconds');
 
         // TEMPORARILY DISABLED FOR PRESENTATION - UNCOMMENT AFTER
         // event(new Registered($user));
@@ -69,11 +75,16 @@ class RegisteredUserController extends Controller
         // Do not login immediately
         // Auth::login($user);
 
-        return response()->json([
+        $responseStart = microtime(true);
+        $response = response()->json([
             'status' => 'otp_sent',
             'message' => 'Please check your email for the verification code.', 
             'email' => $user->email,
             'otp' => $otp // Always include OTP for testing
         ]);
+        \Log::info('Response creation took: ' . (microtime(true) - $responseStart) . ' seconds');
+        \Log::info('TOTAL REQUEST took: ' . (microtime(true) - $start) . ' seconds');
+        
+        return $response;
     }
 }
