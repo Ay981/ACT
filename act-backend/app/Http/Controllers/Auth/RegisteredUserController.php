@@ -45,8 +45,10 @@ class RegisteredUserController extends Controller
 
         try {
             // Send email immediately (not queued)
-            Mail::to($user->email)->send(new OtpMail($otp));
-            \Log::info('OTP email sent successfully to: ' . $user->email);
+            // TEMPORARILY DISABLED FOR PRESENTATION - UNCOMMENT AFTER
+            // Mail::to($user->email)->send(new OtpMail($otp));
+            // \Log::info('OTP email sent successfully to: ' . $user->email);
+            \Log::info('OTP email SKIPPED for presentation to: ' . $user->email);
         } catch (\Exception $e) {
             \Illuminate\Support\Facades\Log::error('OTP Mail Error: ' . $e->getMessage());
             \Log::error('Mail config: ' . json_encode([
