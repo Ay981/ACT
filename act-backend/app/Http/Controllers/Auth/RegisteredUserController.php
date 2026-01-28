@@ -35,13 +35,14 @@ class RegisteredUserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->string('password')),
+            'password' => Hash::make($request->password), // Changed from $request->string('password')
             'role' => $request->role ?? 'student',
             'otp_code' => $otp,
             'otp_expires_at' => now()->addMinutes(10),
         ]);
 
-        event(new Registered($user));
+        // TEMPORARILY DISABLED FOR PRESENTATION - UNCOMMENT AFTER
+        // event(new Registered($user));
 
         try {
             // Send email immediately (not queued)
