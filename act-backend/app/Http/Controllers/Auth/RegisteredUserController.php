@@ -4,15 +4,17 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
+// TEMPORARILY DISABLED FOR PRESENTATION - UNCOMMENT AFTER
+// use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 
-use Illuminate\Support\Facades\Mail;
-use App\Mail\OtpMail;
+// TEMPORARILY DISABLED FOR PRESENTATION - UNCOMMENT AFTER
+// use Illuminate\Support\Facades\Mail;
+// use App\Mail\OtpMail;
 
 class RegisteredUserController extends Controller
 {
@@ -50,6 +52,9 @@ class RegisteredUserController extends Controller
         // TEMPORARILY DISABLED FOR PRESENTATION - UNCOMMENT AFTER
         // event(new Registered($user));
 
+        // FORCE MAIL TO USE ARRAY DRIVER FOR PRESENTATION (INSTANT)
+        \Config::set('mail.default', 'array');
+        
         // COMPLETELY SKIP EMAIL FOR PRESENTATION
         // try {
         //     // Send email immediately (not queued)
