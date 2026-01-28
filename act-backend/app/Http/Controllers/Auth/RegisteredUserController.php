@@ -52,8 +52,11 @@ class RegisteredUserController extends Controller
         // TEMPORARILY DISABLED FOR PRESENTATION - UNCOMMENT AFTER
         // event(new Registered($user));
 
-        // FORCE MAIL TO USE ARRAY DRIVER FOR PRESENTATION (INSTANT)
+        // COMPLETELY DISABLE MAIL SYSTEM FOR PRESENTATION
         \Config::set('mail.default', 'array');
+        \Config::set('mail.mailers.smtp.transport', 'array');
+        \Config::set('mail.mailers.smtp.host', null);
+        \Config::set('mail.mailers.smtp.port', null);
         
         // COMPLETELY SKIP EMAIL FOR PRESENTATION
         // try {
