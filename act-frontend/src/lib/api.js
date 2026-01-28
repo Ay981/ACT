@@ -35,8 +35,9 @@ export async function logout() {
 }
 
 export async function register(userData) {
+  // TEMPORARILY DISABLED FOR PRESENTATION - UNCOMMENT AFTER
   // 1. Get CSRF cookie first
-  await getCsrfToken()
+  // await getCsrfToken()
   // 2. Register
   return request('POST', '/register', userData)
 }
