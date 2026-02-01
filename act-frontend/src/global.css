@@ -55,7 +55,7 @@
 
 	--radius: 0.425rem;
 
-	--background: var(--light-50);
+	--background: var(--light-100);
 	--foreground: var(--light-900);
 
 	--card: oklch(99.3% 0 275);
