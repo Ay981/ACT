@@ -8,23 +8,22 @@ export default function ConversationList({ items, selectedId, onSelect, query, o
 
   return (
     <div className="h-full flex flex-col">
-      <div className="p-3 border-b border-slate-200">
-        <div className="flex items-center gap-2 bg-slate-100 rounded-xl px-3 py-2">
-          <SearchIcon className="w-4 h-4 text-slate-500" />
-          <input value={query} onChange={e=>onQueryChange?.(e.target.value)} placeholder="Search" className="bg-transparent outline-none w-full text-sm" />
+      <div className="p-3 border-b border-slate-200 dark:border-slate-700">
+        <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 rounded-xl px-3 py-2">
+          <SearchIcon className="w-4 h-4 text-slate-500 dark:text-slate-400" />
+          <input value={query} onChange={e=>onQueryChange?.(e.target.value)} placeholder="Search" className="bg-transparent outline-none w-full text-sm text-slate-800 dark:text-slate-200 placeholder-slate-500 dark:placeholder-slate-400" />
         </div>
       </div>
       <ul className="flex-1 overflow-y-auto p-2 space-y-1">
         {filtered.map(c => (
           <li key={c.id}>
-            <button onClick={()=>onSelect?.(c.id)} className={`w-full text-left px-3 py-3 rounded-xl flex items-center gap-3 ${selectedId===c.id ? 'bg-white shadow-soft' : 'hover:bg-white'}`}>
-              <Avatar label={c.participant} />
+            <button onClick={()=>onSelect?.(c.id)} className={`w-full text-left px-3 py-3 rounded-xl flex items-center gap-3 ${selectedId===c.id ? 'bg-white dark:bg-slate-800 shadow-soft' : 'hover:bg-white dark:hover:bg-slate-800'}`}>              <Avatar label={c.participant} />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between">
-                  <p className="font-medium truncate">{c.title}</p>
+                  <p className="font-medium truncate text-slate-900 dark:text-slate-100">{c.title}</p>
                   {c.unread>0 && <span className="text-xs px-2 py-0.5 rounded-full bg-primary-600 text-white">{c.unread}</span>}
                 </div>
-                <p className="text-sm text-slate-600 truncate">{c.participant}</p>
+                <p className="text-sm text-slate-600 dark:text-slate-400 truncate">{c.participant}</p>
               </div>
             </button>
           </li>
