@@ -43,7 +43,7 @@ export default function AdminInstructors() {
   return (
     <AppLayout>
       <div className="space-y-6">
-        <header className="flex items-center justify-between">
+        <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold text-foreground">Manage Instructors</h1>
             <p className="text-muted-foreground text-sm mt-1">View and manage instructor accounts</p>
@@ -53,9 +53,10 @@ export default function AdminInstructors() {
           </button>
         </header>
 
-        <div className="bg-card border border-border rounded-xl overflow-hidden">
-          <table className="min-w-full divide-y divide-border">
-            <thead className="bg-muted/50">
+        <div className="bg-card border border-border rounded-xl shadow-sm overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-border">
+              <thead className="bg-muted/50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Name</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Status</th>
@@ -113,6 +114,7 @@ export default function AdminInstructors() {
           </table>
         </div>
       </div>
+    </div>
     </AppLayout>
   )
 }

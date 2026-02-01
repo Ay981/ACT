@@ -114,8 +114,9 @@ export default function AdminReports(){
           )}
         </div>
 
-        <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-sm">
-             <table className="w-full text-sm text-left">
+        <div className="bg-card border border-border rounded-2xl shadow-sm overflow-hidden">
+             <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left min-w-[800px]">
                 <thead className="bg-muted/50 text-muted-foreground uppercase font-bold text-xs border-b border-border">
                     <tr>
                         <th className="px-6 py-4">Status</th>
@@ -167,6 +168,7 @@ export default function AdminReports(){
                      ))}
                 </tbody>
             </table>
+            </div>
         </div>
 
         <AdminModal 

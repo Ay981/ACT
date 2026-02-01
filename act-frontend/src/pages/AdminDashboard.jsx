@@ -134,6 +134,7 @@ export default function AdminDashboard(){
                         <h2 className="font-semibold text-lg text-foreground">Recent User Reports</h2>
                         <Link to="/admin/reports" className="text-sm text-primary-600 font-medium hover:underline">View All</Link>
                     </div>
+                    <div className="overflow-x-auto">
                     <table className="w-full text-sm text-left">
                         <thead className="bg-muted/50 text-muted-foreground uppercase font-bold text-xs">
                             <tr>
@@ -165,6 +166,7 @@ export default function AdminDashboard(){
                              )}
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
 
