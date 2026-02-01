@@ -158,7 +158,7 @@ export default function Header({ unreadCount: propUnread, setUnreadCount: propSe
            {/* <span className={`text-slate-700 font-semibold cursor-pointer hover:text-primary-600 ${isAuthPage ? 'hidden' : 'hidden md:block'}`}>Categories</span> */}
 
            {/* Search Bar */}
-           <div className={`${isAuthPage ? 'hidden' : 'hidden md:flex'} items-center gap-2 bg-secondary rounded-full px-4 py-2 w-96 focus-within:ring-2 focus-within:ring-primary/20 transition-all border border-transparent focus-within:border-primary/50`}>
+           <div className={`${isAuthPage ? 'hidden' : 'hidden md:flex'} items-center gap-2 bg-muted/80 rounded-full px-4 py-2 w-96 focus-within:ring-2 focus-within:ring-primary/20 transition-all border border-border focus-within:border-primary/50`}>
             <SearchIcon className="w-4 h-4 text-muted-foreground" />
             <input 
               className="bg-transparent outline-none text-sm w-full placeholder:text-muted-foreground text-foreground"  
@@ -247,7 +247,7 @@ export default function Header({ unreadCount: propUnread, setUnreadCount: propSe
           <div className="relative" ref={dropdownRef}>
             <button 
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 text-white font-bold flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-md shadow-primary/20 ring-2 ring-background uppercase"
+              className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-primary-600 text-white font-bold flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-md shadow-primary/20 uppercase"
             >
               {user?.name ? user.name.charAt(0) : 'U'}
             </button>
