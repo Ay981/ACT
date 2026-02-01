@@ -63,23 +63,23 @@ export default function Dashboard(){
         {/* Stats Section */}
         {stats && (
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div className="bg-white dark:bg-card p-6 rounded-2xl border border-slate-100 dark:border-border shadow-sm">
-                    <div className="text-slate-500 dark:text-muted-foreground text-sm font-medium mb-1">Total Attempts</div>
-                    <div className="text-3xl font-bold text-slate-800 dark:text-card-foreground">{stats.attemptCount}</div>
+                <div className="bg-card p-6 rounded-2xl border border-border shadow-sm">
+                    <div className="text-muted-foreground text-sm font-medium mb-1">Total Attempts</div>
+                    <div className="text-3xl font-bold text-foreground">{stats.attemptCount}</div>
                 </div>
-                <div className="bg-white dark:bg-card p-6 rounded-2xl border border-slate-100 dark:border-border shadow-sm">
-                    <div className="text-slate-500 dark:text-muted-foreground text-sm font-medium mb-1">Average Score</div>
+                <div className="bg-card p-6 rounded-2xl border border-border shadow-sm">
+                    <div className="text-muted-foreground text-sm font-medium mb-1">Average Score</div>
                     <div className={`text-3xl font-bold ${stats.avgScore >= 70 ? 'text-green-600 dark:text-green-400' : 'text-orange-500 dark:text-orange-400'}`}>
                         {stats.avgScore}%
                     </div>
                 </div>
-                <div className="bg-white dark:bg-card p-6 rounded-2xl border border-slate-100 dark:border-border shadow-sm">
-                    <div className="text-slate-500 dark:text-muted-foreground text-sm font-medium mb-1">Active Courses</div>
-                    <div className="text-3xl font-bold text-slate-800 dark:text-card-foreground">{enrolledCourses.length}</div>
+                <div className="bg-card p-6 rounded-2xl border border-border shadow-sm">
+                    <div className="text-muted-foreground text-sm font-medium mb-1">Active Courses</div>
+                    <div className="text-3xl font-bold text-foreground">{enrolledCourses.length}</div>
                 </div>
-                 <div className="bg-white dark:bg-card p-6 rounded-2xl border border-slate-100 dark:border-border shadow-sm">
-                    <div className="text-slate-500 dark:text-muted-foreground text-sm font-medium mb-1">Available Quizzes</div>
-                    <div className="text-3xl font-bold text-slate-800 dark:text-card-foreground">{stats.totalQuizzes}</div>
+                 <div className="bg-card p-6 rounded-2xl border border-border shadow-sm">
+                    <div className="text-muted-foreground text-sm font-medium mb-1">Available Quizzes</div>
+                    <div className="text-3xl font-bold text-foreground">{stats.totalQuizzes}</div>
                 </div>
             </div>
         )}
@@ -87,13 +87,13 @@ export default function Dashboard(){
         {/* Recent Activity */}
         {recentAttempts.length > 0 && (
             <div>
-                 <h2 className="text-xl font-bold text-slate-900 dark:text-foreground mb-4">Recent Quiz Attempts</h2>
-                 <div className="bg-white dark:bg-card rounded-2xl border border-slate-100 dark:border-border overflow-hidden">
+                 <h2 className="text-xl font-bold text-foreground mb-4">Recent Quiz Attempts</h2>
+                 <div className="bg-card rounded-2xl border border-border overflow-hidden">
                     {recentAttempts.map((attempt, i) => (
-                        <div key={attempt.id} className={`p-4 flex items-center justify-between ${i !== recentAttempts.length -1 ? 'border-b border-slate-50 dark:border-border' : ''}`}>
+                        <div key={attempt.id} className={`p-4 flex items-center justify-between ${i !== recentAttempts.length -1 ? 'border-b border-border' : ''}`}>
                             <div>
-                                <div className="font-semibold text-slate-800 dark:text-card-foreground">{attempt.quizTitle}</div>
-                                <div className="text-xs text-slate-500 dark:text-muted-foreground">{new Date(attempt.timestamp).toLocaleDateString()}</div>
+                                <div className="font-semibold text-foreground">{attempt.quizTitle}</div>
+                                <div className="text-xs text-muted-foreground">{new Date(attempt.timestamp).toLocaleDateString()}</div>
                             </div>
                             <div className={`px-3 py-1 rounded-full text-xs font-bold ${attempt.passed ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400' : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400'}`}>
                                 {attempt.percent}%

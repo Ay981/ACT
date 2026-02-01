@@ -90,8 +90,8 @@ export default function AdminReports(){
     <AppLayout>
       <div className="space-y-6">
         <header>
-            <h1 className="text-2xl font-bold text-slate-800 dark:text-slate-100">Reports & Issues</h1>
-            <p className="text-slate-500 dark:text-slate-400">Manage user reports and platform issues.</p>
+            <h1 className="text-2xl font-bold text-foreground">Reports & Issues</h1>
+            <p className="text-muted-foreground">Manage user reports and platform issues.</p>
         </header>
 
         <div className="flex items-center gap-4 mb-6">
@@ -101,22 +101,22 @@ export default function AdminReports(){
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search reports by title, description, or users..."
-              className="w-full px-4 py-2 border border-slate-200 dark:border-border bg-white dark:bg-input text-slate-900 dark:text-foreground rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent placeholder-slate-400"
+              className="w-full px-4 py-2 border border-input bg-background text-foreground rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent placeholder-muted-foreground"
             />
           </div>
           {searchQuery && (
             <button
               onClick={() => setSearchQuery('')}
-              className="px-3 py-2 text-sm text-slate-600 dark:text-muted-foreground hover:text-slate-900 dark:hover:text-foreground hover:bg-slate-100 dark:hover:bg-accent rounded-lg transition-colors"
+              className="px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
             >
               Clear
             </button>
           )}
         </div>
 
-        <div className="bg-white dark:bg-card border border-slate-200 dark:border-border rounded-2xl overflow-hidden shadow-sm">
+        <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-sm">
              <table className="w-full text-sm text-left">
-                <thead className="bg-slate-50 dark:bg-muted/50 text-slate-500 dark:text-muted-foreground uppercase font-bold text-xs border-b border-slate-200 dark:border-border">
+                <thead className="bg-muted/50 text-muted-foreground uppercase font-bold text-xs border-b border-border">
                     <tr>
                         <th className="px-6 py-4">Status</th>
                         <th className="px-6 py-4">Report Details</th>
@@ -125,41 +125,41 @@ export default function AdminReports(){
                         <th className="px-6 py-4 text-right">Actions</th>
                     </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 dark:divide-border">
+                <tbody className="divide-y divide-border">
                      {loading ? (
-                         <tr><td colSpan="5" className="px-6 py-8 text-center text-slate-500 dark:text-muted-foreground">Loading reports...</td></tr>
+                         <tr><td colSpan="5" className="px-6 py-8 text-center text-muted-foreground">Loading reports...</td></tr>
                      ) : filteredReports.length === 0 ? (
-                        <tr><td colSpan="5" className="px-6 py-8 text-center text-slate-500 dark:text-muted-foreground">No pending reports found.</td></tr>
+                        <tr><td colSpan="5" className="px-6 py-8 text-center text-muted-foreground">No pending reports found.</td></tr>
                      ) : filteredReports.map(r => (
-                         <tr key={r.id} className="hover:bg-slate-50 dark:hover:bg-accent/50 transition-colors">
+                         <tr key={r.id} className="hover:bg-muted/50 transition-colors">
                              <td className="px-6 py-4">
                                 <span className={`px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400`}>
                                     {r.status}
                                 </span>
                              </td>
                              <td className="px-6 py-4">
-                                 <div className="font-semibold text-slate-900 dark:text-foreground">{r.reason}</div>
-                                 <div className="text-slate-500 dark:text-muted-foreground text-xs mt-1">
+                                 <div className="font-semibold text-foreground">{r.reason}</div>
+                                 <div className="text-muted-foreground text-xs mt-1">
                                      Type: {r.reportable_type?.split('\\').pop()}
                                      {/* Show snippet if available */}
                                      {r.reportable ? 
-                                        <div className="italic mt-1 border-l-2 border-slate-300 dark:border-border pl-2 text-slate-600 dark:text-muted-foreground">
+                                        <div className="italic mt-1 border-l-2 border-border pl-2 text-muted-foreground">
                                             "{r.reportable.content || r.reportable.message}"
                                         </div> 
                                      : null}
                                  </div>
                              </td>
-                             <td className="px-6 py-4 text-slate-600 dark:text-muted-foreground">
+                             <td className="px-6 py-4 text-muted-foreground">
                                 <div className="text-xs">
                                     <span className="font-bold text-red-600 dark:text-red-400">Reported:</span> {r.reportedUser?.name || 'Unknown'}
                                 </div>
                                 <div className="text-xs mt-1">
-                                    <span className="font-bold text-slate-500 dark:text-muted-foreground">By:</span> {r.reporter?.name || 'Unknown'}
+                                    <span className="font-bold text-muted-foreground">By:</span> {r.reporter?.name || 'Unknown'}
                                 </div>
                              </td>
-                             <td className="px-6 py-4 text-slate-500 dark:text-muted-foreground">{new Date(r.created_at).toLocaleDateString()}</td>
+                             <td className="px-6 py-4 text-muted-foreground">{new Date(r.created_at).toLocaleDateString()}</td>
                              <td className="px-6 py-4 text-right">
-                                 <button onClick={() => promptAction(r.id, 'dismiss')} className="text-slate-500 dark:text-muted-foreground hover:text-slate-700 dark:hover:text-foreground text-xs font-medium">Dismiss</button>
+                                 <button onClick={() => promptAction(r.id, 'dismiss')} className="text-muted-foreground hover:text-foreground text-xs font-medium">Dismiss</button>
                                  <button onClick={() => promptAction(r.id, 'warn')} className="text-amber-600 dark:text-amber-500 hover:text-amber-700 dark:hover:text-amber-400 text-xs font-medium ml-2">Warn</button>
                                  <button onClick={() => promptAction(r.id, 'ban')} className="text-red-600 dark:text-red-500 hover:text-red-700 dark:hover:text-red-400 text-xs font-medium ml-2">Ban</button>
                              </td>
@@ -175,14 +175,14 @@ export default function AdminReports(){
             title={`Confirm ${getActionLabel(confirmation.action)}`}
         >
             <div className="space-y-4">
-                <p className="text-slate-600 dark:text-slate-300">
+                <p className="text-muted-foreground">
                     Are you sure you want to {confirmation.action === 'delete_content' ? 'delete the reported content' : `perform "${getActionLabel(confirmation.action)}"`}?
                     {confirmation.action === 'delete_content' && " This cannot be undone."}
                 </p>
                 <div className="flex justify-end gap-3 pt-2">
                     <button 
                         onClick={() => setConfirmation({ isOpen: false, id: null, action: null })}
-                        className="px-4 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                        className="px-4 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:bg-muted transition-colors"
                     >
                         Cancel
                     </button>

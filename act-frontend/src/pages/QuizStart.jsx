@@ -17,9 +17,9 @@ export default function QuizStart() {
   if (!quiz) {
     return (
       <AppLayout>
-        <div className="bg-white border border-slate-200 rounded-2xl p-6">
-          <h1 className="text-xl font-semibold">Quiz not found</h1>
-          <p className="mt-2 text-slate-600">The requested quiz does not exist.</p>
+        <div className="bg-card border border-border rounded-2xl p-6">
+          <h1 className="text-xl font-semibold text-foreground">Quiz not found</h1>
+          <p className="mt-2 text-muted-foreground">The requested quiz does not exist.</p>
           <Link to="/courses/" className="mt-4 inline-block px-4 py-2 rounded-xl bg-primary-600 text-white hover:bg-primary-700">Back to Course</Link>
         </div>
       </AppLayout>
@@ -29,10 +29,10 @@ export default function QuizStart() {
   return (
     <AppLayout>
       <div className="space-y-6">
-        <header className="bg-white border border-slate-200 rounded-2xl p-6">
-          <h1 className="text-2xl font-semibold">{quiz.title}</h1>
-          <p className="mt-1 text-slate-600">{quiz.description}</p>
-          <div className="mt-4 flex items-center gap-6 text-slate-700">
+        <header className="bg-card border border-border rounded-2xl p-6">
+          <h1 className="text-2xl font-semibold text-foreground">{quiz.title}</h1>
+          <p className="mt-1 text-muted-foreground">{quiz.description}</p>
+          <div className="mt-4 flex items-center gap-6 text-foreground">
             <div>
               <span className="font-semibold">Questions:</span> {quiz.questions.length}
             </div>
@@ -45,7 +45,7 @@ export default function QuizStart() {
           </div>
           <div className="mt-6 flex items-center gap-3">
             <Link to={`/quizzes/${quiz.id}/take`} className="px-4 py-2 rounded-xl bg-primary-600 text-white hover:bg-primary-700">Start Quiz</Link>
-            <Link to={`/courses/`} className="px-4 py-2 rounded-xl border border-slate-300 hover:bg-slate-50">Back to Course</Link>
+            <Link to={`/courses/`} className="px-4 py-2 rounded-xl border border-border hover:bg-muted text-foreground">Back to Course</Link>
           </div>
         </header>
         <section className="bg-white border border-slate-200 rounded-2xl p-6">

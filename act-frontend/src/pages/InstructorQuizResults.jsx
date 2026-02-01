@@ -46,21 +46,21 @@ export default function InstructorQuizResults(){
   return (
     <AppLayout>
       <div className="space-y-6">
-        <header className="bg-white border border-slate-200 rounded-2xl p-6">
-          <h1 className="text-2xl font-semibold">Results: {quiz?.title || id}</h1>
-          <p className="mt-1 text-slate-600">Leaderboard and attempts.</p>
+        <header className="bg-card border border-border rounded-2xl p-6">
+          <h1 className="text-2xl font-semibold text-foreground">Results: {quiz?.title || id}</h1>
+          <p className="mt-1 text-muted-foreground">Leaderboard and attempts.</p>
           <div className="mt-3 flex items-center gap-3">
-            <Link to={`/instructor/quizzes/${id}/share`} className="px-3 py-2 rounded-xl border border-slate-300 hover:bg-slate-50 text-sm">Share</Link>
+            <Link to={`/instructor/quizzes/${id}/share`} className="px-3 py-2 rounded-xl border border-border hover:bg-muted text-foreground text-sm">Share</Link>
           </div>
         </header>
-        <section className="bg-white border border-slate-200 rounded-2xl p-6">
+        <section className="bg-card border border-border rounded-2xl p-6">
           {ranked.length === 0 ? (
-            <p className="text-slate-600">No attempts yet.</p>
+            <p className="text-muted-foreground">No attempts yet.</p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead>
-                  <tr className="text-slate-600 text-sm">
+                  <tr className="text-muted-foreground text-sm">
                     <th className="py-2">Rank</th>
                     <th className="py-2">Student</th>
                     <th className="py-2">Score</th>
@@ -69,15 +69,15 @@ export default function InstructorQuizResults(){
                     <th className="py-2">Taken</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y divide-border">
                   {ranked.map(a => (
-                    <tr key={a.id} className="border-t border-slate-200">
-                      <td className="py-2 font-medium">{a.rank}</td>
-                      <td className="py-2">{a.userName || 'Anonymous'}</td>
-                      <td className="py-2">{a.percent}%</td>
-                      <td className="py-2">{a.correct}/{a.total}</td>
-                      <td className="py-2">{a.passed ? 'Yes' : 'No'}</td>
-                      <td className="py-2 text-slate-600">{new Date(a.timestamp).toLocaleString()}</td>
+                    <tr key={a.id} className="hover:bg-muted/50">
+                      <td className="py-2 font-medium text-foreground">{a.rank}</td>
+                      <td className="py-2 text-foreground">{a.userName || 'Anonymous'}</td>
+                      <td className="py-2 text-foreground">{a.percent}%</td>
+                      <td className="py-2 text-muted-foreground">{a.correct}/{a.total}</td>
+                      <td className={`py-2 ${a.passed ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>{a.passed ? 'Yes' : 'No'}</td>
+                      <td className="py-2 text-muted-foreground">{new Date(a.timestamp).toLocaleString()}</td>
                     </tr>
                   ))}
                 </tbody>

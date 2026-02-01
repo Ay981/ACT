@@ -54,34 +54,34 @@ export default function Settings() {
   return (
     <AppLayout>
       <div className="max-w-4xl mx-auto space-y-6">
-        <h1 className="text-2xl font-bold text-slate-900">Settings</h1>
+        <h1 className="text-2xl font-bold text-foreground">Settings</h1>
 
         {status && (
-            <div className={`p-4 rounded-xl ${status.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+            <div className={`p-4 rounded-xl ${status.type === 'success' ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400'}`}>
                 {status.message}
             </div>
         )}
 
-        <form onSubmit={handleProfileUpdate} className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-          <h2 className="text-lg font-semibold text-slate-800 mb-4">Profile Settings</h2>
+        <form onSubmit={handleProfileUpdate} className="bg-card rounded-2xl p-6 shadow-sm border border-border">
+          <h2 className="text-lg font-semibold text-foreground mb-4">Profile Settings</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-               <label className="block text-sm font-medium text-slate-700 mb-1">Full Name</label>
+               <label className="block text-sm font-medium text-foreground mb-1">Full Name</label>
                <input 
                   type="text" 
                   value={formData.name} 
                   onChange={e => setFormData({...formData, name: e.target.value})}
-                  className="w-full rounded-xl bg-slate-100 border-slate-300 focus:border-primary-500 focus:ring-primary-500" 
+                  className="w-full rounded-xl bg-background border-input focus:border-primary-500 focus:ring-primary-500 text-foreground" 
                   required
                />
             </div>
             <div>
-               <label className="block text-sm font-medium text-slate-700 mb-1">Email</label>
+               <label className="block text-sm font-medium text-foreground mb-1">Email</label>
                <input 
                   type="email" 
                   value={formData.email} 
                   onChange={e => setFormData({...formData, email: e.target.value})}
-                  className="w-full rounded-xl bg-slate-100 border-slate-300 focus:border-primary-500 focus:ring-primary-500" 
+                  className="w-full rounded-xl bg-background border-input focus:border-primary-500 focus:ring-primary-500 text-foreground" 
                   required
                />
             </div>
@@ -91,48 +91,48 @@ export default function Settings() {
           </div>
         </form>
 
-        <form onSubmit={handlePasswordUpdate} className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-          <h2 className="text-lg font-semibold text-slate-800 mb-4">Update Password</h2>
+        <form onSubmit={handlePasswordUpdate} className="bg-card rounded-2xl p-6 shadow-sm border border-border">
+          <h2 className="text-lg font-semibold text-foreground mb-4">Update Password</h2>
           <div className="space-y-4 max-w-md">
              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Current Password</label>
+                <label className="block text-sm font-medium text-foreground mb-1">Current Password</label>
                 <input 
                     type="password" 
                     value={passData.current_password}
                     onChange={e => setPassData({...passData, current_password: e.target.value})}
-                    className="w-full rounded-xl bg-slate-100 border-slate-300 focus:border-primary-500 focus:ring-primary-500" 
+                    className="w-full rounded-xl bg-background border-input focus:border-primary-500 focus:ring-primary-500 text-foreground" 
                     required
                 />
              </div>
              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">New Password</label>
+                <label className="block text-sm font-medium text-foreground mb-1">New Password</label>
                 <input 
                     type="password" 
                     value={passData.password}
                     onChange={e => setPassData({...passData, password: e.target.value})}
-                    className="w-full rounded-xl bg-slate-100 border-slate-300 focus:border-primary-500 focus:ring-primary-500" 
+                    className="w-full rounded-xl bg-background border-input focus:border-primary-500 focus:ring-primary-500 text-foreground" 
                     required
                 />
              </div>
              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Confirm Password</label>
+                <label className="block text-sm font-medium text-foreground mb-1">Confirm Password</label>
                 <input 
                     type="password" 
                     value={passData.password_confirmation}
                     onChange={e => setPassData({...passData, password_confirmation: e.target.value})}
-                    className="w-full rounded-xl bg-slate-100 border-slate-300 focus:border-primary-500 focus:ring-primary-500" 
+                    className="w-full rounded-xl bg-background border-input focus:border-primary-500 focus:ring-primary-500 text-foreground" 
                     required
                 />
              </div>
           </div>
           <div className="mt-6 flex justify-end">
-             <button type="submit" className="px-4 py-2 bg-slate-800 text-white rounded-xl hover:bg-slate-900 font-medium text-sm">Update Password</button>
+             <button type="submit" className="px-4 py-2 bg-foreground text-background rounded-xl hover:bg-muted-foreground font-medium text-sm">Update Password</button>
           </div>
         </form>
 
         {isInst && (
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 border-l-4 border-l-primary-600">
-            <h2 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
+          <div className="bg-card rounded-2xl p-6 shadow-sm border border-border border-l-4 border-l-primary-600">
+            <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
               <svg className="w-5 h-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
               </svg>
@@ -141,14 +141,14 @@ export default function Settings() {
             <div className="space-y-4 opacity-75">
                <div>
                   <label className="flex items-center gap-3">
-                    <input type="checkbox" defaultChecked disabled className="w-4 h-4 text-primary-600 rounded" />
-                    <span className="text-sm text-slate-700">Receive email notifications when students complete a quiz</span>
+                    <input type="checkbox" defaultChecked disabled className="w-4 h-4 text-primary-600 rounded bg-background border-input" />
+                    <span className="text-sm text-muted-foreground">Receive email notifications when students complete a quiz</span>
                   </label>
                </div>
                <div>
                   <label className="flex items-center gap-3">
-                    <input type="checkbox" defaultChecked disabled className="w-4 h-4 text-primary-600 rounded" />
-                    <span className="text-sm text-slate-700">Allow students to see correct answers immediately after submission</span>
+                    <input type="checkbox" defaultChecked disabled className="w-4 h-4 text-primary-600 rounded bg-background border-input" />
+                    <span className="text-sm text-muted-foreground">Allow students to see correct answers immediately after submission</span>
                   </label>
                </div>
             </div>

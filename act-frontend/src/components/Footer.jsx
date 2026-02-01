@@ -65,7 +65,7 @@ export default function Footer() {
          <p className="text-sm text-blue-200">Copyright © 2026 ACT Academy. All rights reserved.</p>
          
          <div>
-            <select className="bg-white text-slate-800 text-sm py-1 px-3 rounded shadow focus:outline-none">
+            <select className="bg-white text-slate-800 dark:bg-background dark:text-foreground dark:border dark:border-input text-sm py-1 px-3 rounded shadow focus:outline-none">
                 <option value="en">English</option>
                 <option value="am">Amharic</option>
             </select>

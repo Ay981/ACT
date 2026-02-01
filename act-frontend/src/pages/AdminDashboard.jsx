@@ -85,8 +85,8 @@ export default function AdminDashboard(){
     <AppLayout>
       <div className="space-y-6">
         <header className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-slate-800">Admin Overview</h1>
-            <div className="text-sm text-slate-500">Last updated: Just now</div>
+            <h1 className="text-2xl font-bold text-foreground">Admin Overview</h1>
+            <div className="text-sm text-muted-foreground">Last updated: Just now</div>
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -100,42 +100,42 @@ export default function AdminDashboard(){
             
             {/* Notifications & Activity */}
             <div className="lg:col-span-2 space-y-6">
-                <div className="bg-white border border-slate-200 rounded-2xl p-5">
+                <div className="bg-card border border-border rounded-2xl p-5">
                     <div className="flex items-center justify-between mb-4">
-                        <h2 className="font-semibold text-lg">System Notifications</h2>
+                        <h2 className="font-semibold text-lg text-foreground">System Notifications</h2>
                         <button onClick={handleMarkAllRead} className="text-sm text-primary-600 font-medium hover:underline">Mark all read</button>
                     </div>
                     <div className="space-y-4">
                         {notifications.length === 0 ? (
-                            <div className="text-center py-8 text-slate-500">
+                            <div className="text-center py-8 text-muted-foreground">
                                 <span className="text-3xl block mb-2">🎉</span>
                                 No new notifications
                             </div>
                         ) : (
                             notifications.map(n => (
-                            <div key={n.id} className="flex gap-4 p-3 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-100 transition-all cursor-pointer">
+                            <div key={n.id} className="flex gap-4 p-3 rounded-xl hover:bg-muted/50 border border-transparent hover:border-border transition-all cursor-pointer">
                                 <div className={`w-2 h-2 mt-2 rounded-full shrink-0 ${
                                     n.type === 'error' ? 'bg-red-500' : 
                                     n.type === 'warning' ? 'bg-amber-500' : 
                                     n.type === 'success' ? 'bg-green-500' : 'bg-blue-500'
                                 }`} />
                                 <div>
-                                    <div className="font-medium text-slate-900">{n.title}</div>
-                                    <div className="text-sm text-slate-500">{n.desc}</div>
-                                    <div className="text-xs text-slate-400 mt-1">{n.time}</div>
+                                    <div className="font-medium text-foreground">{n.title}</div>
+                                    <div className="text-sm text-muted-foreground">{n.desc}</div>
+                                    <div className="text-xs text-muted-foreground mt-1">{n.time}</div>
                                 </div>
                             </div>
                         )))}
                     </div>
                 </div>
 
-                <div className="bg-white border border-slate-200 rounded-2xl p-5">
+                <div className="bg-card border border-border rounded-2xl p-5">
                      <div className="flex items-center justify-between mb-4">
-                        <h2 className="font-semibold text-lg">Recent User Reports</h2>
+                        <h2 className="font-semibold text-lg text-foreground">Recent User Reports</h2>
                         <Link to="/admin/reports" className="text-sm text-primary-600 font-medium hover:underline">View All</Link>
                     </div>
                     <table className="w-full text-sm text-left">
-                        <thead className="bg-slate-50 text-slate-500 uppercase font-bold text-xs">
+                        <thead className="bg-muted/50 text-muted-foreground uppercase font-bold text-xs">
                             <tr>
                                 <th className="px-3 py-2">Report ID</th>
                                 <th className="px-3 py-2">Subject</th>
@@ -143,16 +143,16 @@ export default function AdminDashboard(){
                                 <th className="px-3 py-2">Status</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-slate-100">
+                        <tbody className="divide-y divide-border">
                              {recentReports.length > 0 ? recentReports.map(r => (
                                  <tr key={r.id}>
-                                     <td className="px-3 py-3 font-medium text-slate-700">{r.id}</td>
-                                     <td className="px-3 py-3 text-slate-600">{r.subject}</td>
-                                     <td className="px-3 py-3 text-slate-500">{r.reporter}</td>
+                                     <td className="px-3 py-3 font-medium text-foreground">{r.id}</td>
+                                     <td className="px-3 py-3 text-muted-foreground">{r.subject}</td>
+                                     <td className="px-3 py-3 text-muted-foreground">{r.reporter}</td>
                                      <td className="px-3 py-3">
                                          <span className={`px-2 py-1 rounded text-xs font-bold ${
-                                             r.status === 'Pending' ? 'bg-amber-50 text-amber-600' :
-                                             r.status === 'Resolved' ? 'bg-green-50 text-green-600' : 'bg-blue-50 text-blue-600'
+                                             r.status === 'Pending' ? 'bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400' :
+                                             r.status === 'Resolved' ? 'bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400' : 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
                                          }`}>
                                              {r.status}
                                          </span>
@@ -160,7 +160,7 @@ export default function AdminDashboard(){
                                  </tr>
                              )) : (
                                  <tr>
-                                     <td colSpan="4" className="px-3 py-4 text-center text-slate-500">No recent reports</td>
+                                     <td colSpan="4" className="px-3 py-4 text-center text-muted-foreground">No recent reports</td>
                                  </tr>
                              )}
                         </tbody>
@@ -170,16 +170,16 @@ export default function AdminDashboard(){
 
             {/* Side Panel */}
             <div className="space-y-6">
-                <div className="bg-white border border-slate-200 rounded-2xl p-5">
-                    <h2 className="font-semibold mb-4">Quick Actions</h2>
+                <div className="bg-card border border-border rounded-2xl p-5">
+                    <h2 className="font-semibold mb-4 text-foreground">Quick Actions</h2>
                     <div className="space-y-2">
-                        <button onClick={() => setActiveModal('addInstructor')} className="w-full text-left px-4 py-3 rounded-xl border border-slate-200 hover:border-primary-200 hover:bg-primary-50 text-slate-700 hover:text-primary-700 transition-all font-medium text-sm flex items-center gap-2">
+                        <button onClick={() => setActiveModal('addInstructor')} className="w-full text-left px-4 py-3 rounded-xl border border-border hover:border-primary-200 hover:bg-primary-50 dark:hover:bg-primary-900/20 text-foreground hover:text-primary-700 dark:hover:text-primary-400 transition-all font-medium text-sm flex items-center gap-2">
                              <span className="text-xl">🎓</span> Invite New Instructor
                         </button>
-                        <button onClick={() => setActiveModal('broadcast')} className="w-full text-left px-4 py-3 rounded-xl border border-slate-200 hover:border-primary-200 hover:bg-primary-50 text-slate-700 hover:text-primary-700 transition-all font-medium text-sm flex items-center gap-2">
+                        <button onClick={() => setActiveModal('broadcast')} className="w-full text-left px-4 py-3 rounded-xl border border-border hover:border-primary-200 hover:bg-primary-50 dark:hover:bg-primary-900/20 text-foreground hover:text-primary-700 dark:hover:text-primary-400 transition-all font-medium text-sm flex items-center gap-2">
                              <span className="text-xl">📢</span> Broadcast Message
                         </button>
-                        <button onClick={() => setActiveModal('maintenance')} className="w-full text-left px-4 py-3 rounded-xl border border-slate-200 hover:border-primary-200 hover:bg-primary-50 text-slate-700 hover:text-primary-700 transition-all font-medium text-sm flex items-center gap-2">
+                        <button onClick={() => setActiveModal('maintenance')} className="w-full text-left px-4 py-3 rounded-xl border border-border hover:border-primary-200 hover:bg-primary-50 dark:hover:bg-primary-900/20 text-foreground hover:text-primary-700 dark:hover:text-primary-400 transition-all font-medium text-sm flex items-center gap-2">
                              <span className="text-xl">⚙️</span> Maintenance Mode
                         </button>
                     </div>
@@ -207,11 +207,11 @@ export default function AdminDashboard(){
       >
         <form onSubmit={handleBroadcast} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Target Audience</label>
+            <label className="block text-sm font-medium text-foreground mb-1">Target Audience</label>
             <select 
               value={broadcast.target}
               onChange={(e) => setBroadcast({...broadcast, target: e.target.value})}
-              className="w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              className="w-full rounded-lg border-input bg-background text-foreground shadow-sm focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="all">All Users</option>
               <option value="student">Students Only</option>
@@ -219,12 +219,12 @@ export default function AdminDashboard(){
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Message Body</label>
+            <label className="block text-sm font-medium text-foreground mb-1">Message Body</label>
             <textarea 
               value={broadcast.message}
               onChange={(e) => setBroadcast({...broadcast, message: e.target.value})}
               rows={4}
-              className="w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              className="w-full rounded-lg border-input bg-background text-foreground shadow-sm focus:ring-blue-500 focus:border-blue-500"
               placeholder="Type your announcement here..."
               required
             />
@@ -233,7 +233,7 @@ export default function AdminDashboard(){
             <button 
               type="button"
               onClick={() => setActiveModal(null)}
-              className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+              className="px-4 py-2 text-foreground hover:bg-muted rounded-lg"
             >
               Cancel
             </button>
@@ -254,26 +254,26 @@ export default function AdminDashboard(){
         title="Invite New Instructor"
       >
         <form onSubmit={handleAddInstructor} className="space-y-4">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-muted-foreground">
             Send an invitation email to a new instructor. They will receive a link to set up their account and profile.
           </p>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+            <label className="block text-sm font-medium text-foreground mb-1">Full Name</label>
             <input 
               type="text"
               value={newInstructor.name}
               onChange={(e) => setNewInstructor({...newInstructor, name: e.target.value})}
-              className="w-full rounded-lg border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500"
+              className="w-full rounded-lg border-input bg-background text-foreground shadow-sm focus:ring-green-500 focus:border-green-500"
               required
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+            <label className="block text-sm font-medium text-foreground mb-1">Email Address</label>
             <input 
               type="email"
               value={newInstructor.email}
               onChange={(e) => setNewInstructor({...newInstructor, email: e.target.value})}
-              className="w-full rounded-lg border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500"
+              className="w-full rounded-lg border-input bg-background text-foreground shadow-sm focus:ring-green-500 focus:border-green-500"
               required
             />
           </div>
@@ -281,7 +281,7 @@ export default function AdminDashboard(){
             <button 
               type="button"
               onClick={() => setActiveModal(null)}
-              className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+              className="px-4 py-2 text-foreground hover:bg-muted rounded-lg"
             >
               Cancel
             </button>
@@ -302,23 +302,23 @@ export default function AdminDashboard(){
         title="System Maintenance"
       >
         <div className="space-y-4">
-          <p className="text-gray-600">Toggle maintenance mode to prevent non-admin users from accessing the platform. Use this during updates.</p>
+          <p className="text-muted-foreground">Toggle maintenance mode to prevent non-admin users from accessing the platform. Use this during updates.</p>
           
-          <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+          <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
             <div>
-              <div className="font-semibold text-gray-900">Maintenance Mode</div>
-              <div className="text-sm text-gray-500">{maintenance ? 'Active' : 'Inactive'}</div>
+              <div className="font-semibold text-foreground">Maintenance Mode</div>
+              <div className="text-sm text-muted-foreground">{maintenance ? 'Active' : 'Inactive'}</div>
             </div>
             <button 
               onClick={handleToggleMaintenance}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${maintenance ? 'bg-indigo-600' : 'bg-gray-200'}`}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${maintenance ? 'bg-indigo-600' : 'bg-gray-200 dark:bg-gray-700'}`}
             >
               <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${maintenance ? 'translate-x-6' : 'translate-x-1'}`} />
             </button>
           </div>
 
-          <div className="pt-4 border-t border-gray-100">
-             <button onClick={() => alert("Cache cleared!")} className="w-full py-2 text-red-600 hover:bg-red-50 rounded-lg font-medium">
+          <div className="pt-4 border-t border-border">
+             <button onClick={() => alert("Cache cleared!")} className="w-full py-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg font-medium">
                 Clear System Cache
              </button>
           </div>

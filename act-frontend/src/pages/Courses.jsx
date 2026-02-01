@@ -67,14 +67,14 @@ export default function Courses(){
   return (
     <AppLayout>
       <div className="space-y-6">
-        <header className="bg-white border border-slate-200 rounded-2xl p-5">
-          <h1 className="text-2xl font-semibold">Browse Courses</h1>
+        <header className="bg-card border border-border rounded-2xl p-5">
+          <h1 className="text-2xl font-semibold text-foreground">Browse Courses</h1>
           <div className="mt-4 flex flex-col md:flex-row md:items-center gap-3">
-            <div className="flex items-center gap-2 bg-slate-100 rounded-xl px-3 py-2 flex-1">
-              <SearchIcon className="w-4 h-4 text-slate-500" />
-              <input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search by title or category" className="bg-transparent outline-none w-full text-sm" />
+            <div className="flex items-center gap-2 bg-secondary rounded-xl px-3 py-2 flex-1 border border-transparent focus-within:border-primary/50 transition-colors">
+              <SearchIcon className="w-4 h-4 text-muted-foreground" />
+              <input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search by title or category" className="bg-transparent outline-none w-full text-sm text-foreground placeholder:text-muted-foreground" />
             </div>
-            <select value={level} onChange={e=>setLevel(e.target.value)} className="rounded-xl border-slate-300 text-sm px-3 py-2">
+            <select value={level} onChange={e=>setLevel(e.target.value)} className="rounded-xl border-border bg-background text-foreground text-sm px-3 py-2">
               {['All','Beginner','Intermediate','Advanced'].map(l => <option key={l}>{l}</option>)}
             </select>
           </div>
@@ -82,7 +82,7 @@ export default function Courses(){
 
         <section>
           {adaptedCourses.length === 0 ? (
-             <div className="text-center text-slate-500 py-10">No courses available.</div>
+             <div className="text-center text-muted-foreground py-10">No courses available.</div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
                 {adaptedCourses.map(c => (
