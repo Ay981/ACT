@@ -66,20 +66,20 @@ export default function CommentItem({ comment, currentUser, onReply, onEdit, onD
       <Avatar />
       <div className="flex-1">
         <div className="flex items-center gap-2 text-sm">
-          <span className="font-medium">{comment.author}</span>
-          <span className="text-slate-500">{formatAge(comment.createdAt)}</span>
+          <span className="font-medium text-foreground">{comment.author}</span>
+          <span className="text-muted-foreground">{formatAge(comment.createdAt)}</span>
         </div>
 
         {!editing ? (
-          <p className="mt-1 text-slate-700 whitespace-pre-wrap">{comment.text}</p>
+          <p className="mt-1 text-foreground whitespace-pre-wrap">{comment.text}</p>
         ) : (
           <div className="mt-2">
             <CommentComposer onSubmit={submitEdit} onCancel={() => setEditing(false)} submitLabel="Save" autoFocus placeholder="Edit your comment…" initialValue={comment.text} />
           </div>
         )}
 
-        <div className="mt-2 flex items-center gap-3 text-sm text-slate-600 relative">
-          <button className="hover:underline" onClick={() => setReplying(v => !v)}>Reply</button>
+        <div className="mt-2 flex items-center gap-3 text-sm text-muted-foreground relative">
+          <button className="hover:underline hover:text-foreground" onClick={() => setReplying(v => !v)}>Reply</button>
           <button 
              className={`inline-flex items-center gap-1 hover:text-primary-600 transition-colors ${comment.isLiked ? 'text-primary-600 font-semibold' : ''}`}
              onClick={() => onLike?.(comment.id)}
@@ -87,13 +87,13 @@ export default function CommentItem({ comment, currentUser, onReply, onEdit, onD
             <Icon name="like" filled={comment.isLiked}/><span>{comment.likes}</span>
           </button>
           
-          <button className="hover:underline ml-2 text-slate-400 text-xs" onClick={() => setReportModalOpen(true)}>Report</button>
+          <button className="hover:underline hover:text-foreground ml-2 text-xs" onClick={() => setReportModalOpen(true)}>Report</button>
 
           <div className="flex-1" />
           {currentUser?.id == comment.userId && (
           <>
-            <button className="p-1.5 rounded hover:bg-slate-100" title="Edit" onClick={() => setEditing(true)}><Icon name="edit"/></button>
-            <button className="p-1.5 rounded hover:bg-slate-100" title="Delete" onClick={() => onDelete?.(comment.id)}><Icon name="trash"/></button>
+            <button className="p-1.5 rounded hover:bg-muted text-muted-foreground" title="Edit" onClick={() => setEditing(true)}><Icon name="edit"/></button>
+            <button className="p-1.5 rounded hover:bg-muted text-muted-foreground" title="Delete" onClick={() => onDelete?.(comment.id)}><Icon name="trash"/></button>
           </>
           )}
         </div>
@@ -101,16 +101,16 @@ export default function CommentItem({ comment, currentUser, onReply, onEdit, onD
         {/* Report Modal - Quick inline for now */}
         {reportModalOpen && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-                <div className="bg-white rounded-lg p-6 max-w-sm w-full shadow-lg">
-                    <h3 className="text-lg font-bold mb-4">Report Comment</h3>
+                <div className="bg-card rounded-lg p-6 max-w-sm w-full shadow-lg border border-border">
+                    <h3 className="text-lg font-bold mb-4 text-foreground">Report Comment</h3>
                     <div className="space-y-2">
                         {['Hate Speech', 'Spam', 'Harassment', 'Misinformation', 'Other'].map(r => (
-                            <button key={r} onClick={() => handleReport(r)} className="w-full text-left px-4 py-2 hover:bg-slate-100 rounded border border-slate-200">
+                            <button key={r} onClick={() => handleReport(r)} className="w-full text-left px-4 py-2 hover:bg-muted rounded border border-border text-foreground">
                                 {r}
                             </button>
                         ))}
                     </div>
-                    <button onClick={() => setReportModalOpen(false)} className="mt-4 w-full py-2 text-slate-500 hover:text-slate-800">Cancel</button>
+                    <button onClick={() => setReportModalOpen(false)} className="mt-4 w-full py-2 text-muted-foreground hover:text-foreground">Cancel</button>
                 </div>
             </div>
         )}
@@ -118,14 +118,14 @@ export default function CommentItem({ comment, currentUser, onReply, onEdit, onD
         {/* Other Reason Modal */}
         {showOtherModal && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-                <div className="bg-white rounded-lg p-6 max-w-md w-full shadow-lg">
-                    <h3 className="text-lg font-bold mb-4">Specify Reason</h3>
-                    <p className="text-sm text-slate-600 mb-4">Please provide details about why you're reporting this comment:</p>
+                <div className="bg-card rounded-lg p-6 max-w-md w-full shadow-lg border border-border">
+                    <h3 className="text-lg font-bold mb-4 text-foreground">Specify Reason</h3>
+                    <p className="text-sm text-muted-foreground mb-4">Please provide details about why you're reporting this comment:</p>
                     <textarea
                         value={otherReason}
                         onChange={(e) => setOtherReason(e.target.value)}
                         placeholder="Describe the issue..."
-                        className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+                        className="w-full px-3 py-2 border border-input bg-background text-foreground rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
                         rows={4}
                         autoFocus
                     />
@@ -135,7 +135,7 @@ export default function CommentItem({ comment, currentUser, onReply, onEdit, onD
                                 setShowOtherModal(false)
                                 setOtherReason('')
                             }}
-                            className="flex-1 px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-lg"
+                            className="flex-1 px-4 py-2 text-foreground hover:bg-muted rounded-lg"
                         >
                             Cancel
                         </button>

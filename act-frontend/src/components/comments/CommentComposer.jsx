@@ -16,7 +16,7 @@ export default function CommentComposer({ onSubmit, onCancel, autoFocus = false,
       <Avatar />
       <div className="flex-1">
         <textarea
-          className="w-full resize-y min-h-[80px] rounded-xl border border-slate-300 focus:border-primary-500 focus:ring-primary-500 px-3 py-2 text-sm"
+          className="w-full resize-y min-h-[80px] rounded-xl border border-input bg-background text-foreground focus:border-primary-500 focus:ring-primary-500 px-3 py-2 text-sm"
           placeholder={placeholder}
           value={text}
           onChange={(e) => setText(e.target.value)}
@@ -25,7 +25,7 @@ export default function CommentComposer({ onSubmit, onCancel, autoFocus = false,
         <div className="mt-2 flex items-center gap-2">
           <button type="submit" className="px-3 py-1.5 rounded-lg bg-primary-600 hover:bg-primary-700 text-white text-sm">{submitLabel}</button>
           {onCancel && (
-            <button type="button" onClick={onCancel} className="px-3 py-1.5 rounded-lg text-slate-600 hover:bg-slate-100 text-sm">Cancel</button>
+            <button type="button" onClick={onCancel} className="px-3 py-1.5 rounded-lg text-muted-foreground hover:bg-accent text-sm">Cancel</button>
           )}
         </div>
       </div>

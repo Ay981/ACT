@@ -80,17 +80,17 @@ export default function CommentsSection({ initialComments = [], context = null, 
   }
 
   return (
-    <div className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-6">
-      <h3 className="font-semibold">Add a comment</h3>
+    <div className="bg-card border border-border rounded-2xl p-4 sm:p-6">
+      <h3 className="font-semibold text-foreground">Add a comment</h3>
       <div className="mt-3">
         <CommentComposer onSubmit={addRoot} submitLabel="Comment" />
       </div>
 
       <div className="mt-6 flex items-center justify-between">
-        <h4 className="font-semibold">Comments on this item</h4>
+        <h4 className="font-semibold text-foreground">Comments on this item</h4>
         <div className="text-sm">
-          <label className="mr-2 text-slate-600">Sort</label>
-          <select value={sort} onChange={(e)=>setSort(e.target.value)} className="rounded-lg border-slate-300 text-sm">
+          <label className="mr-2 text-muted-foreground">Sort</label>
+          <select value={sort} onChange={(e)=>setSort(e.target.value)} className="rounded-lg border-input bg-background text-foreground text-sm">
             <option value="recent">Most recent</option>
             <option value="top">Top</option>
           </select>

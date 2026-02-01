@@ -36,8 +36,8 @@ export function ToastProvider({ children }) {
             key={toast.id}
             className={`
               pointer-events-auto min-w-[200px] px-6 py-4 rounded-2xl shadow-2xl transform transition-all animate-in zoom-in-95 fade-in duration-300
-              ${toast.type === 'success' ? 'bg-white border-2 border-green-500 text-slate-800' : ''}
-              ${toast.type === 'error' ? 'bg-white border-2 border-red-500 text-slate-800' : ''}
+              ${toast.type === 'success' ? 'bg-card border-2 border-green-500 text-foreground' : ''}
+              ${toast.type === 'error' ? 'bg-card border-2 border-red-500 text-foreground' : ''}
               ${toast.type === 'info' ? 'bg-slate-800 border-2 border-slate-600 text-white' : ''}
               flex flex-col items-center justify-center text-center
             `}
