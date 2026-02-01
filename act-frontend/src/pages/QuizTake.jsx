@@ -103,9 +103,9 @@ export default function QuizTake() {
   if (!quiz) {
     return (
       <AppLayout>
-        <div className="bg-white border border-slate-200 rounded-2xl p-6">
-          <h1 className="text-xl font-semibold">Quiz not found</h1>
-          <p className="mt-2 text-slate-600">The requested quiz does not exist.</p>
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
+          <h1 className="text-xl font-semibold dark:text-white">Quiz not found</h1>
+          <p className="mt-2 text-slate-600 dark:text-slate-400">The requested quiz does not exist.</p>
           <Link to="/courses/" className="mt-4 inline-block px-4 py-2 rounded-xl bg-primary-600 text-white hover:bg-primary-700">Back to Course</Link>
         </div>
       </AppLayout>
@@ -142,21 +142,21 @@ export default function QuizTake() {
   return (
     <AppLayout>
       <div className="space-y-6">
-        <header className="bg-white border border-slate-200 rounded-2xl p-6 flex items-center justify-between">
+        <header className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-semibold">{quiz.title}</h1>
-            <p className="mt-1 text-slate-600">Question {currentIndex + 1} of {quiz.questions.length}</p>
+            <h1 className="text-2xl font-semibold dark:text-white">{quiz.title}</h1>
+            <p className="mt-1 text-slate-600 dark:text-slate-400">Question {currentIndex + 1} of {quiz.questions.length}</p>
           </div>
-          <div className="px-3 py-2 rounded-xl bg-primary-50 text-primary-700 border border-primary-200">
+          <div className="px-3 py-2 rounded-xl bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-400 border border-primary-200 dark:border-primary-800">
             Time Remaining: <span className="font-semibold">{formattedTime}</span>
           </div>
           <div className="flex items-center gap-2">
-            <button onClick={() => setShowLeaveConfirm(true)} className="px-3 py-2 rounded-xl border border-slate-300 hover:bg-slate-50">Leave Quiz</button>
+            <button onClick={() => setShowLeaveConfirm(true)} className="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">Leave Quiz</button>
           </div>
         </header>
 
-        <section className="bg-white border border-slate-200 rounded-2xl p-6">
-          <h2 className="font-semibold">{question.prompt}</h2>
+        <section className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
+          <h2 className="font-semibold dark:text-white">{question.prompt}</h2>
           <div className="mt-4 grid gap-3">
             {question.options.map((opt, i) => {
               const selected = answers[question.id] === i
@@ -164,7 +164,7 @@ export default function QuizTake() {
                 <button
                   key={i}
                   onClick={() => selectAnswer(i)}
-                  className={`text-left px-4 py-3 rounded-xl border transition ${selected ? 'border-primary-600 bg-primary-50' : 'border-slate-300 hover:bg-slate-50'}`}
+                  className={`text-left px-4 py-3 rounded-xl border transition ${selected ? 'border-primary-600 bg-primary-50 dark:bg-primary-900/30' : 'border-slate-300 dark:border-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'}`}
                 >
                   <span className="font-medium mr-2">{String.fromCharCode(65 + i)}.</span>
                   {opt}
@@ -178,20 +178,20 @@ export default function QuizTake() {
               <button
                 disabled={currentIndex === 0}
                 onClick={() => setCurrentIndex((i) => Math.max(0, i - 1))}
-                className="px-4 py-2 rounded-xl border border-slate-300 hover:bg-slate-50 disabled:opacity-50"
+                className="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50"
               >Previous</button>
               <button
                 disabled={currentIndex === quiz.questions.length - 1}
                 onClick={() => setCurrentIndex((i) => Math.min(quiz.questions.length - 1, i + 1))}
-                className="px-4 py-2 rounded-xl border border-slate-300 hover:bg-slate-50 disabled:opacity-50"
+                className="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50"
               >Next</button>
             </div>
             <button onClick={handleSubmit} className="px-4 py-2 rounded-xl bg-primary-600 text-white hover:bg-primary-700">Submit Quiz</button>
           </div>
         </section>
 
-        <section className="bg-white border border-slate-200 rounded-2xl p-6">
-          <h3 className="font-semibold">Progress</h3>
+        <section className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
+          <h3 className="font-semibold dark:text-white">Progress</h3>
           <div className="mt-3 flex flex-wrap gap-2">
             {quiz.questions.map((q, idx) => {
               const answered = answers[q.id] !== undefined

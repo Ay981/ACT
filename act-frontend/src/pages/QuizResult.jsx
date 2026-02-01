@@ -76,9 +76,9 @@ export default function QuizResult() {
   if (!quiz) {
     return (
       <AppLayout>
-        <div className="bg-white border border-slate-200 rounded-2xl p-6">
-          <h1 className="text-xl font-semibold">Quiz not found</h1>
-          <p className="mt-2 text-slate-600">The requested quiz does not exist.</p>
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
+          <h1 className="text-xl font-semibold dark:text-white">Quiz not found</h1>
+          <p className="mt-2 text-slate-600 dark:text-slate-400">The requested quiz does not exist.</p>
           <Link to="/courses/ai-foundations" className="mt-4 inline-block px-4 py-2 rounded-xl bg-primary-600 text-white hover:bg-primary-700">Back to Course</Link>
         </div>
       </AppLayout>
@@ -88,32 +88,32 @@ export default function QuizResult() {
   return (
     <AppLayout>
       <div className="space-y-6">
-        <header className="bg-white border border-slate-200 rounded-2xl p-6">
-          <h1 className="text-2xl font-semibold">Results: {quiz.title}</h1>
+        <header className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
+          <h1 className="text-2xl font-semibold dark:text-white">Results: {quiz.title}</h1>
           <p className={`mt-2 text-lg font-medium ${passed ? 'text-emerald-700' : 'text-rose-700'}`}>{passed ? 'Passed' : 'Did not pass'}</p>
-          <div className="mt-2 text-sm text-slate-600">{attemptDate && `Taken: ${attemptDate}`}</div>
+          <div className="mt-2 text-sm text-slate-600 dark:text-slate-400">{attemptDate && `Taken: ${attemptDate}`}</div>
           <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="p-4 rounded-xl bg-primary-50 border border-primary-200">
-              <div className="text-slate-600">Score</div>
-              <div className="text-2xl font-semibold text-primary-700">{percent}%</div>
+            <div className="p-4 rounded-xl bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-800">
+              <div className="text-slate-600 dark:text-slate-400">Score</div>
+              <div className="text-2xl font-semibold text-primary-700 dark:text-primary-400">{percent}%</div>
             </div>
-            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
-              <div className="text-slate-600">Correct</div>
-              <div className="text-2xl font-semibold">{correct}/{total}</div>
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800">
+              <div className="text-slate-600 dark:text-slate-400">Correct</div>
+              <div className="text-2xl font-semibold dark:text-white">{correct}/{total}</div>
             </div>
-            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
-              <div className="text-slate-600">Passing Threshold</div>
-              <div className="text-2xl font-semibold">{quiz.passingScorePercent}%</div>
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800">
+              <div className="text-slate-600 dark:text-slate-400">Passing Threshold</div>
+              <div className="text-2xl font-semibold dark:text-white">{quiz.passingScorePercent}%</div>
             </div>
           </div>
           <div className="mt-6 flex items-center gap-3">
-            <Link to={`/quizzes/${quiz.id}/take`} className="px-4 py-2 rounded-xl border border-slate-300 hover:bg-slate-50">Retake</Link>
+            <Link to={`/quizzes/${quiz.id}/take`} className="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">Retake</Link>
             <Link to={`/courses/ai-foundations`} className="px-4 py-2 rounded-xl bg-primary-600 text-white hover:bg-primary-700">Back to Course</Link>
           </div>
         </header>
 
-        <section className="bg-white border border-slate-200 rounded-2xl p-6">
-          <h2 className="font-semibold">Review</h2>
+        <section className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
+          <h2 className="font-semibold dark:text-white">Review</h2>
           <div className="mt-4 space-y-4">
             {quiz.questions.map((q, idx) => {
               const userIndex = answers?.[q.id]
@@ -121,13 +121,13 @@ export default function QuizResult() {
               return (
                 <div key={q.id} className="p-4 rounded-xl border" style={{ borderColor: isCorrect ? 'rgba(5, 150, 105, 0.4)' : 'rgba(244, 63, 94, 0.4)' }}>
                   <div className="flex items-center justify-between">
-                    <h3 className="font-medium">Question {idx + 1}</h3>
-                    <span className={`text-sm ${isCorrect ? 'text-emerald-700' : 'text-rose-700'}`}>{isCorrect ? 'Correct' : 'Incorrect'}</span>
+                    <h3 className="font-medium dark:text-white">Question {idx + 1}</h3>
+                    <span className={`text-sm ${isCorrect ? 'text-emerald-700 dark:text-emerald-500' : 'text-rose-700 dark:text-rose-500'}`}>{isCorrect ? 'Correct' : 'Incorrect'}</span>
                   </div>
-                  <p className="mt-2 text-slate-700">{q.prompt}</p>
-                  <div className="mt-2 text-sm text-slate-600">Your answer: {userIndex != null ? String.fromCharCode(65 + userIndex) : '—'}</div>
-                  <div className="text-sm text-slate-600">Correct answer: {String.fromCharCode(65 + q.correctIndex)}</div>
-                  {q.explanation && <p className="mt-2 text-slate-600">{q.explanation}</p>}
+                  <p className="mt-2 text-slate-700 dark:text-slate-300">{q.prompt}</p>
+                  <div className="mt-2 text-sm text-slate-600 dark:text-slate-400">Your answer: {userIndex != null ? String.fromCharCode(65 + userIndex) : '—'}</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-400">Correct answer: {String.fromCharCode(65 + q.correctIndex)}</div>
+                  {q.explanation && <p className="mt-2 text-slate-600 dark:text-slate-400">{q.explanation}</p>}
                 </div>
               )
             })}
