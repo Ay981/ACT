@@ -198,7 +198,7 @@ function Sidebar({ unreadCount, user }) {
   
   if (user?.role === 'admin') {
     return (
-      <aside className="hidden md:block w-60 shrink-0 space-y-2 sticky top-24 self-start h-[calc(100vh-8rem)] overflow-y-auto">
+      <aside className="hidden md:block w-60 shrink-0 space-y-2 sticky top-20 h-[calc(100vh-5rem)] overflow-y-auto pb-4 custom-scrollbar">
         <NavLink to="/admin/dashboard" className={linkClass}><HomeIcon className="w-5 h-5"/>Dashboard</NavLink>
         <NavLink to="/admin/reports" className={linkClass}><AlertIcon className="w-5 h-5"/>Reports</NavLink>
         <NavLink to="/admin/instructors" className={linkClass}><UsersIcon className="w-5 h-5"/>Manage Instructors</NavLink>
@@ -209,7 +209,7 @@ function Sidebar({ unreadCount, user }) {
 
   if (user?.role === 'instructor') {
     return (
-      <aside className="hidden md:block w-60 shrink-0 space-y-2 sticky top-24 self-start h-[calc(100vh-8rem)] overflow-y-auto">
+      <aside className="hidden md:block w-60 shrink-0 space-y-2 sticky top-20 h-[calc(100vh-5rem)] overflow-y-auto pb-4 custom-scrollbar">
         <NavLink to="/instructor/dashboard" className={linkClass}><HomeIcon className="w-5 h-5"/>Dashboard</NavLink>
         <NavLink to="/instructor/quizzes" end className={linkClass}><BookIcon className="w-5 h-5"/>My Quizzes</NavLink>
         <NavLink to="/instructor/quizzes/new" className={linkClass}><ChartIcon className="w-5 h-5"/>Create Quiz</NavLink>
@@ -220,7 +220,7 @@ function Sidebar({ unreadCount, user }) {
   }
 
   return (
-    <aside className="hidden md:block w-60 shrink-0 space-y-2 sticky top-24 self-start h-[calc(100vh-8rem)] overflow-y-auto">
+    <aside className="hidden md:block w-60 shrink-0 space-y-2 sticky top-20 h-[calc(100vh-5rem)] overflow-y-auto pb-4 custom-scrollbar">
       <NavLink to="/dashboard" className={linkClass}><HomeIcon className="w-5 h-5"/>Dashboard</NavLink>
       <NavLink to="/courses" className={linkClass}><BookIcon className="w-5 h-5"/>Courses</NavLink>
       <NavLink to="/results" className={linkClass}><ChartIcon className="w-5 h-5"/>Results</NavLink>
