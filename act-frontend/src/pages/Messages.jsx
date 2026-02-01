@@ -400,10 +400,10 @@ export default function Messages(){
                 </div>
                 
                 {/* Desktop Header */}
-                <div className="hidden lg:block px-4 py-3 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+                <div className="hidden lg:block px-4 py-3 border-b border-slate-200 dark:border-border flex justify-between items-center">
                   <div>
-                    <h3 className="font-semibold text-slate-900 dark:text-slate-100">{selected.title}</h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">{selected.participant}</p>
+                    <h3 className="font-semibold text-slate-900 dark:text-foreground">{selected.title}</h3>
+                    <p className="text-sm text-slate-600 dark:text-muted-foreground">{selected.participant}</p>
                   </div>
                   {selected.unread > 0 && (
                     <span className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
@@ -414,7 +414,7 @@ export default function Messages(){
                 
                 {/* Messages */}
                 <div
-                  className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50 dark:bg-slate-950 min-h-0 overscroll-contain touch-pan-y lg:overscroll-auto lg:touch-auto"
+                  className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50 dark:bg-background min-h-0 overscroll-contain touch-pan-y lg:overscroll-auto lg:touch-auto"
                   style={{ WebkitOverflowScrolling: 'touch', paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 132px)' }}
                 >
                   {selected.messages.map(msg => (
@@ -422,7 +422,7 @@ export default function Messages(){
                       <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
                         msg.sender === 'student' 
                           ? 'bg-primary-600 text-white' 
-                          : 'bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200'
+                          : 'bg-slate-200 dark:bg-accent text-slate-800 dark:text-foreground'
                       }`}>
                         <p className="text-sm">{msg.text}</p>
                         <p className="text-xs opacity-70 mt-1">
@@ -437,7 +437,7 @@ export default function Messages(){
                 <>
                   {/* Mobile: fixed input bar (prevents disappearing on scroll/address-bar changes) */}
                   <div
-                    className="lg:hidden fixed left-0 right-0 bottom-0 z-50 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 p-4"
+                    className="lg:hidden fixed left-0 right-0 bottom-0 z-50 bg-white dark:bg-card border-t border-slate-200 dark:border-border p-4"
                     style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 12px)' }}
                   >
                     <div className="mx-auto max-w-7xl">
@@ -447,7 +447,7 @@ export default function Messages(){
                           placeholder="Type a message..."
                           value={draft}
                           onChange={(e) => setDraft(e.target.value)}
-                          className="flex-1 px-3 py-2 border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                          className="flex-1 px-3 py-2 border border-slate-300 dark:border-input dark:bg-input dark:text-foreground rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                           onKeyPress={(e) => {
                             if (e.key === 'Enter' && draft.trim()) {
                               handleSend(draft)
@@ -471,14 +471,14 @@ export default function Messages(){
                   </div>
 
                   {/* Desktop: sticky within panel */}
-                  <div className="hidden lg:block p-4 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 sticky bottom-0 z-10">
+                  <div className="hidden lg:block p-4 border-t border-slate-200 dark:border-border bg-white dark:bg-card sticky bottom-0 z-10">
                     <div className="flex gap-2">
                       <input 
                         type="text" 
                         placeholder="Type a message..."
                         value={draft}
                         onChange={(e) => setDraft(e.target.value)}
-                        className="flex-1 px-3 py-2 border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                        className="flex-1 px-3 py-2 border border-slate-300 dark:border-input dark:bg-input dark:text-foreground rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                         onKeyPress={(e) => {
                           if (e.key === 'Enter' && draft.trim()) {
                             handleSend(draft)
@@ -502,9 +502,9 @@ export default function Messages(){
                 </>
               </div>
             ) : (
-              <div className="flex items-center justify-center h-full text-slate-500 dark:text-slate-400">
+              <div className="flex items-center justify-center h-full text-slate-500 dark:text-muted-foreground">
                  <div className="text-center">
-                   <svg className="w-16 h-16 mx-auto mb-4 text-slate-300 dark:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                   <svg className="w-16 h-16 mx-auto mb-4 text-slate-300 dark:text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                    </svg>
                    <p className="text-lg font-medium">Select a conversation</p>

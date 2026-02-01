@@ -78,12 +78,12 @@ export default function SignUp() {
                 <span className="text-xl font-bold text-slate-700">ACT E-Learning</span>
              </div>
 
-             <div className="bg-white rounded-3xl shadow-xl p-8 sm:p-10 border border-slate-100 relative">
-               <h2 className="text-3xl font-bold text-slate-800">Create Account</h2>
-               <p className="mt-2 text-slate-500 mb-8">Start your learning journey today</p>
+             <div className="bg-white dark:bg-card rounded-3xl shadow-xl p-8 sm:p-10 border border-slate-100 dark:border-border relative">
+               <h2 className="text-3xl font-bold text-slate-800 dark:text-foreground">Create Account</h2>
+               <p className="mt-2 text-slate-500 dark:text-muted-foreground mb-8">Start your learning journey today</p>
 
                {error && (
-                <div className="mb-6 p-4 rounded-xl bg-red-50 text-red-600 text-sm border border-red-100 flex items-center gap-2">
+                <div className="mb-6 p-4 rounded-xl bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-sm border border-red-100 dark:border-red-900/50 flex items-center gap-2">
                   <svg className="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
                   {error}
                 </div>
@@ -92,27 +92,27 @@ export default function SignUp() {
                <form onSubmit={onSubmit} className="space-y-4">
                  
                  <div>
-                   <label className="block text-sm font-bold text-slate-700 mb-2">Full Name</label>
+                   <label className="block text-sm font-bold text-slate-700 dark:text-foreground mb-2">Full Name</label>
                    <input
                      type="text"
                      value={name}
                      onChange={(e) => setName(e.target.value)}
-                     className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                     className="w-full bg-slate-50 dark:bg-input border border-slate-200 dark:border-input dark:text-foreground rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
                      placeholder="John Doe"
                      required
                    />
                  </div>
 
                  <div>
-                   <label className="block text-sm font-bold text-slate-700 mb-2">I am a</label>
+                   <label className="block text-sm font-bold text-slate-700 dark:text-foreground mb-2">I am a</label>
                    <div className="grid grid-cols-2 gap-3">
                      <button
                        type="button"
                        onClick={() => setRole('student')}
                        className={`p-3 rounded-xl border-2 transition-all text-sm font-medium ${
                          role === 'student'
-                           ? 'border-slate-900 bg-slate-900 text-white'
-                           : 'border-slate-200 bg-slate-50 text-slate-700 hover:border-slate-300'
+                           ? 'border-slate-900 dark:border-primary bg-slate-900 dark:bg-primary text-white dark:text-primary-foreground'
+                           : 'border-slate-200 dark:border-input bg-slate-50 dark:bg-input text-slate-700 dark:text-foreground hover:border-slate-300 dark:hover:border-accent'
                        }`}
                      >
                        🎓 Student
@@ -122,8 +122,8 @@ export default function SignUp() {
                        onClick={() => setRole('instructor')}
                        className={`p-3 rounded-xl border-2 transition-all text-sm font-medium ${
                          role === 'instructor'
-                           ? 'border-slate-900 bg-slate-900 text-white'
-                           : 'border-slate-200 bg-slate-50 text-slate-700 hover:border-slate-300'
+                           ? 'border-slate-900 dark:border-primary bg-slate-900 dark:bg-primary text-white dark:text-primary-foreground'
+                           : 'border-slate-200 dark:border-input bg-slate-50 dark:bg-input text-slate-700 dark:text-foreground hover:border-slate-300 dark:hover:border-accent'
                        }`}
                      >
                        👨‍🏫 Instructor
@@ -132,32 +132,32 @@ export default function SignUp() {
                  </div>
 
                  <div>
-                   <label className="block text-sm font-bold text-slate-700 mb-2">Email Address</label>
+                   <label className="block text-sm font-bold text-slate-700 dark:text-foreground mb-2">Email Address</label>
                    <input
                      type="email"
                      value={email}
                      onChange={(e) => setEmail(e.target.value)}
-                     className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                     className="w-full bg-slate-50 dark:bg-input border border-slate-200 dark:border-input dark:text-foreground rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
                      placeholder="student@example.com"
                      required
                    />
                  </div>
 
                  <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-2">Password</label>
+                    <label className="block text-sm font-bold text-slate-700 dark:text-foreground mb-2">Password</label>
                     <div className="relative">
                       <input
                         type={showPassword ? 'text' : 'password'}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all pr-10"
+                        className="w-full bg-slate-50 dark:bg-input border border-slate-200 dark:border-input dark:text-foreground rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all pr-10"
                         placeholder="••••••••"
                         required
                       />
                       <button 
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-muted-foreground hover:text-slate-600 dark:hover:text-foreground"
                       >
                         {showPassword ? (
                           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>
@@ -169,12 +169,12 @@ export default function SignUp() {
                  </div>
 
                  <div>
-                   <label className="block text-sm font-bold text-slate-700 mb-2">Confirm Password</label>
+                   <label className="block text-sm font-bold text-slate-700 dark:text-foreground mb-2">Confirm Password</label>
                    <input
                      type={showPassword ? 'text' : 'password'}
                      value={passwordConfirmation}
                      onChange={(e) => setPasswordConfirmation(e.target.value)}
-                     className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                     className="w-full bg-slate-50 dark:bg-input border border-slate-200 dark:border-input dark:text-foreground rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
                      placeholder="••••••••"
                      required
                    />
@@ -183,14 +183,14 @@ export default function SignUp() {
                  <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-slate-900 text-white font-bold py-3.5 rounded-xl hover:bg-slate-800 transition-colors shadow-lg shadow-slate-200 mt-4 disabled:opacity-70 disabled:cursor-not-allowed"
+                    className="w-full bg-slate-900 dark:bg-primary text-white dark:text-primary-foreground font-bold py-3.5 rounded-xl hover:bg-slate-800 dark:hover:bg-primary/90 transition-colors shadow-lg shadow-slate-200 dark:shadow-none mt-4 disabled:opacity-70 disabled:cursor-not-allowed"
                  >
                     {loading ? 'Creating Account...' : 'Sign Up'}
                  </button>
 
                  <div className="text-center mt-6">
-                    <span className="text-slate-500 text-sm">Already have an account? </span>
-                    <Link to="/login" className="text-primary-600 font-bold text-sm hover:underline">Login here</Link>
+                    <span className="text-slate-500 dark:text-muted-foreground text-sm">Already have an account? </span>
+                    <Link to="/login" className="text-primary-600 dark:text-primary-400 font-bold text-sm hover:underline">Login here</Link>
                  </div>
 
                </form>
