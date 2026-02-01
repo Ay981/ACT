@@ -171,11 +171,10 @@ export default function AppLayout({ children, hideMobileFooter = false }) {
             <Sidebar unreadCount={unreadCount} user={user} />
             <div className="flex-1 min-w-0 flex flex-col w-full">
               <main className="flex-1">{children}</main>
-              {/* Footer moved inside main content column to allow sidebar to stay sticky full height */}
-              <div className={`mt-10 ${hideMobileFooter ? 'hidden md:block' : 'block'}`}>
-                <Footer />
-              </div>
             </div>
+          </div>
+          <div className={`${hideMobileFooter ? 'hidden md:block' : 'block'}`}>
+             <Footer />
           </div>
         </div>
       </HeaderRefreshContext.Provider>
