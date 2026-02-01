@@ -138,20 +138,20 @@ export default function InstructorQuizNew() {
   return (
     <AppLayout>
       <div className="space-y-6">
-        <header className="bg-white border border-slate-200 rounded-2xl p-6">
-          <h1 className="text-2xl font-semibold">Create Quiz</h1>
-          <p className="mt-1 text-slate-600">Instructor wizard: Details → Generate with AI → Preview & Publish</p>
+        <header className="bg-card border border-border rounded-2xl p-6">
+          <h1 className="text-2xl font-semibold text-foreground">Create Quiz</h1>
+          <p className="mt-1 text-muted-foreground">Instructor wizard: Details → Generate with AI → Preview & Publish</p>
           <Stepper steps={steps} active={active} onSelect={setActive} />
         </header>
 
         {active === 0 && (
-          <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
-            <h2 className="font-semibold">Details & Settings</h2>
+          <section className="bg-card border border-border rounded-2xl p-6 space-y-4">
+            <h2 className="font-semibold text-foreground">Details & Settings</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="sm:col-span-2">
-                 <label className="block text-sm font-medium text-slate-700 mb-1">Source Course</label>
+                 <label className="block text-sm font-medium text-foreground mb-1">Source Course</label>
                  <select 
-                     className="block w-full rounded-xl border-slate-300 shadow-sm px-3 py-2 border"
+                     className="block w-full rounded-xl bg-background border-input text-foreground shadow-sm px-3 py-2 border"
                      value={form.courseId} 
                      onChange={e => {
                          const c = courses.find(x => String(x.id) === e.target.value)
@@ -168,87 +168,87 @@ export default function InstructorQuizNew() {
                          <option key={c.id} value={c.id}>{c.title}</option>
                      ))}
                  </select>
-                 <p className="text-xs text-slate-500 mt-1">Select one of your courses to help the AI generate relevant questions based on its lessons (YouTube links & PDF resources).</p>
+                 <p className="text-xs text-muted-foreground mt-1">Select one of your courses to help the AI generate relevant questions based on its lessons (YouTube links & PDF resources).</p>
               </div>
 
               <div>
-                <label className="text-sm text-slate-600">Title</label>
-                <input className="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2" value={form.title} onChange={e=>setForm({...form, title:e.target.value})} placeholder="Quiz title" />
+                <label className="text-sm text-muted-foreground">Title</label>
+                <input className="mt-1 w-full rounded-xl bg-background border-input text-foreground border px-3 py-2" value={form.title} onChange={e=>setForm({...form, title:e.target.value})} placeholder="Quiz title" />
               </div>
               <div>
-                <label className="text-sm text-slate-600">Subject / Topic</label>
-                <input className="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2" 
+                <label className="text-sm text-muted-foreground">Subject / Topic</label>
+                <input className="mt-1 w-full rounded-xl bg-background border-input text-foreground border px-3 py-2" 
                        value={form.subject} 
                        onChange={e=>setForm({...form, subject:e.target.value})} 
                        placeholder="e.g. History of AI"/>
               </div>
               <div className="sm:col-span-2">
-                <label className="text-sm text-slate-600">Description</label>
-                <textarea className="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2" rows={3} value={form.description} onChange={e=>setForm({...form, description:e.target.value})} placeholder="Short description" />
+                <label className="text-sm text-muted-foreground">Description</label>
+                <textarea className="mt-1 w-full rounded-xl bg-background border-input text-foreground border px-3 py-2" rows={3} value={form.description} onChange={e=>setForm({...form, description:e.target.value})} placeholder="Short description" />
               </div>
               <div>
-                <label className="text-sm text-slate-600">Difficulty</label>
-                <select className="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2" value={form.difficulty} onChange={e=>setForm({...form, difficulty:e.target.value})}>
+                <label className="text-sm text-muted-foreground">Difficulty</label>
+                <select className="mt-1 w-full rounded-xl bg-background border-input text-foreground border px-3 py-2" value={form.difficulty} onChange={e=>setForm({...form, difficulty:e.target.value})}>
                   <option>Beginner</option>
                   <option>Intermediate</option>
                   <option>Advanced</option>
                 </select>
               </div>
               <div>
-                <label className="text-sm text-slate-600">Time Limit (minutes)</label>
-                <input type="number" min="1" className="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2" value={form.timeLimitMinutes} onChange={e=>setForm({...form, timeLimitMinutes:Number(e.target.value)})} />
+                <label className="text-sm text-muted-foreground">Time Limit (minutes)</label>
+                <input type="number" min="1" className="mt-1 w-full rounded-xl bg-background border-input text-foreground border px-3 py-2" value={form.timeLimitMinutes} onChange={e=>setForm({...form, timeLimitMinutes:Number(e.target.value)})} />
               </div>
               <div>
-                <label className="text-sm text-slate-600">Passing Score (%)</label>
-                <input type="number" min="0" max="100" className="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2" value={form.passingScorePercent} onChange={e=>setForm({...form, passingScorePercent:Number(e.target.value)})} />
+                <label className="text-sm text-muted-foreground">Passing Score (%)</label>
+                <input type="number" min="0" max="100" className="mt-1 w-full rounded-xl bg-background border-input text-foreground border px-3 py-2" value={form.passingScorePercent} onChange={e=>setForm({...form, passingScorePercent:Number(e.target.value)})} />
               </div>
               <div>
-                <label className="text-sm text-slate-600">Number of Questions</label>
+                <label className="text-sm text-muted-foreground">Number of Questions</label>
                 <input 
                   type="number" 
                   min="1" 
                   max="50" 
-                  className="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2 focus:ring-primary-500 focus:border-primary-500" 
+                  className="mt-1 w-full rounded-xl bg-background border-input text-foreground border px-3 py-2 focus:ring-primary-500 focus:border-primary-500" 
                   value={form.questionCount} 
                   onChange={e=>setForm({...form, questionCount: e.target.value === '' ? '' : Number(e.target.value)})} 
                 />
               </div>
-              <p className="mt-1 text-xs text-slate-500">How many questions to draft during generation</p>
+              <p className="mt-1 text-xs text-muted-foreground">How many questions to draft during generation</p>
               <div className="flex items-center gap-2">
-                <input id="immediate" type="checkbox" checked={form.immediateResults} onChange={e=>setForm({...form, immediateResults:e.target.checked})} />
-                <label htmlFor="immediate" className="text-sm text-slate-700">Show results immediately</label>
+                <input id="immediate" type="checkbox" className="rounded border-input text-primary-600 focus:ring-primary-500" checked={form.immediateResults} onChange={e=>setForm({...form, immediateResults:e.target.checked})} />
+                <label htmlFor="immediate" className="text-sm text-foreground">Show results immediately</label>
               </div>
             </div>
             <div className="pt-4 flex items-center gap-3">
-              <button disabled={!canNext} onClick={()=>setActive(1)} className={`px-4 py-2 rounded-xl ${canNext? 'bg-primary-600 text-white hover:bg-primary-700' : 'bg-slate-200 text-slate-500'}`}>Next: Generate</button>
+              <button disabled={!canNext} onClick={()=>setActive(1)} className={`px-4 py-2 rounded-xl ${canNext? 'bg-primary-600 text-white hover:bg-primary-700' : 'bg-muted text-muted-foreground'}`}>Next: Generate</button>
             </div>
           </section>
         )}
 
         {active === 1 && (
-          <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
-            <h2 className="font-semibold">Generate with AI</h2>
-            <p className="text-slate-600">Use form context to draft questions. Edit later in Preview.</p>
+          <section className="bg-card border border-border rounded-2xl p-6 space-y-4">
+            <h2 className="font-semibold text-foreground">Generate with AI</h2>
+            <p className="text-muted-foreground">Use form context to draft questions. Edit later in Preview.</p>
             <div className="flex items-center gap-3">
-              <button title="Generate questions using the details above" disabled={isGenerating} onClick={generateAI} className={`px-4 py-2 rounded-xl ${isGenerating ? 'bg-slate-200 text-slate-500' : 'bg-primary-600 text-white hover:bg-primary-700'}`}>{isGenerating ? 'Generating…' : 'Generate'}</button>
-              <button onClick={addQuestion} className="px-4 py-2 rounded-xl border border-slate-300 hover:bg-slate-50">Add Question</button>
+              <button title="Generate questions using the details above" disabled={isGenerating} onClick={generateAI} className={`px-4 py-2 rounded-xl ${isGenerating ? 'bg-muted text-muted-foreground' : 'bg-primary-600 text-white hover:bg-primary-700'}`}>{isGenerating ? 'Generating…' : 'Generate'}</button>
+              <button onClick={addQuestion} className="px-4 py-2 rounded-xl border border-border text-foreground hover:bg-muted">Add Question</button>
             </div>
-            {genError && <div className="text-sm text-amber-700">{genError}</div>}
+            {genError && <div className="text-sm text-red-600 dark:text-red-400">{genError}</div>}
             <div className="space-y-3">
               {questions.length === 0 ? (
-                <div className="text-slate-600">No questions yet. Click Generate or Add Question.</div>
+                <div className="text-muted-foreground">No questions yet. Click Generate or Add Question.</div>
               ) : questions.map((q, idx) => (
-                <div key={q.id} className="p-4 rounded-xl border border-slate-200">
+                <div key={q.id} className="p-4 rounded-xl border border-border bg-card">
                   <div className="flex items-center justify-between">
-                    <span className="font-medium">Question {idx+1}</span>
-                    <button onClick={()=>setQuestions(questions.filter(x=>x.id!==q.id))} className="text-rose-700 text-sm">Remove</button>
+                    <span className="font-medium text-foreground">Question {idx+1}</span>
+                    <button onClick={()=>setQuestions(questions.filter(x=>x.id!==q.id))} className="text-red-600 hover:text-red-700 text-sm">Remove</button>
                   </div>
-                  <textarea className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-2" rows={2} placeholder="Prompt" value={q.prompt} onChange={e=>updateQuestion(q.id,{ prompt:e.target.value })} />
+                  <textarea className="mt-2 w-full rounded-xl bg-background border-input text-foreground border px-3 py-2" rows={2} placeholder="Prompt" value={q.prompt} onChange={e=>updateQuestion(q.id,{ prompt:e.target.value })} />
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
                     {q.options.map((opt,i)=> (
                       <div key={i} className="flex items-start gap-2">
-                        <input type="radio" className="mt-3" name={`correct-${q.id}`} checked={q.correctIndex===i} onChange={()=>updateQuestion(q.id,{ correctIndex:i })} />
-                        <textarea className="flex-1 rounded-xl border border-slate-300 px-3 py-2 resize-none" rows={2} placeholder={`Option ${i+1}`} value={opt} onChange={e=>updateOption(q.id,i,e.target.value)} />
+                        <input type="radio" className="mt-3 border-input bg-background" name={`correct-${q.id}`} checked={q.correctIndex===i} onChange={()=>updateQuestion(q.id,{ correctIndex:i })} />
+                        <textarea className="flex-1 rounded-xl bg-background border-input text-foreground border px-3 py-2 resize-none" rows={2} placeholder={`Option ${i+1}`} value={opt} onChange={e=>updateOption(q.id,i,e.target.value)} />
                       </div>
                     ))}
                   </div>
@@ -256,30 +256,30 @@ export default function InstructorQuizNew() {
               ))}
             </div>
             <div className="pt-4 flex items-center gap-3">
-              <button onClick={()=>setActive(0)} className="px-4 py-2 rounded-xl border border-slate-300 hover:bg-slate-50">Back</button>
-              <button disabled={!canNext} onClick={()=>setActive(2)} className={`px-4 py-2 rounded-xl ${canNext? 'bg-primary-600 text-white hover:bg-primary-700' : 'bg-slate-200 text-slate-500'}`}>Next: Preview</button>
+              <button onClick={()=>setActive(0)} className="px-4 py-2 rounded-xl border border-border text-foreground hover:bg-muted">Back</button>
+              <button disabled={!canNext} onClick={()=>setActive(2)} className={`px-4 py-2 rounded-xl ${canNext? 'bg-primary-600 text-white hover:bg-primary-700' : 'bg-muted text-muted-foreground'}`}>Next: Preview</button>
             </div>
           </section>
         )}
 
         {active === 2 && (
-          <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
-            <h2 className="font-semibold">Preview & Publish</h2>
-            <div className="rounded-xl border border-primary-200 bg-primary-50 p-4 text-primary-700">
+          <section className="bg-card border border-border rounded-2xl p-6 space-y-4">
+            <h2 className="font-semibold text-foreground">Preview & Publish</h2>
+            <div className="rounded-xl border border-primary-200 bg-primary-50 dark:bg-primary-900/20 p-4 text-primary-700 dark:text-primary-300">
               <div className="font-medium">{form.title || 'Untitled Quiz'}</div>
               <div className="text-sm">{form.description || 'No description'}</div>
               <div className="mt-2 text-sm">{questions.length} questions • {form.timeLimitMinutes} min • Pass {form.passingScorePercent}%</div>
             </div>
             <div className="space-y-3">
               {questions.map((q, idx) => (
-                <div key={q.id} className="p-4 rounded-xl border border-slate-200">
-                  <div className="font-medium">Q{idx+1}. {q.prompt || '—'}</div>
-                  <ul className="mt-2 text-sm text-slate-700 space-y-1">
+                <div key={q.id} className="p-4 rounded-xl border border-border bg-card">
+                  <div className="font-medium text-foreground">Q{idx+1}. {q.prompt || '—'}</div>
+                  <ul className="mt-2 text-sm text-foreground space-y-1">
                     {q.options.map((opt, i) => (
-                      <li key={i} className={`flex items-start gap-2 ${i===q.correctIndex ? 'text-green-700 font-semibold bg-green-50 p-2 rounded-lg' : 'p-2'}`}>
+                      <li key={i} className={`flex items-start gap-2 ${i===q.correctIndex ? 'text-green-700 dark:text-green-400 font-semibold bg-green-50 dark:bg-green-900/20 p-2 rounded-lg' : 'p-2 text-muted-foreground'}`}>
                           <span>{String.fromCharCode(65+i)}.</span>
                           <span>{opt || '—'}</span>
-                          {i===q.correctIndex && <span className="ml-auto bg-green-200 text-green-800 text-xs px-2 py-0.5 rounded-full font-bold">Correct</span>}
+                          {i===q.correctIndex && <span className="ml-auto bg-green-200 dark:bg-green-900/50 text-green-800 dark:text-green-300 text-xs px-2 py-0.5 rounded-full font-bold">Correct</span>}
                       </li>
                     ))}
                   </ul>
@@ -287,11 +287,11 @@ export default function InstructorQuizNew() {
               ))}
             </div>
             <div className="pt-4 flex items-center gap-3">
-              <button onClick={()=>setActive(1)} className="px-4 py-2 rounded-xl border border-slate-300 hover:bg-slate-50">Back</button>
-              <button disabled={isPublishing} onClick={publish} className={`px-4 py-2 rounded-xl ${isPublishing ? 'bg-slate-200 text-slate-500' : 'bg-primary-600 text-white hover:bg-primary-700'}`}>{isPublishing ? 'Publishing…' : 'Publish'}</button>
-              {publishError && <span className="text-sm text-amber-700">{publishError}</span>}
-              <a href={`/instructor/quizzes/${encodeURIComponent(quizId || form.title || 'new')}/share`} className="px-4 py-2 rounded-xl border border-slate-300 hover:bg-slate-50">Share</a>
-              <button className="px-4 py-2 rounded-xl border border-slate-300 hover:bg-slate-50">Save Draft</button>
+              <button onClick={()=>setActive(1)} className="px-4 py-2 rounded-xl border border-border text-foreground hover:bg-muted">Back</button>
+              <button disabled={isPublishing} onClick={publish} className={`px-4 py-2 rounded-xl ${isPublishing ? 'bg-muted text-muted-foreground' : 'bg-primary-600 text-white hover:bg-primary-700'}`}>{isPublishing ? 'Publishing…' : 'Publish'}</button>
+              {publishError && <span className="text-sm text-red-600">{publishError}</span>}
+              <a href={`/instructor/quizzes/${encodeURIComponent(quizId || form.title || 'new')}/share`} className="px-4 py-2 rounded-xl border border-border text-foreground hover:bg-muted">Share</a>
+              <button className="px-4 py-2 rounded-xl border border-border text-foreground hover:bg-muted">Save Draft</button>
             </div>
           </section>
         )}
@@ -319,7 +319,7 @@ function Stepper({ steps, active, onSelect }){
       {steps.map((label, i) => {
         const isActive = i === active
         return (
-          <button key={label} onClick={()=>onSelect(i)} className={`px-3 py-1.5 rounded-xl text-sm border transition ${isActive ? 'bg-primary-600 border-primary-600 text-white' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
+          <button key={label} onClick={()=>onSelect(i)} className={`px-3 py-1.5 rounded-xl text-sm border transition ${isActive ? 'bg-primary-600 border-primary-600 text-white' : 'bg-card border-border text-muted-foreground hover:bg-muted hover:text-foreground'}`}>
             {label}
           </button>
         )
