@@ -247,36 +247,43 @@ export default function Header({ unreadCount: propUnread, setUnreadCount: propSe
           <div className="relative" ref={dropdownRef}>
             <button 
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="w-9 h-9 rounded-full bg-gradient-to-br from-primary-400 to-primary-700 text-white font-semibold block transition-transform active:scale-95 uppercase"
+              className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 text-white font-bold flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-md shadow-primary/20 ring-2 ring-background uppercase"
             >
               {user?.name ? user.name.charAt(0) : 'U'}
             </button>
             {isDropdownOpen && (
-              <div className="absolute right-0 top-full mt-2 w-48 bg-popover rounded-xl shadow-lg border border-border py-2 z-50 animate-in fade-in zoom-in-95 duration-200">
-                <div className="px-4 py-2 border-b border-border mb-1">
-                  <p className="text-sm font-semibold text-foreground truncate">{user?.name}</p>
-                  <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+              <div className="absolute right-0 top-full mt-2 w-56 bg-popover rounded-xl shadow-xl border border-border py-2 z-50 animate-in fade-in zoom-in-95 duration-200">
+                <div className="px-4 py-3 border-b border-border mb-1 bg-muted/30">
+                  <p className="text-sm font-bold text-foreground truncate">{user?.name}</p>
+                  <p className="text-xs text-muted-foreground truncate font-medium">{user?.email}</p>
                 </div>
-                <Link 
-                  to="/messages" 
-                  className="block px-4 py-2 text-sm text-foreground hover:bg-accent hover:text-primary-600"
-                  onClick={() => setIsDropdownOpen(false)}
-                >
-                  Messages
-                </Link>
-                <Link 
-                  to="/settings" 
-                  className="block px-4 py-2 text-sm text-foreground hover:bg-accent hover:text-primary-600"
-                  onClick={() => setIsDropdownOpen(false)}
-                >
-                  Settings
-                </Link>
-                <button 
-                  onClick={handleLogout}
-                  className="w-full text-left cursor-pointer block px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10"
-                >
-                  Logout
-                </button>
+                <div className="py-1">
+                  <Link 
+                    to="/messages" 
+                    className="flex items-center gap-2 px-4 py-2 text-sm text-foreground hover:bg-accent transition-colors"
+                    onClick={() => setIsDropdownOpen(false)}
+                  >
+                    <span>Messages</span>
+                  </Link>
+                  <Link 
+                    to="/settings" 
+                    className="flex items-center gap-2 px-4 py-2 text-sm text-foreground hover:bg-accent transition-colors"
+                    onClick={() => setIsDropdownOpen(false)}
+                  >
+                    <span>Settings</span>
+                  </Link>
+                </div>
+                <div className="border-t border-border mt-1 pt-1 px-2">
+                  <button 
+                    onClick={handleLogout}
+                    className="w-full text-left cursor-pointer flex items-center gap-2 px-3 py-2 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-colors"
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                    Logout
+                  </button>
+                </div>
               </div>
             )}
           </div>
