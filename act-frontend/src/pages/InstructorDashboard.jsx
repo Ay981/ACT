@@ -27,9 +27,9 @@ export default function InstructorDashboard(){
     <AppLayout>
       <div className="space-y-6">
         <header className="flex items-center justify-between">
-          <h1 className="text-2xl font-semibold">Dashboard</h1>
+          <h1 className="text-2xl font-semibold text-foreground">Dashboard</h1>
           <div className="flex items-center gap-2">
-            <Link to="/instructor/courses/new" className="px-3 py-2 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 text-sm font-medium">Create Course</Link>
+            <Link to="/instructor/courses/new" className="px-3 py-2 rounded-xl border border-border bg-card text-foreground hover:bg-muted text-sm font-medium">Create Course</Link>
             <Link to="/instructor/quizzes/new" className="px-3 py-2 rounded-xl bg-primary-600 text-white hover:bg-primary-700 text-sm">Create New Quiz</Link>
           </div>
         </header>

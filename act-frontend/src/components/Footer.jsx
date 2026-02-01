@@ -4,8 +4,8 @@ import { useAuth } from '../contexts/AuthContext.jsx';
 export default function Footer() {
   const { user } = useAuth();
   return (
-    <footer className="bg-[#0f4c75] dark:bg-card dark:border-t dark:border-border text-white dark:text-muted-foreground pt-12 pb-4 mt-auto">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+    <footer className="bg-[#0f4c75] dark:bg-card dark:border-t dark:border-border text-white dark:text-muted-foreground pt-12 pb-4 mt-auto rounded-2xl">
+      <div className="px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
         {/* Column 1: About Us */}
         <div>
           <h3 className="text-lg font-bold mb-4 dark:text-foreground">About Us</h3>

@@ -58,7 +58,7 @@ export default function InstructorQuizShare() {
           {qrSrc && (
             <div className="mt-6 flex flex-col items-center border-t border-border pt-6">
               <label className="text-sm font-medium text-foreground mb-3">QR Code</label>
-              <div className="p-4 bg-white rounded-xl shadow-sm border border-slate-200">
+              <div className="p-4 bg-white rounded-xl shadow-sm border border-muted">
                 <img src={qrSrc} alt="Quiz QR Code" className="w-48 h-48 object-contain" />
               </div>
               <p className="mt-2 text-xs text-muted-foreground">Scan with mobile device to start quiz</p>
@@ -70,7 +70,7 @@ export default function InstructorQuizShare() {
           <Link to="/instructor/dashboard" className="px-6 py-2.5 text-muted-foreground hover:bg-muted rounded-xl transition">
             Back to Dashboard
           </Link>
-          <Link to={`/quiz/${id}`} className="px-6 py-2.5 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition shadow-sm shadow-primary-200">
+          <Link to={`/quiz/${id}`} className="px-6 py-2.5 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition shadow-sm shadow-primary-500/20">
             View Quiz
           </Link>
         </div>

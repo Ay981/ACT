@@ -225,12 +225,12 @@ export default function InstructorCourseEdit() {
           </div>
         ) : (
           <div>
-            <header className="bg-white border border-slate-200 rounded-2xl p-6">
-              <h1 className="text-2xl font-semibold">Edit Course</h1>
-              <p className="mt-1 text-slate-600">Update your course content and structure.</p>
+            <header className="bg-card border border-border rounded-2xl p-6 mb-6">
+              <h1 className="text-2xl font-semibold text-foreground">Edit Course</h1>
+              <p className="mt-1 text-muted-foreground">Update your course content and structure.</p>
               <div className="mt-4 flex items-center gap-2">
                 {steps.map((label, i) => (
-                    <div key={label} className={`px-3 py-1 rounded-full text-sm ${i === active ? 'bg-primary-600 text-white' : 'bg-slate-100 text-slate-600'}`}>
+                    <div key={label} className={`px-3 py-1 rounded-full text-sm ${i === active ? 'bg-primary-600 text-white' : 'bg-muted text-muted-foreground'}`}>
                         {i + 1}. {label}
                     </div>
                 ))}
@@ -238,18 +238,18 @@ export default function InstructorCourseEdit() {
             </header>
 
             {active === 0 && (
-                <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
-                    <h2 className="text-lg font-medium">Course Details</h2>
-                    {error && <div className="text-red-600 text-sm">{error}</div>}
+                <section className="bg-card border border-border rounded-2xl p-6 space-y-4">
+                    <h2 className="text-lg font-medium text-foreground">Course Details</h2>
+                    {error && <div className="text-red-600 dark:text-red-400 text-sm">{error}</div>}
                     
                     <div>
                         <div className="flex justify-between items-end mb-1">
-                            <label className="block text-sm font-medium text-slate-700">Course Topic / Title</label>
+                            <label className="block text-sm font-medium text-foreground">Course Topic / Title</label>
                             <button 
                                 type="button" 
                                 onClick={handleAiMagic}
                                 disabled={aiLoading}
-                                className="text-xs flex items-center gap-1 text-purple-600 font-medium hover:text-purple-700 disabled:opacity-50"
+                                className="text-xs flex items-center gap-1 text-purple-600 dark:text-purple-400 font-medium hover:text-purple-700 dark:hover:text-purple-300 disabled:opacity-50"
                             >
                                 {aiLoading ? (
                                     <span>✨ Generating...</span>
@@ -258,25 +258,25 @@ export default function InstructorCourseEdit() {
                                 )}
                             </button>
                         </div>
-                        <input className="mt-1 block w-full rounded-md border-slate-300 shadow-sm px-3 py-2 border" 
+                        <input className="mt-1 block w-full rounded-lg bg-background border-input text-foreground border shadow-sm px-3 py-3" 
                                placeholder="e.g. Introduction to Machine Learning"
                                value={details.title} onChange={e => setDetails({...details, title: e.target.value})} />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-slate-700">Description</label>
-                        <textarea className="mt-1 block w-full rounded-md border-slate-300 shadow-sm px-3 py-2 border" rows={3}
+                        <label className="block text-sm font-medium text-foreground">Description</label>
+                        <textarea className="mt-1 block w-full rounded-lg bg-background border-input text-foreground border shadow-sm px-3 py-2" rows={3}
                                   value={details.description} onChange={e => setDetails({...details, description: e.target.value})} />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm font-medium text-slate-700">Category</label>
-                            <input className="mt-1 block w-full rounded-md border-slate-300 px-3 py-2 border shadow-sm"
+                            <label className="block text-sm font-medium text-foreground">Category</label>
+                            <input className="mt-1 block w-full rounded-lg bg-background border-input text-foreground border shadow-sm px-3 py-3"
                                    placeholder="e.g. AI, Design, Marketing"
                                    value={details.category} onChange={e => setDetails({...details, category: e.target.value})} />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-slate-700">Level</label>
-                            <select className="mt-1 block w-full rounded-md border-slate-300 px-3 py-2 border"
+                            <label className="block text-sm font-medium text-foreground">Level</label>
+                            <select className="mt-1 block w-full rounded-lg bg-background border-input text-foreground border px-3 py-3"
                                     value={details.level} onChange={e => setDetails({...details, level: e.target.value})}>
                                 <option>Beginner</option>
                                 <option>Intermediate</option>
@@ -285,23 +285,23 @@ export default function InstructorCourseEdit() {
                         </div>
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-slate-700">Price ($)</label>
-                        <input type="number" min="0" step="0.01" className="mt-1 block w-full rounded-md border-slate-300 px-3 py-2 border shadow-sm"
+                        <label className="block text-sm font-medium text-foreground">Price ($)</label>
+                        <input type="number" min="0" step="0.01" className="mt-1 block w-full rounded-lg bg-background border-input text-foreground border shadow-sm px-3 py-3"
                                placeholder="0.00"
                                value={details.price} onChange={e => setDetails({...details, price: parseFloat(e.target.value) || 0})} />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-slate-700">Thumbnail Image (optional)</label>
-                        <input type="file" accept="image/*" className="mt-1 block w-full" 
+                        <label className="block text-sm font-medium text-foreground">Thumbnail Image (optional)</label>
+                        <input type="file" accept="image/*" className="mt-1 block w-full text-foreground file:bg-primary-50 file:text-primary-700 file:border-0 file:rounded-lg file:px-4 file:py-2 hover:file:bg-primary-100" 
                                onChange={e => setDetails({...details, thumbnail: e.target.files[0]})} />
                     </div>
 
                     <div className="pt-4 flex gap-2">
                         <button onClick={handleUpdateCourse} disabled={loading || !details.title} 
-                                className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 disabled:opacity-50">
+                                className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 disabled:opacity-50 font-medium">
                             {loading ? 'Updating...' : 'Update & Continue'}
                         </button>
-                        <button onClick={() => setActive(1)} className="px-4 py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50">
+                        <button onClick={() => setActive(1)} className="px-4 py-2 rounded-lg border border-border text-foreground hover:bg-muted font-medium">
                             Skip to Lessons
                         </button>
                     </div>
@@ -309,19 +309,19 @@ export default function InstructorCourseEdit() {
             )}
 
             {active === 1 && (
-                <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-6">
+                <section className="bg-card border border-border rounded-2xl p-6 space-y-6">
                     <div className="flex justify-between items-center">
-                         <h2 className="text-lg font-medium">Lessons</h2>
-                         <button onClick={() => setActive(2)} className="text-sm text-slate-500 hover:text-slate-800">Skip to Review</button>
+                         <h2 className="text-lg font-medium text-foreground">Lessons</h2>
+                         <button onClick={() => setActive(2)} className="text-sm text-muted-foreground hover:text-foreground">Skip to Review</button>
                     </div>
                     
                     {lessons.length > 0 && (
                         <div className="space-y-2">
                             {lessons.map((l, idx) => (
-                                <div key={l.id} className="flex justify-between items-center p-3 bg-slate-50 rounded-lg border border-slate-200">
+                                <div key={l.id} className="flex justify-between items-center p-3 bg-muted/50 rounded-lg border border-border">
                                     <div className="flex-1">
-                                        <div className="font-medium">{idx+1}. {l.title}</div>
-                                        <div className="text-xs text-slate-500">{l.content_type}</div>
+                                        <div className="font-medium text-foreground">{idx+1}. {l.title}</div>
+                                        <div className="text-xs text-muted-foreground">{l.content_type}</div>
                                     </div>
                                     <div className="flex gap-2">
                                         <button 
@@ -342,11 +342,11 @@ export default function InstructorCourseEdit() {
                         </div>
                     )}
 
-                    <div className="border-t pt-4">
-                        <h3 className="font-medium mb-3">{editingLesson ? 'Edit Lesson' : 'Add New Lesson'}</h3>
+                    <div className="border-t border-border pt-4">
+                        <h3 className="font-medium mb-3 text-foreground">{editingLesson ? 'Edit Lesson' : 'Add New Lesson'}</h3>
                         <div className="space-y-3">
                             <input 
-                                className="block w-full rounded-md border-slate-300 shadow-sm px-3 py-2 border" 
+                                className="block w-full rounded-lg bg-background border-input text-foreground border shadow-sm px-3 py-3" 
                                 placeholder="Lesson title"
                                 value={editingLesson ? editingLesson.title : newLesson.title} 
                                 onChange={e => editingLesson 
@@ -355,7 +355,7 @@ export default function InstructorCourseEdit() {
                                 } 
                             />
                             <textarea 
-                                className="block w-full rounded-md border-slate-300 shadow-sm px-3 py-2 border" 
+                                className="block w-full rounded-lg bg-background border-input text-foreground border shadow-sm px-3 py-2" 
                                 rows={2}
                                 placeholder="Lesson description"
                                 value={editingLesson ? editingLesson.description : newLesson.description} 
@@ -366,7 +366,7 @@ export default function InstructorCourseEdit() {
                             />
                             <input 
                                 type="url"
-                                className="block w-full rounded-md border-slate-300 shadow-sm px-3 py-2 border" 
+                                className="block w-full rounded-lg bg-background border-input text-foreground border shadow-sm px-3 py-3" 
                                 placeholder="YouTube URL (optional)"
                                 value={editingLesson ? editingLesson.youtube_url : newLesson.youtube_url} 
                                 onChange={e => editingLesson 
@@ -376,11 +376,11 @@ export default function InstructorCourseEdit() {
                             />
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-slate-700">Video/Resource File</label>
+                                    <label className="block text-sm font-medium text-foreground">Video/Resource File</label>
                                     <input 
                                         type="file" 
                                         accept="video/*,.pdf,.doc,.docx" 
-                                        className="mt-1 block w-full" 
+                                        className="mt-1 block w-full text-foreground file:bg-primary-50 file:text-primary-700 file:border-0 file:rounded-lg file:px-4 file:py-2 hover:file:bg-primary-100" 
                                         onChange={e => editingLesson 
                                             ? setEditingLesson({...editingLesson, video: e.target.files[0]})
                                             : setNewLesson({...newLesson, video: e.target.files[0]})
@@ -388,11 +388,11 @@ export default function InstructorCourseEdit() {
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-slate-700">Additional Resource (PDF/Doc)</label>
+                                    <label className="block text-sm font-medium text-foreground">Additional Resource (PDF/Doc)</label>
                                     <input 
                                         type="file" 
                                         accept=".pdf,.doc,.docx" 
-                                        className="mt-1 block w-full" 
+                                        className="mt-1 block w-full text-foreground file:bg-primary-50 file:text-primary-700 file:border-0 file:rounded-lg file:px-4 file:py-2 hover:file:bg-primary-100" 
                                         onChange={e => editingLesson 
                                             ? setEditingLesson({...editingLesson, resource: e.target.files[0]})
                                             : setNewLesson({...newLesson, resource: e.target.files[0]})
@@ -404,14 +404,14 @@ export default function InstructorCourseEdit() {
                                 <button 
                                     onClick={editingLesson ? handleUpdateLesson : handleAddLesson} 
                                     disabled={loading || !(editingLesson ? editingLesson.title : newLesson.title)} 
-                                    className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 disabled:opacity-50"
+                                    className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 disabled:opacity-50 font-medium"
                                 >
                                     {loading ? 'Saving...' : (editingLesson ? 'Update Lesson' : 'Add Lesson')}
                                 </button>
                                 {editingLesson && (
                                     <button 
                                         onClick={() => setEditingLesson(null)}
-                                        className="px-4 py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50"
+                                        className="px-4 py-2 rounded-lg border border-border text-foreground hover:bg-muted font-medium"
                                     >
                                         Cancel
                                     </button>
@@ -423,34 +423,34 @@ export default function InstructorCourseEdit() {
             )}
 
             {active === 2 && (
-                <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
-                    <h2 className="text-lg font-medium">Review & Publish</h2>
+                <section className="bg-card border border-border rounded-2xl p-6 space-y-4">
+                    <h2 className="text-lg font-medium text-foreground">Review & Publish</h2>
                     <div className="space-y-4">
-                        <div className="border rounded-lg p-4">
-                            <h3 className="font-medium">{details.title}</h3>
-                            <p className="text-sm text-slate-600 mt-1">{details.description}</p>
+                        <div className="border border-border rounded-lg p-4 bg-muted/20">
+                            <h3 className="font-medium text-foreground">{details.title}</h3>
+                            <p className="text-sm text-muted-foreground mt-1">{details.description}</p>
                             <div className="flex gap-2 mt-2">
-                                <span className="px-2 py-1 bg-slate-100 text-xs rounded">{details.category}</span>
-                                <span className="px-2 py-1 bg-slate-100 text-xs rounded">{details.level}</span>
-                                <span className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded">${details.price}</span>
+                                <span className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded border border-border">{details.category}</span>
+                                <span className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded border border-border">{details.level}</span>
+                                <span className="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs rounded">${details.price}</span>
                             </div>
                         </div>
                         
                         <div>
-                            <h4 className="font-medium mb-2">Lessons ({lessons.length})</h4>
+                            <h4 className="font-medium mb-2 text-foreground">Lessons ({lessons.length})</h4>
                             <div className="space-y-1">
                                 {lessons.map((l, idx) => (
-                                    <div key={l.id} className="text-sm text-slate-600">{idx+1}. {l.title}</div>
+                                    <div key={l.id} className="text-sm text-muted-foreground">{idx+1}. {l.title}</div>
                                 ))}
                             </div>
                         </div>
                     </div>
                     
                     <div className="pt-4 flex gap-2">
-                        <button onClick={handleFinish} className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700">
+                        <button onClick={handleFinish} className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 font-medium shadow-md shadow-primary-500/20">
                             Finish Editing
                         </button>
-                        <button onClick={() => setActive(1)} className="px-4 py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50">
+                        <button onClick={() => setActive(1)} className="px-4 py-2 rounded-lg border border-border text-foreground hover:bg-muted font-medium">
                             Back to Lessons
                         </button>
                     </div>
