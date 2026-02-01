@@ -118,7 +118,7 @@ export default function AppLayout({ children, hideMobileFooter = false }) {
   return (
     <ToastProvider>
       <HeaderRefreshContext.Provider value={refreshHeader}>
-        <div className="min-h-screen bg-slate-50 flex flex-col">
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col">
           <Header 
             unreadCount={unreadCount} 
             setUnreadCount={setUnreadCount}
@@ -139,11 +139,11 @@ export default function AppLayout({ children, hideMobileFooter = false }) {
 
               {/* Mobile sidebar drawer */}
               <div
-                className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed top-0 left-0 z-50 h-full w-72 bg-white border-r border-slate-200 md:hidden transition-transform duration-200 ease-out flex flex-col`}
+                className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed top-0 left-0 z-50 h-full w-72 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 md:hidden transition-transform duration-200 ease-out flex flex-col`}
                 role="dialog"
                 aria-modal="true"
               >
-                <div className="h-16 px-4 border-b border-slate-200 flex items-center justify-between">
+                <div className="h-16 px-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <img src="/assets/actacademy.png" alt="ACT Academy" className="h-9 w-auto object-contain" />
                   </div>
