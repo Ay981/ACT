@@ -71,7 +71,7 @@ export default function Settings() {
                   type="text" 
                   value={formData.name} 
                   onChange={e => setFormData({...formData, name: e.target.value})}
-                  className="w-full rounded-2xl bg-background border-input focus:border-primary-500 focus:ring-primary-500 text-foreground" 
+                  className="w-full rounded-lg bg-slate-50 dark:bg-background border border-slate-300 dark:border-input focus:border-primary-500 focus:ring-primary-500 text-foreground py-3 px-4" 
                   required
                />
             </div>
@@ -81,7 +81,7 @@ export default function Settings() {
                   type="email" 
                   value={formData.email} 
                   onChange={e => setFormData({...formData, email: e.target.value})}
-                  className="w-full rounded-2xl bg-background border-input focus:border-primary-500 focus:ring-primary-500 text-foreground" 
+                  className="w-full rounded-lg bg-slate-50 dark:bg-background border border-slate-300 dark:border-input focus:border-primary-500 focus:ring-primary-500 text-foreground py-3 px-4" 
                   required
                />
             </div>
@@ -100,7 +100,7 @@ export default function Settings() {
                     type="password" 
                     value={passData.current_password}
                     onChange={e => setPassData({...passData, current_password: e.target.value})}
-                    className="w-full rounded-2xl bg-background border-input focus:border-primary-500 focus:ring-primary-500 text-foreground" 
+                    className="w-full rounded-lg bg-slate-50 dark:bg-background border border-slate-300 dark:border-input focus:border-primary-500 focus:ring-primary-500 text-foreground py-3 px-4" 
                     required
                 />
              </div>
@@ -110,7 +110,7 @@ export default function Settings() {
                     type="password" 
                     value={passData.password}
                     onChange={e => setPassData({...passData, password: e.target.value})}
-                    className="w-full rounded-2xl bg-background border-input focus:border-primary-500 focus:ring-primary-500 text-foreground" 
+                    className="w-full rounded-lg bg-slate-50 dark:bg-background border border-slate-300 dark:border-input focus:border-primary-500 focus:ring-primary-500 text-foreground py-3 px-4" 
                     required
                 />
              </div>
@@ -120,7 +120,7 @@ export default function Settings() {
                     type="password" 
                     value={passData.password_confirmation}
                     onChange={e => setPassData({...passData, password_confirmation: e.target.value})}
-                    className="w-full rounded-2xl bg-background border-input focus:border-primary-500 focus:ring-primary-500 text-foreground" 
+                    className="w-full rounded-lg bg-slate-50 dark:bg-background border border-slate-300 dark:border-input focus:border-primary-500 focus:ring-primary-500 text-foreground py-3 px-4" 
                     required
                 />
              </div>
