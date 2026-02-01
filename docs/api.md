@@ -46,11 +46,28 @@ Authorization: Bearer {your_sanctum_token}
 - `GET /lessons/{id}` — Get lesson details
 - `POST /courses/{id}/lessons` — Add lesson to course
 
+
 ### Quizzes
-- `GET /courses/{id}/quizzes` — List quizzes for a course
-- `POST /courses/{id}/quizzes` — Create quiz
-- `POST /quizzes/{id}/attempt` — Attempt a quiz
-- `GET /quizzes/{id}/results` — Get quiz results
+- `GET /quizzes` — List all quizzes (Instructor/Admin)
+- `POST /quizzes` — Create a new quiz (Instructor/Admin)
+- `GET /quizzes/{id}` — Get quiz details
+- `PUT /quizzes/{id}` — Update quiz (Instructor/Admin)
+- `DELETE /quizzes/{id}` — Delete quiz (Instructor/Admin)
+- `POST /quiz/generate` — AI-generate quiz (Instructor/Admin)
+- `POST /quizzes/{id}/attempt` — Attempt a quiz (Student)
+- `GET /quizzes/{id}/attempts` — List attempts for a quiz (Instructor/Admin)
+- `GET /my-attempts` — List my quiz attempts (Student)
+
+### Admin Endpoints
+- `GET /admin/dashboard` — Admin dashboard stats
+- `GET /admin/reports` — List user/content reports
+- `POST /admin/reports/{id}/action` — Take action on a report
+- `GET /admin/instructors` — List instructors
+- `DELETE /admin/instructors/{id}` — Remove instructor
+- `POST /admin/instructors/{id}/approve` — Approve instructor
+- `GET /admin/maintenance` — Get maintenance mode status
+- `POST /admin/maintenance` — Toggle maintenance mode
+- `POST /admin/broadcast` — Broadcast message to users
 
 ### Comments
 - `GET /courses/{id}/comments` — List comments
