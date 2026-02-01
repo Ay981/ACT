@@ -1,21 +1,61 @@
-# ACT E‑Learning Frontend (Login Page)
+# ACT E-Learning Frontend
 
-This is a Vite + React + TailwindCSS frontend. It starts with the Login page design inspired by the provided Figma.
+The React-based frontend for the ACT E-Learning Platform, a comprehensive learning management system.
 
-## Quick start
+**Live URL:** [https://act-elearning.aymenab.com](https://act-elearning.aymenab.com)
 
-```bash
-# from the workspace root
-cd act-frontend
-npm install
-npm run dev
+## 🚀 Features
+
+- **Modern UI/UX**: Built with TailwindCSS and responsive design.
+- **Role-Based Dashboards**: Distinct interfaces for Students, Instructors, and Admins.
+- **Dark Mode Support**: Seamless light/dark theme switching.
+- **Interactive Quizzes**: Real-time quiz taking and result analysis.
+- **Course Management**: Rich course browsing, enrollment, and lesson viewing.
+
+## 🛠 Tech Stack
+
+- **Framework**: React 18 + Vite
+- **Styling**: TailwindCSS
+- **State Management**: React Context API
+- **Routing**: React Router DOM 6
+- **Icons**: Lucide React
+- **HTTP Client**: Axios
+
+## 📦 Project Structure
+
+```
+src/
+├── components/     # Reusable UI components
+├── contexts/       # React Contexts (Auth, Theme)
+├── layouts/        # Page layouts (AppLayout, etc.)
+├── lib/            # Utilities and API helpers
+├── pages/          # Application pages/routes
+└── global.css      # Global styles and Tailwind imports
 ```
 
-Then open the URL shown in the terminal (usually http://localhost:5173). You should see the login screen and a branded left panel on large screens.
+## 🔧 Setup & Development
 
-## Structure
-- `src/pages/Login.jsx` – Login screen
-- `src/components/Logo.jsx` – Simple placeholder logo
-- Tailwind configured in `tailwind.config.js` and `src/index.css`
+1.  **Install Dependencies**
+    ```bash
+    npm install
+    ```
 
-This is a starter; wire real authentication later by replacing the submit handler in `Login.jsx`.
+2.  **Environment Setup**
+    Copy `.env.example` to `.env` (if available) or create `.env`:
+    ```env
+    VITE_API_BASE_URL=http://localhost:8000
+    ```
+
+3.  **Run Development Server**
+    ```bash
+    npm run dev
+    ```
+
+4.  **Build for Production**
+    ```bash
+    npm run build
+    ```
+
+## 🌐 Deployment
+
+The frontend is configured to be deployed on static hosting services (like Vercel or Render) or served via a web server (Nginx/Apache). The live version is hosted at [act-elearning.aymenab.com](https://act-elearning.aymenab.com).

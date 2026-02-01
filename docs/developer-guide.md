@@ -23,6 +23,7 @@ The ACT E-Learning Platform is a modern, scalable learning management system bui
 
 **Frontend Layer (React)**
 - Single Page Application (SPA) built with React 18 and Vite
+- Hosted at [https://act-elearning.aymenab.com](https://act-elearning.aymenab.com)
 - Component-based architecture with reusable UI components
 - State management through React Context API
 - Responsive design using TailwindCSS
@@ -634,7 +635,7 @@ comment_reactions
 APP_NAME="ACT E-Learning"
 APP_ENV=production
 APP_DEBUG=false
-APP_URL=https://api.aymenab.com
+APP_URL=https://act-elearning.aymenab.com
 
 DB_CONNECTION=mysql
 DB_HOST=your-db-host
