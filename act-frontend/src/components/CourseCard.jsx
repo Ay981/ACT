@@ -5,7 +5,7 @@ export default function CourseCard({ course }) {
   const isFree = course.price === 'Free'
 
   return (
-    <div className="group bg-white dark:bg-card rounded-2xl overflow-hidden border border-slate-100 dark:border-border hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+    <div className="group bg-card rounded-2xl overflow-hidden border border-border hover:shadow-xl transition-all duration-300 flex flex-col h-full">
       {/* Image Container */}
       <div className="relative h-48 overflow-hidden">
         <img 
@@ -28,7 +28,7 @@ export default function CourseCard({ course }) {
         />
         {/* Category Badge */}
         <div className="absolute top-4 left-4">
-          <span className="bg-[#1e1e1e] text-white text-[10px] uppercase tracking-wide font-bold px-3 py-1 rounded">
+          <span className="bg-secondary/90 backdrop-blur-sm text-secondary-foreground text-[10px] uppercase tracking-wide font-bold px-3 py-1 rounded">
             {course.category || 'Photography'}
           </span>
         </div>
@@ -37,17 +37,17 @@ export default function CourseCard({ course }) {
       {/* Content */}
       <div className="p-5 flex-1 flex flex-col">
         {/* Author */}
-        <div className="text-slate-500 dark:text-muted-foreground text-xs mb-2">
-          by <span className="text-slate-800 dark:text-card-foreground font-medium">{course.author || 'Determined-Poitras'}</span>
+        <div className="text-muted-foreground text-xs mb-2">
+          by <span className="text-foreground font-medium">{course.author || 'Determined-Poitras'}</span>
         </div>
 
         {/* Title */}
-        <h3 className="text-lg font-bold text-slate-900 dark:text-card-foreground leading-snug mb-4 line-clamp-2 min-h-[3.5rem]">
+        <h3 className="text-lg font-bold text-foreground leading-snug mb-4 line-clamp-2 min-h-[3.5rem]">
           {course.title}
         </h3>
 
         {/* Meta Info */}
-        <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-muted-foreground mb-6">
+        <div className="flex items-center gap-4 text-xs text-muted-foreground mb-6">
           <div className="flex items-center gap-1.5">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-orange-500">
               <circle cx="12" cy="12" r="10"></circle>
@@ -64,10 +64,10 @@ export default function CourseCard({ course }) {
           </div>
         </div>
 
-        <div className="mt-auto border-t border-slate-100 dark:border-border pt-4 flex items-center justify-between">
+        <div className="mt-auto border-t border-border pt-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             {course.oldPrice && (
-              <span className="text-slate-400 dark:text-muted-foreground text-sm line-through decoration-slate-400 dark:decoration-slate-500">
+              <span className="text-muted-foreground text-sm line-through decoration-muted-foreground">
                 ${typeof course.oldPrice === 'number' ? course.oldPrice.toFixed(1) : course.oldPrice}
               </span>
             )}
@@ -75,7 +75,7 @@ export default function CourseCard({ course }) {
               {isFree ? 'Free' : `$${typeof course.price === 'number' ? course.price.toFixed(1) : course.price}`}
             </span>
           </div>
-          <Link to={`/courses/${course.id}`} className="text-sm font-bold text-slate-800 dark:text-card-foreground hover:text-primary-600 transition-colors">
+          <Link to={`/courses/${course.id}`} className="text-sm font-bold text-foreground hover:text-primary-600 transition-colors">
             View More
           </Link>
         </div>

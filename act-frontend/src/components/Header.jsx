@@ -130,14 +130,14 @@ export default function Header({ unreadCount: propUnread, setUnreadCount: propSe
   const isStudentDashboard = user?.role === 'student' && location.pathname === '/dashboard'
 
   return (
-    <header className="sticky top-0 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur border-b border-slate-200 dark:border-slate-800">
+    <header className="sticky top-0 z-30 bg-background/80 backdrop-blur border-b border-border">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <div className="flex items-center gap-6">
           {user && !isAuthPage && (
             <button
               type="button"
               onClick={onMenuClick}
-              className="md:hidden -ml-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300"
+              className="md:hidden -ml-2 p-2 rounded-lg hover:bg-accent text-muted-foreground hover:text-foreground"
               aria-label="Open menu"
               aria-expanded={!!sidebarOpen}
             >
@@ -158,10 +158,10 @@ export default function Header({ unreadCount: propUnread, setUnreadCount: propSe
            {/* <span className={`text-slate-700 font-semibold cursor-pointer hover:text-primary-600 ${isAuthPage ? 'hidden' : 'hidden md:block'}`}>Categories</span> */}
 
            {/* Search Bar */}
-           <div className={`${isAuthPage ? 'hidden' : 'hidden md:flex'} items-center gap-2 bg-slate-100 dark:bg-slate-800 rounded-full px-4 py-2 w-96 focus-within:ring-2 focus-within:ring-primary-100 transition-all border border-transparent focus-within:border-primary-200`}>
-            <SearchIcon className="w-4 h-4 text-slate-500 dark:text-slate-400" />
+           <div className={`${isAuthPage ? 'hidden' : 'hidden md:flex'} items-center gap-2 bg-secondary rounded-full px-4 py-2 w-96 focus-within:ring-2 focus-within:ring-primary/20 transition-all border border-transparent focus-within:border-primary/50`}>
+            <SearchIcon className="w-4 h-4 text-muted-foreground" />
             <input 
-              className="bg-transparent outline-none text-sm w-full placeholder:text-slate-400 dark:placeholder:text-slate-500 text-slate-800 dark:text-slate-200" 
+              className="bg-transparent outline-none text-sm w-full placeholder:text-muted-foreground text-foreground"  
               placeholder={user?.role === 'admin' ? 'Search reports...' : 'Search courses...'}  
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
@@ -178,14 +178,14 @@ export default function Header({ unreadCount: propUnread, setUnreadCount: propSe
              <img src="/assets/mesrat.png" alt="Mesirat" className="h-8 w-auto object-contain" />
              <div className="flex items-center">
                  <span className="text-xl font-bold text-blue-400">ACT</span>
-                 <span className="text-xl font-bold ml-1 text-slate-800 dark:text-slate-200 flex items-center">J<span className="text-blue-500">🔍</span>bs</span>
+                 <span className="text-xl font-bold ml-1 text-foreground flex items-center">J<span className="text-blue-500">🔍</span>bs</span>
              </div>
           </div>
           
-          <div className="flex items-center gap-3 pl-4 border-l border-slate-200 dark:border-slate-800">
+          <div className="flex items-center gap-3 pl-4 border-l border-border">
           {!user ? (
              <div className="flex items-center gap-3">
-                 <Link to="/login" className="text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white flex items-center gap-1">
+                 <Link to="/login" className="text-sm font-semibold text-muted-foreground hover:text-foreground flex items-center gap-1">
                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>
                    Log In
                  </Link>
@@ -197,7 +197,7 @@ export default function Header({ unreadCount: propUnread, setUnreadCount: propSe
           ) : (
           <>
           {isInstructor && (
-            <Link to="/instructor/quizzes/new" className="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-primary-50 text-primary-700 border border-primary-200 hover:bg-primary-100 text-sm font-medium transition-colors">Create Quiz</Link>
+            <Link to="/instructor/quizzes/new" className="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-primary/10 text-primary-600 border border-primary/20 hover:bg-primary/20 text-sm font-medium transition-colors">Create Quiz</Link>
           )}
 
           <ThemeToggle />
@@ -206,33 +206,33 @@ export default function Header({ unreadCount: propUnread, setUnreadCount: propSe
           <div className="relative" ref={notifRef}>
             <button 
               onClick={() => setIsNotifOpen(!isNotifOpen)}
-              className={`relative p-2 rounded-full transition-colors ${isNotifOpen ? 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200' : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400'}`} 
+              className={`relative p-2 rounded-full transition-colors ${isNotifOpen ? 'bg-accent text-foreground' : 'hover:bg-accent text-muted-foreground'}`}  
               aria-label="Notifications"
             >
               <BellIcon className="w-5 h-5" />
               {displayNotifications.length > 0 && <span className="absolute -top-0.5 -right-0.5 inline-block w-2 h-2 bg-primary-600 rounded-full"></span>}
             </button>
             {isNotifOpen && (
-              <div className="absolute right-0 top-full mt-2 w-80 bg-white dark:bg-slate-900 rounded-xl shadow-lg border border-slate-100 dark:border-slate-800 py-2 z-50 animate-in fade-in zoom-in-95 duration-200">
-                  <div className="px-4 py-2 border-b border-slate-50 dark:border-slate-800 flex justify-between items-center">
-                    <span className="font-semibold text-slate-900 dark:text-slate-200 text-sm">Notifications</span>
+              <div className="absolute right-0 top-full mt-2 w-80 bg-popover rounded-xl shadow-lg border border-border py-2 z-50 animate-in fade-in zoom-in-95 duration-200">
+                  <div className="px-4 py-2 border-b border-border flex justify-between items-center">
+                    <span className="font-semibold text-foreground text-sm">Notifications</span>
                     {displayNotifications.length > 0 && (
                       <button onClick={markAllRead} className="text-xs text-primary-600 font-medium hover:underline">Mark all read</button>
                     )}
                   </div>
                   <div className="max-h-64 overflow-y-auto">
                     {displayNotifications.length === 0 ? (
-                        <div className="px-4 py-8 text-center text-sm text-slate-500 dark:text-slate-400">
+                        <div className="px-4 py-8 text-center text-sm text-muted-foreground">
                             No new notifications
                         </div>
                     ) : (
                       displayNotifications.map(n => (
-                        <div key={n.id} className="px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer border-b border-slate-50 dark:border-slate-800 last:border-0" onClick={() => handleMarkRead(n.id)}>
-                          <p className={`text-sm font-medium ${n.type === 'warning' ? 'text-red-700 dark:text-red-400' : 'text-slate-800 dark:text-slate-200'}`}>
+                        <div key={n.id} className="px-4 py-3 hover:bg-accent cursor-pointer border-b border-border last:border-0" onClick={() => handleMarkRead(n.id)}>
+                          <p className={`text-sm font-medium ${n.type === 'warning' ? 'text-red-600' : 'text-foreground'}`}>
                              {n.type === 'warning' && <span className="mr-1">⚠️</span>}
                              {n.text}
                           </p>
-                          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{n.sub}</p>
+                          <p className="text-xs text-muted-foreground mt-0.5">{n.sub}</p>
                         </div>
                       ))
                     )}
@@ -251,21 +251,21 @@ export default function Header({ unreadCount: propUnread, setUnreadCount: propSe
               {user?.name ? user.name.charAt(0) : 'U'}
             </button>
             {isDropdownOpen && (
-              <div className="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-slate-900 rounded-xl shadow-lg border border-slate-100 dark:border-slate-800 py-2 z-50 animate-in fade-in zoom-in-95 duration-200">
-                <div className="px-4 py-2 border-b border-slate-100 dark:border-slate-800 mb-1">
-                  <p className="text-sm font-semibold text-slate-900 dark:text-slate-200 truncate">{user?.name}</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{user?.email}</p>
+              <div className="absolute right-0 top-full mt-2 w-48 bg-popover rounded-xl shadow-lg border border-border py-2 z-50 animate-in fade-in zoom-in-95 duration-200">
+                <div className="px-4 py-2 border-b border-border mb-1">
+                  <p className="text-sm font-semibold text-foreground truncate">{user?.name}</p>
+                  <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
                 </div>
                 <Link 
                   to="/messages" 
-                  className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary-600"
+                  className="block px-4 py-2 text-sm text-foreground hover:bg-accent hover:text-primary-600"
                   onClick={() => setIsDropdownOpen(false)}
                 >
                   Messages
                 </Link>
                 <Link 
                   to="/settings" 
-                  className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary-600"
+                  className="block px-4 py-2 text-sm text-foreground hover:bg-accent hover:text-primary-600"
                   onClick={() => setIsDropdownOpen(false)}
                 >
                   Settings

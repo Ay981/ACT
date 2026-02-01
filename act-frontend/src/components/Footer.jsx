@@ -4,12 +4,12 @@ import { useAuth } from '../contexts/AuthContext.jsx';
 export default function Footer() {
   const { user } = useAuth();
   return (
-    <footer className="bg-[#0f4c75] text-white pt-12 pb-4 mt-auto">
+    <footer className="bg-[#0f4c75] dark:bg-card dark:border-t dark:border-border text-white dark:text-muted-foreground pt-12 pb-4 mt-auto">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
         {/* Column 1: About Us */}
         <div>
-          <h3 className="text-lg font-bold mb-4">About Us</h3>
-          <p className="text-sm leading-relaxed mb-4 text-blue-100">
+          <h3 className="text-lg font-bold mb-4 dark:text-foreground">About Us</h3>
+          <p className="text-sm leading-relaxed mb-4 text-blue-100 dark:text-muted-foreground">
             ACT Academy platform that connects Teachers with Students globally. Teachers create high-quality courses and present them in a super easy way.
           </p>
           <div className="flex gap-4">
@@ -27,8 +27,8 @@ export default function Footer() {
 
         {/* Column 2: Contact */}
         <div>
-          <h3 className="text-lg font-bold mb-4">Contact</h3>
-          <div className="space-y-3 text-sm text-blue-100">
+          <h3 className="text-lg font-bold mb-4 dark:text-foreground">Contact</h3>
+          <div className="space-y-3 text-sm text-blue-100 dark:text-muted-foreground">
             <p>ACT American College of Technology Building, Arada Sub-city, Addis Ababa, Ethiopia</p>
             <p>Telephone: 251-956-820-619</p>
             <p>academy@act.edu.et</p>
@@ -37,14 +37,14 @@ export default function Footer() {
 
         {/* Column 3: Links 1 */}
         <div>
-           <ul className="space-y-2 text-sm text-blue-100">
-             <li><Link to="/" className="hover:text-white hover:underline">Home</Link></li>
-             <li><Link to="/dashboard" className="hover:text-white hover:underline">Dashboard</Link></li>
-             <li><Link to="/courses" className="hover:text-white hover:underline">Popular Courses</Link></li>
-             <li><Link to="/courses" className="hover:text-white hover:underline">Courses</Link></li>
-             <li><Link to="/courses" className="hover:text-white hover:underline">Featured Courses</Link></li>
+           <ul className="space-y-2 text-sm text-blue-100 dark:text-muted-foreground">
+             <li><Link to="/" className="hover:text-white dark:hover:text-foreground hover:underline">Home</Link></li>
+             <li><Link to="/dashboard" className="hover:text-white dark:hover:text-foreground hover:underline">Dashboard</Link></li>
+             <li><Link to="/courses" className="hover:text-white dark:hover:text-foreground hover:underline">Popular Courses</Link></li>
+             <li><Link to="/courses" className="hover:text-white dark:hover:text-foreground hover:underline">Courses</Link></li>
+             <li><Link to="/courses" className="hover:text-white dark:hover:text-foreground hover:underline">Featured Courses</Link></li>
              {!user && (
-               <li><Link to="/signup" className="hover:text-white hover:underline">Sign Up</Link></li>
+               <li><Link to="/signup" className="hover:text-white dark:hover:text-foreground hover:underline">Sign Up</Link></li>
              )}
            </ul>
         </div>
