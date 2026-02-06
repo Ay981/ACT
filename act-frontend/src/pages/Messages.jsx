@@ -384,7 +384,7 @@ export default function Messages(){
           </aside>
           
           {/* Chat Section */}
-          <section className={`${selected && showChat ? 'block' : 'hidden'} lg:block lg:flex-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden flex flex-col h-full lg:h-full min-h-0`}>
+          <section className={`${selected && showChat ? 'block' : 'hidden'} lg:block lg:flex-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col h-full lg:h-full min-h-0`} style={{ borderRadius: 0 }}>
             {selected ? (
               <div className="flex flex-col h-full min-h-0">
                 {/* Mobile Header */}
@@ -449,7 +449,7 @@ export default function Messages(){
                   {/* Mobile: fixed input bar (prevents disappearing on scroll/address-bar changes) */}
                   <div
                     className="lg:hidden fixed left-0 right-0 bottom-0 z-50 bg-white dark:bg-card border-t border-slate-200 dark:border-border"
-                    style={{ paddingBottom: 0 }}
+                    style={{ paddingBottom: 0, borderRadius: 0, margin: 0 }}
                   >
                     <div className="mx-auto max-w-7xl">
                       <div className="flex gap-2">
