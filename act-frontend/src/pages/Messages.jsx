@@ -425,8 +425,8 @@ export default function Messages(){
                 
                 {/* Messages */}
                 <div
-                  className="flex-1 overflow-y-auto px-2 pt-2 pb-1 space-y-3 bg-slate-50 dark:bg-background min-h-0 overscroll-contain touch-pan-y lg:overscroll-auto lg:touch-auto"
-                  style={{ WebkitOverflowScrolling: 'touch', paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+                  className="flex-1 overflow-y-auto space-y-3 bg-slate-50 dark:bg-background min-h-0 overscroll-contain touch-pan-y lg:overscroll-auto lg:touch-auto"
+                  style={{ WebkitOverflowScrolling: 'touch', paddingBottom: 0 }}
                 >
                   {selected.messages.map(msg => (
                     <div key={msg.id} className={`flex ${msg.sender === 'student' ? 'justify-end' : 'justify-start'}`}>
@@ -448,8 +448,8 @@ export default function Messages(){
                 <>
                   {/* Mobile: fixed input bar (prevents disappearing on scroll/address-bar changes) */}
                   <div
-                    className="lg:hidden fixed left-0 right-0 bottom-0 z-50 bg-white dark:bg-card border-t border-slate-200 dark:border-border px-2 pt-2 pb-1"
-                    style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+                    className="lg:hidden fixed left-0 right-0 bottom-0 z-50 bg-white dark:bg-card border-t border-slate-200 dark:border-border"
+                    style={{ paddingBottom: 0 }}
                   >
                     <div className="mx-auto max-w-7xl">
                       <div className="flex gap-2">
