@@ -1,7 +1,9 @@
+
 import { useState } from 'react'
 import { useAuth } from '../../contexts/AuthContext.jsx'
 import { submitReport } from '../../lib/api'
 import { useToast } from '../Toast.jsx'
+import AdminModal from '../AdminModal.jsx'
 
 export default function MessageThread({ conversation, onSend }){
   const { user } = useAuth()

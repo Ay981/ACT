@@ -36,15 +36,15 @@ class MessageController extends Controller
                 ->count();
             
             // Get full history for the frontend state (simplification for now)
-            $messages = Message::where(function ($q) use ($userId, $partner) {
+            $messages = Message::with('sender')->where(function ($q) use ($userId, $partner) {
                 $q->where('sender_id', $userId)->where('receiver_id', $partner->id);
             })->orWhere(function ($q) use ($userId, $partner) {
                 $q->where('sender_id', $partner->id)->where('receiver_id', $userId);
-            })->orderBy('created_at', 'asc')->get()->map(function ($m) use ($userId) {
+            })->orderBy('created_at', 'asc')->get()->map(function ($m) {
                 return [
                     'id' => $m->id,
                     'text' => $m->message,
-                    'sender' => $m->sender_id === $userId ? 'student' : 'instructor',
+                    'sender' => $m->sender ? $m->sender->role : null,
                     'at' => $m->created_at->toIso8601String(),
                     'read' => (bool)$m->is_read
                 ];
