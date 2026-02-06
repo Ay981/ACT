@@ -48,9 +48,9 @@ export default function QuizStart() {
             <Link to={`/courses/`} className="px-4 py-2 rounded-xl border border-border hover:bg-muted text-foreground">Back to Course</Link>
           </div>
         </header>
-        <section className="bg-white border border-slate-200 rounded-2xl p-6">
-          <h2 className="font-semibold">Instructions</h2>
-          <ul className="mt-3 list-disc pl-5 text-slate-700 space-y-2">
+        <section className="bg-card border border-border rounded-2xl p-6">
+          <h2 className="font-semibold text-foreground">Instructions</h2>
+          <ul className="mt-3 list-disc pl-5 text-muted-foreground space-y-2">
             <li>Answer each question to the best of your ability.</li>
             <li>You can navigate between questions before submitting.</li>
             <li>The timer begins when you start the quiz.</li>
