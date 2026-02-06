@@ -18,6 +18,7 @@ export default function Messages(){
   const [showChat, setShowChat] = useState(false)
   const [draft, setDraft] = useState('')
   const initHandledRef = useRef(false)
+  const messageListRef = useRef(null)
 
   // Polling for new messages
   const pollingRef = useRef(null)
@@ -206,6 +207,12 @@ export default function Messages(){
       ))
     }
   }, [selectedId])
+
+  useEffect(() => {
+    if (!selected || !messageListRef.current) return
+    const el = messageListRef.current
+    el.scrollTop = el.scrollHeight
+  }, [selectedId, selected?.messages?.length])
 
   // Mark conversation as read
   const markConversationAsRead = async (conversationId) => {
@@ -428,6 +435,7 @@ export default function Messages(){
                 
                 {/* Messages */}
                 <div
+                  ref={messageListRef}
                   className="flex-1 overflow-y-auto space-y-3 bg-slate-50 dark:bg-background min-h-0 overscroll-contain touch-pan-y lg:overscroll-auto lg:touch-auto pb-3"
                   style={{ WebkitOverflowScrolling: 'touch' }}
                 >
