@@ -364,8 +364,9 @@ export default function Messages(){
   }
 
   return (
-    <AppLayout hideMobileFooter={true} contentClassName="py-2 items-stretch">
-      <div className="flex flex-col flex-1 min-h-0">
+    <AppLayout hideMobileFooter={true} hideFooter={true} fullWidth={true} contentClassName="!p-0 !gap-0 items-stretch h-full">
+      <div className="flex flex-col flex-1 min-h-0 h-full">
+
         {/* Mobile Header */}
         <div className="lg:hidden bg-white border-b border-slate-200 px-4 py-3 flex items-center justify-between">
           <h1 className="text-lg font-semibold text-slate-900">Messages</h1>

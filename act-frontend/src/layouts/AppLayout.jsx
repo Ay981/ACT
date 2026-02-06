@@ -16,7 +16,7 @@ export function useHeaderRefresh() {
   return useContext(HeaderRefreshContext)
 }
 
-export default function AppLayout({ children, hideMobileFooter = false, contentClassName = '' }) {
+export default function AppLayout({ children, hideMobileFooter = false, hideFooter = false, contentClassName = '', fullWidth = false }) {
   const [unreadCount, setUnreadCount] = useState(0)
   const [notifications, setNotifications] = useState([])
   const [headerRefreshKey, setHeaderRefreshKey] = useState(0)
@@ -167,13 +167,15 @@ export default function AppLayout({ children, hideMobileFooter = false, contentC
             </>
           )}
 
-          <div className={`mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 flex gap-6 w-full flex-1 items-start min-h-0 ${contentClassName}`}>
-            <Sidebar unreadCount={unreadCount} user={user} />
-            <div className="flex-1 min-w-0 flex flex-col w-full min-h-0">
-              <main className="flex-1 min-h-0">{children}</main>
+          <div className={`mx-auto ${fullWidth ? 'w-full px-0 py-0' : 'max-w-7xl px-4 sm:px-6 lg:px-8 py-6'} flex gap-6 w-full flex-1 items-start min-h-0 ${contentClassName}`}>
+            <div className={fullWidth ? 'py-6 pl-4' : ''}>
+              <Sidebar unreadCount={unreadCount} user={user} />
+            </div>
+            <div className={`flex-1 min-w-0 flex flex-col w-full min-h-0 ${fullWidth ? 'h-[calc(100vh-4rem)]' : ''}`}>
+              <main className="flex-1 min-h-0 flex flex-col">{children}</main>
             </div>
           </div>
-          <div className={`${hideMobileFooter ? 'hidden md:block' : 'block'}`}>
+          <div className={`${hideFooter ? 'hidden' : (hideMobileFooter ? 'hidden md:block' : 'block')}`}>
              <Footer />
           </div>
         </div>
