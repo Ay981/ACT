@@ -10,16 +10,16 @@ export default function Footer() {
         <div>
           <h3 className="text-lg font-bold mb-4 dark:text-foreground">About Us</h3>
           <p className="text-sm leading-relaxed mb-4 text-blue-100 dark:text-muted-foreground">
-            ACT Academy platform that connects Teachers with Students globally. Teachers create high-quality courses and present them in a super easy way.
+            LearnSphere is a modern e‑learning platform where instructors publish courses, host live sessions, and engage learners with quizzes, projects, and community feedback.
           </p>
           <div className="flex gap-4">
-            <a href="https://www.facebook.com/ACTAmericanCollege/" target="_blank" rel="noopener noreferrer" className="hover:text-blue-300 transition-colors">
+            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-300 transition-colors">
               <FacebookIcon className="w-6 h-6" />
             </a>
-            <a href="https://www.linkedin.com/company/sholla-computing/" target="_blank" rel="noopener noreferrer" className="hover:text-blue-300 transition-colors">
+            <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-300 transition-colors">
               <LinkedinIcon className="w-6 h-6" />
             </a>
-            <a href="https://www.youtube.com/channel/UCvMF1rHwmOS7n553hSMzEBQ" target="_blank" rel="noopener noreferrer" className="hover:text-blue-300 transition-colors">
+            <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-300 transition-colors">
               <YoutubeIcon className="w-6 h-6" />
             </a>
           </div>
@@ -29,9 +29,9 @@ export default function Footer() {
         <div>
           <h3 className="text-lg font-bold mb-4 dark:text-foreground">Contact</h3>
           <div className="space-y-3 text-sm text-blue-100 dark:text-muted-foreground">
-            <p>ACT American College of Technology Building, Arada Sub-city, Addis Ababa, Ethiopia</p>
-            <p>Telephone: 251-956-820-619</p>
-            <p>academy@act.edu.et</p>
+            <p>Global Learning Hub — Remote First</p>
+            <p>Telephone: +1 (000) 000‑0000</p>
+            <p>support@learnsphere.com</p>
           </div>
         </div>
 
@@ -62,7 +62,7 @@ export default function Footer() {
 
       {/* Bottom Bar */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-4 border-t border-blue-400/30 flex flex-col md:flex-row justify-between items-center gap-4">
-         <p className="text-sm text-blue-200">Copyright © 2026 ACT Academy. All rights reserved.</p>
+         <p className="text-sm text-blue-200">Copyright © 2026 LearnSphere. All rights reserved.</p>
          
          <div>
             <select className="bg-white text-slate-800 dark:bg-background dark:text-foreground dark:border dark:border-input text-sm py-1 px-3 rounded shadow focus:outline-none">

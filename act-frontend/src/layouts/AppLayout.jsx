@@ -145,7 +145,7 @@ export default function AppLayout({ children, hideMobileFooter = false }) {
               >
                 <div className="h-16 px-4 border-b border-slate-200 dark:border-sidebar-border flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <img src="/assets/actacademy.png" alt="ACT Academy" className="h-9 w-auto object-contain" />
+                    <Logo />
                   </div>
                   <button
                     type="button"

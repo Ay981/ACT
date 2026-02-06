@@ -47,8 +47,8 @@ export default function Login() {
         <div className="w-full max-w-md">
            <div className="mb-6">
              <div className="flex items-center gap-2 mb-8 justify-center">
-                <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-white font-bold text-xs">A</div>
-                <span className="text-xl font-bold text-slate-700">ACT E-Learning</span>
+               <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-white font-bold text-xs">L</div>
+               <span className="text-xl font-bold text-slate-700">LearnSphere</span>
              </div>
 
              <div className="bg-white dark:bg-card rounded-3xl shadow-xl p-8 sm:p-10 border border-slate-100 dark:border-border relative">

@@ -1,10 +1,14 @@
 // Minimal user context
 
-const KEY = 'act_user'
+const KEY = 'learnsphere_user'
+const LEGACY_KEY = 'act_user'
 
 export function getCurrentUser(){
   try {
-    const stored = localStorage.getItem(KEY)
+    let stored = localStorage.getItem(KEY)
+    if (!stored) {
+      stored = localStorage.getItem(LEGACY_KEY)
+    }
     if (stored) {
       return JSON.parse(stored)
     }

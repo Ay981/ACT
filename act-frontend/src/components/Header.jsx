@@ -150,8 +150,8 @@ export default function Header({ unreadCount: propUnread, setUnreadCount: propSe
           )}
            {/* Left Logos */}
            <div className="flex items-center gap-2">
-             <Link to="/">
-               <img src="/assets/actacademy.png" alt="ACT Academy" className="h-10 w-auto object-contain" />
+             <Link to="/" className="flex items-center">
+               <Logo />
              </Link>
            </div>
 
@@ -173,15 +173,8 @@ export default function Header({ unreadCount: propUnread, setUnreadCount: propSe
         </div>
 
         <div className="flex items-center gap-6">
-          {/* Right Logos */}
-          <div className="flex items-center gap-4 hidden lg:flex">
-             <img src="/assets/mesrat.png" alt="Mesirat" className="h-8 w-auto object-contain" />
-             <div className="flex items-center">
-                 <span className="text-xl font-bold text-blue-400">ACT</span>
-                 <span className="text-xl font-bold ml-1 text-foreground flex items-center">J<span className="text-blue-500">🔍</span>bs</span>
-             </div>
-          </div>
-          
+            {/* Right Logos removed for neutral branding */}
+
           <div className="flex items-center gap-3 pl-4 border-l border-border">
           {!user ? (
              <div className="flex items-center gap-3">
