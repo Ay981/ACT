@@ -16,7 +16,7 @@ export function useHeaderRefresh() {
   return useContext(HeaderRefreshContext)
 }
 
-export default function AppLayout({ children, hideMobileFooter = false }) {
+export default function AppLayout({ children, hideMobileFooter = false, contentClassName = '' }) {
   const [unreadCount, setUnreadCount] = useState(0)
   const [notifications, setNotifications] = useState([])
   const [headerRefreshKey, setHeaderRefreshKey] = useState(0)
@@ -167,7 +167,7 @@ export default function AppLayout({ children, hideMobileFooter = false }) {
             </>
           )}
 
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 flex gap-6 w-full flex-1 items-start">
+          <div className={`mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 flex gap-6 w-full flex-1 items-start ${contentClassName}`}>
             <Sidebar unreadCount={unreadCount} user={user} />
             <div className="flex-1 min-w-0 flex flex-col w-full">
               <main className="flex-1">{children}</main>

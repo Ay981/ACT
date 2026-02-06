@@ -2,12 +2,14 @@ import AppLayout from '../layouts/AppLayout.jsx'
 import ConversationList from '../components/messages/ConversationList.jsx'
 import { useState, useEffect, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext.jsx'
 import * as api from '../lib/api.js'
 
 // Cache bust: 2026-01-26-12-03
 
 export default function Messages(){
   const location = useLocation()
+  const { user } = useAuth()
   const [items, setItems] = useState([])
   const [selectedId, setSelectedId] = useState(null)
   const [query, setQuery] = useState('')
@@ -197,7 +199,7 @@ export default function Messages(){
           ? {
               ...c,
               messages: c.messages.map(m =>
-                m.sender !== 'student' ? { ...m, read: true } : m
+                m.sender !== user?.role ? { ...m, read: true } : m
               )
             }
           : c
@@ -224,14 +226,14 @@ export default function Messages(){
         
         // Try the API call first
         try {
-          const response = await api.markAsRead(selected.participant)
+          const response = await api.markAsRead(selected.id)
           console.log('Mark as read response:', response)
         } catch (apiError) {
           console.log('API mark as read failed, using manual approach:', apiError.message)
           
           // Manual approach: reduce unread count by the number of unread messages in this conversation
           const unreadInThisConversation = selected.messages?.filter(msg => 
-            msg.sender !== 'student' && !msg.is_read
+            msg.sender !== user?.role && msg.read === false
           ).length || 0
           
           if (unreadInThisConversation > 0) {
@@ -354,8 +356,8 @@ export default function Messages(){
   }
 
   return (
-    <AppLayout hideMobileFooter={showChat}>
-      <div className="flex flex-col lg:h-[70vh] h-[calc(100vh-80px)]">
+    <AppLayout hideMobileFooter={showChat} contentClassName="pb-0">
+      <div className="flex flex-col h-full min-h-0">
         {/* Mobile Header */}
         <div className="lg:hidden bg-white border-b border-slate-200 px-4 py-3 flex items-center justify-between">
           <h1 className="text-lg font-semibold text-slate-900">Messages</h1>
@@ -378,7 +380,8 @@ export default function Messages(){
                 selectedId={selectedId} 
                 onSelect={handleSelectConversation}
                 query={query} 
-                onQueryChange={setQuery} 
+                onQueryChange={setQuery}
+                userRole={user?.role}
               />
             </div>
           </aside>
@@ -429,9 +432,9 @@ export default function Messages(){
                   style={{ WebkitOverflowScrolling: 'touch', paddingBottom: 0 }}
                 >
                   {selected.messages.map(msg => (
-                    <div key={msg.id} className={`flex ${msg.sender === 'student' ? 'justify-end' : 'justify-start'}`}>
+                    <div key={msg.id} className={`flex ${msg.sender === user?.role ? 'justify-end' : 'justify-start'}`}>
                       <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
-                        msg.sender === 'student' 
+                        msg.sender === user?.role 
                           ? 'bg-primary-600 text-white' 
                           : 'bg-slate-200 dark:bg-accent text-slate-800 dark:text-foreground'
                       }`}>
