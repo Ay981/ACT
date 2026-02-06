@@ -47,7 +47,7 @@ export default function InstructorDashboard(){
             <div className="grid grid-cols-2 gap-4">
                <Link
                   to="/instructor/courses/new"
-                  className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-border rounded-2xl hover:bg-accent hover:border-primary-500 hover:text-primary-600 transition-colors group"
+                  className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-border rounded-2xl hover:bg-slate-50 dark:hover:bg-accent hover:border-primary-500 hover:text-primary-600 transition-colors group"
                 >
                   <div className="w-10 h-10 mb-2 rounded-full bg-secondary flex items-center justify-center group-hover:bg-primary-500/10 transition-colors">
                     <svg className="w-6 h-6 text-muted-foreground group-hover:text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -59,7 +59,7 @@ export default function InstructorDashboard(){
                </Link>
                <Link
                   to="/instructor/quizzes/new"
-                  className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-border rounded-2xl hover:bg-accent hover:border-primary-500 hover:text-primary-600 transition-colors group"
+                  className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-border rounded-2xl hover:bg-slate-50 dark:hover:bg-accent hover:border-primary-500 hover:text-primary-600 transition-colors group"
                 >
                   <div className="w-10 h-10 mb-2 rounded-full bg-secondary flex items-center justify-center group-hover:bg-primary-500/10 transition-colors">
                     <svg className="w-6 h-6 text-muted-foreground group-hover:text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -78,7 +78,7 @@ export default function InstructorDashboard(){
               </div>
               <div className="space-y-3">
                 {activeCourses.length === 0 ? <div className="text-sm text-muted-foreground">No courses yet.</div> : activeCourses.slice(0, 4).map(c => (
-                  <div key={c.id} className="group rounded-xl border border-border p-3 hover:border-primary-200 hover:bg-accent transition-all">
+                  <div key={c.id} className="group rounded-xl border border-border p-3 hover:border-primary-200 hover:bg-slate-50 dark:hover:bg-accent transition-all">
                     <div className="flex items-start gap-4">
                       <div className="w-12 h-12 bg-primary-500/10 text-primary-600 rounded-lg shrink-0 flex items-center justify-center font-bold text-lg overflow-hidden">
                          {c.thumbnail ? (

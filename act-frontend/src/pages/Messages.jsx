@@ -356,7 +356,7 @@ export default function Messages(){
   }
 
   return (
-    <AppLayout hideMobileFooter={showChat} contentClassName="pb-0">
+    <AppLayout hideMobileFooter={true} contentClassName="pb-0">
       <div className="flex flex-col h-full min-h-0">
         {/* Mobile Header */}
         <div className="lg:hidden bg-white border-b border-slate-200 px-4 py-3 flex items-center justify-between">
@@ -428,8 +428,8 @@ export default function Messages(){
                 
                 {/* Messages */}
                 <div
-                  className="flex-1 overflow-y-auto space-y-3 bg-slate-50 dark:bg-background min-h-0 overscroll-contain touch-pan-y lg:overscroll-auto lg:touch-auto"
-                  style={{ WebkitOverflowScrolling: 'touch', paddingBottom: 0 }}
+                  className="flex-1 overflow-y-auto space-y-3 bg-slate-50 dark:bg-background min-h-0 overscroll-contain touch-pan-y lg:overscroll-auto lg:touch-auto pb-3"
+                  style={{ WebkitOverflowScrolling: 'touch' }}
                 >
                   {selected.messages.map(msg => (
                     <div key={msg.id} className={`flex ${msg.sender === user?.role ? 'justify-end' : 'justify-start'}`}>
@@ -451,8 +451,8 @@ export default function Messages(){
                 <>
                   {/* Mobile: fixed input bar (prevents disappearing on scroll/address-bar changes) */}
                   <div
-                    className="lg:hidden fixed left-0 right-0 bottom-0 z-50 bg-white dark:bg-card border-t border-slate-200 dark:border-border"
-                    style={{ paddingBottom: 0, borderRadius: 0, margin: 0 }}
+                    className="lg:hidden sticky bottom-0 z-10 bg-white dark:bg-card border-t border-slate-200 dark:border-border"
+                    style={{ borderRadius: 0, margin: 0 }}
                   >
                     <div className="mx-auto max-w-7xl">
                       <div className="flex gap-2">
