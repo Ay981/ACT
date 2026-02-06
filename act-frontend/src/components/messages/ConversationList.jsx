@@ -21,7 +21,11 @@ export default function ConversationList({ items, selectedId, onSelect, query, o
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between">
                   <p className="font-medium truncate text-slate-900 dark:text-foreground">{c.title}</p>
-                  {c.unread>0 && <span className="text-xs px-2 py-0.5 rounded-full bg-primary-600 text-white">{c.unread}</span>}
+                  {Array.isArray(c.messages) && c.messages.filter(m => m.sender !== 'student' && m.read === false).length > 0 && (
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-primary-600 text-white">
+                      {c.messages.filter(m => m.sender !== 'student' && m.read === false).length}
+                    </span>
+                  )}
                 </div>
                 <p className="text-sm text-slate-600 dark:text-muted-foreground truncate">{c.participant}</p>
               </div>

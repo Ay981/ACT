@@ -191,6 +191,17 @@ export default function Messages(){
       startPolling()
       // Mark conversation as read when selected
       markConversationAsRead(selectedId)
+      // Mark all messages in the conversation as read (frontend only)
+      setItems(prev => prev.map(c =>
+        c.id === selectedId
+          ? {
+              ...c,
+              messages: c.messages.map(m =>
+                m.sender !== 'student' ? { ...m, read: true } : m
+              )
+            }
+          : c
+      ))
     }
   }, [selectedId])
 

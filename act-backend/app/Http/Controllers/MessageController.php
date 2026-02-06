@@ -44,9 +44,9 @@ class MessageController extends Controller
                 return [
                     'id' => $m->id,
                     'text' => $m->message,
-                    'sender' => $m->sender_id === $userId ? 'student' : 'instructor', // Frontend treats "student" as "me"
+                    'sender' => $m->sender_id === $userId ? 'student' : 'instructor',
                     'at' => $m->created_at->toIso8601String(),
-                    'is_read' => $m->is_read
+                    'read' => (bool)$m->is_read
                 ];
             });
 
