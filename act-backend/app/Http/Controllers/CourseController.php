@@ -171,7 +171,7 @@ class CourseController extends Controller
             'video' => 'nullable|file|mimes:mp4,mov,ogg,webm,avi,wmv,flv,mkv,pdf,doc,docx|max:102400',
             'youtube_url' => 'nullable|url',
             'resource' => 'nullable|file|mimes:pdf,doc,docx|max:20480',
-            'resource_url' => 'nullable|url',
+            'resource_url' => 'nullable|string|max:2048',
         ]);
 
         // Handle video file update
@@ -199,7 +199,11 @@ class CourseController extends Controller
 
         // Handle external resource URL (e.g., Google Drive)
         if (!empty($validated['resource_url'])) {
-            $validated['resource_path'] = $validated['resource_url'];
+            $resourceUrl = trim($validated['resource_url']);
+            if (!str_starts_with($resourceUrl, 'http://') && !str_starts_with($resourceUrl, 'https://')) {
+                $resourceUrl = 'https://' . $resourceUrl;
+            }
+            $validated['resource_path'] = $resourceUrl;
         }
 
         $lesson->update([
@@ -238,15 +242,23 @@ class CourseController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'youtube_url' => 'nullable|url',
-            'resource_url' => 'nullable|url',
+            'resource_url' => 'nullable|string|max:2048',
         ]);
+
+        $resourceUrl = null;
+        if (!empty($validated['resource_url'])) {
+            $resourceUrl = trim($validated['resource_url']);
+            if (!str_starts_with($resourceUrl, 'http://') && !str_starts_with($resourceUrl, 'https://')) {
+                $resourceUrl = 'https://' . $resourceUrl;
+            }
+        }
 
         $lesson = Lesson::create([
             'course_id' => $course->id,
             'title' => $validated['title'],
             'description' => $validated['description'] ?? '',
             'youtube_url' => $validated['youtube_url'] ?? null,
-            'resource_path' => $validated['resource_url'] ?? null,
+            'resource_path' => $resourceUrl,
             'order' => Lesson::where('course_id', $course->id)->max('order') + 1,
         ]);
 
