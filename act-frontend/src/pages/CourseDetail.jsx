@@ -112,7 +112,7 @@ export default function CourseDetail() {
   const author = course.instructor?.name || 'Instructor' 
   const description = course.description || 'No description provided.'
 
-  const joinedCount = course.students_count || 120 // Example if API returned it
+    const joinedCount = course.students_count ?? 0
 
   return (
     <AppLayout>
@@ -128,7 +128,7 @@ export default function CourseDetail() {
           <div className="md:col-span-2 space-y-8">
             {/* Main Video/Thumbnail Area */}
             <div className="bg-card rounded-2xl overflow-hidden aspect-video relative shadow-lg group">
-                {activeLesson ? (
+                 {activeLesson ? (
                      <div className="w-full h-full flex flex-col items-center justify-center bg-black relative">
                         {/* YouTube Embed */}
                         {activeLesson.youtube_url ? (
@@ -150,6 +150,20 @@ export default function CourseDetail() {
                              >
                                 Your browser does not support the video tag.
                              </video>
+                        )}
+
+                        {(activeLesson.resource_url || activeLesson.resource_path) && (isRegistered || isInstructor()) && (
+                            <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-3 bg-black/60 text-white text-sm px-3 py-2 rounded-lg">
+                                <span className="truncate">Resource link available</span>
+                                <a
+                                    href={activeLesson.resource_url || activeLesson.resource_path}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="text-blue-200 hover:text-blue-100 font-semibold"
+                                >
+                                    Open
+                                </a>
+                            </div>
                         )}
                         
                          <button 
@@ -243,7 +257,7 @@ export default function CourseDetail() {
                     <Link 
                         to="/messages" 
                         state={{ initiateChat: (course.instructor?.id ?? course.instructor_id) }}
-                        className="block w-full text-center text-foreground font-medium py-2 rounded-xl border border-border hover:bg-accent transition-colors mb-4 flex items-center justify-center gap-2"
+                        className="w-full text-center text-foreground font-medium py-2 rounded-xl border border-border hover:bg-accent transition-colors mb-4 flex items-center justify-center gap-2"
                     >
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>
                         Message Instructor
@@ -286,8 +300,8 @@ export default function CourseDetail() {
                              <div className="flex gap-2">
                                {lesson.video_url && <span className="text-xs text-muted-foreground flex items-center gap-1"><svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Video</span>}
                                {lesson.youtube_url && <span className="text-xs text-red-500 flex items-center gap-1"><svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>YouTube</span>}
-                               {lesson.resource_url && (
-                                   <a href={lesson.resource_url} target="_blank" rel="noreferrer" onClick={e => e.stopPropagation()} className="text-xs text-blue-500 hover:text-blue-700 flex items-center gap-1">
+                               {(lesson.resource_url || lesson.resource_path) && (
+                                   <a href={lesson.resource_url || lesson.resource_path} target="_blank" rel="noreferrer" onClick={e => e.stopPropagation()} className="text-xs text-blue-500 hover:text-blue-700 flex items-center gap-1">
                                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                                        </svg>

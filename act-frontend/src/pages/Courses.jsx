@@ -56,7 +56,7 @@ export default function Courses(){
       difficulty: c.level, // Card expects difficulty
       lessons: c.lessons_count, // Card expects lessons
       rating: 4.8, // Mock
-      students: 100, // Mock
+      studentCount: c.students_count ?? 0,
       author: 'Instructor', // Mock
       tags: [c.category],
       description: c.description

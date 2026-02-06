@@ -29,14 +29,23 @@ class Lesson extends Model
 
     public function getResourceUrlAttribute()
     {
-        if ($this->resource_path) {
-            // If it's already a full URL, return as-is
-            if (str_starts_with($this->resource_path, 'http')) {
-                return $this->resource_path;
-            }
-            // Convert relative path to full URL
-            return url($this->resource_path);
+        if (!$this->resource_path) {
+            return null;
         }
-        return null;
+
+        $path = $this->resource_path;
+
+        // If it's already a full URL, return as-is
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return $path;
+        }
+
+        // Handle common external links without scheme (e.g., drive.google.com/...)
+        if (str_starts_with($path, 'drive.google.com') || str_starts_with($path, 'www.')) {
+            return 'https://' . $path;
+        }
+
+        // Convert relative/local path to full URL
+        return url($path);
     }
 }
