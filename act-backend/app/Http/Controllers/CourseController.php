@@ -56,9 +56,9 @@ class CourseController extends Controller
             $isInstructor = $course->instructor_id === $user->id;
         }
 
-        // Hide video_url if not enrolled and not instructor
+        // Hide protected lesson links if not enrolled and not instructor
         if (!$isEnrolled && !$isInstructor) {
-            $course->lessons->makeHidden(['video_url']);
+            $course->lessons->makeHidden(['video_url', 'resource_path', 'resource_url']);
         }
 
         $course->is_enrolled = $isEnrolled;
@@ -171,6 +171,7 @@ class CourseController extends Controller
             'video' => 'nullable|file|mimes:mp4,mov,ogg,webm,avi,wmv,flv,mkv,pdf,doc,docx|max:102400',
             'youtube_url' => 'nullable|url',
             'resource' => 'nullable|file|mimes:pdf,doc,docx|max:20480',
+            'resource_url' => 'nullable|url',
         ]);
 
         // Handle video file update
@@ -194,6 +195,11 @@ class CourseController extends Controller
         if ($request->hasFile('resource')) {
             $path = $request->file('resource')->store('resources', 'public');
             $validated['resource_path'] = '/storage/' . $path;
+        }
+
+        // Handle external resource URL (e.g., Google Drive)
+        if (!empty($validated['resource_url'])) {
+            $validated['resource_path'] = $validated['resource_url'];
         }
 
         $lesson->update([
@@ -240,7 +246,7 @@ class CourseController extends Controller
             'title' => $validated['title'],
             'description' => $validated['description'] ?? '',
             'youtube_url' => $validated['youtube_url'] ?? null,
-            'resource_url' => $validated['resource_url'] ?? null,
+            'resource_path' => $validated['resource_url'] ?? null,
             'order' => Lesson::where('course_id', $course->id)->max('order') + 1,
         ]);
 
