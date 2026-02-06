@@ -356,7 +356,7 @@ export default function Messages(){
   }
 
   return (
-    <AppLayout hideMobileFooter={true} contentClassName="pb-0">
+    <AppLayout hideMobileFooter={true} contentClassName="pb-2">
       <div className="flex flex-col h-full min-h-0">
         {/* Mobile Header */}
         <div className="lg:hidden bg-white border-b border-slate-200 px-4 py-3 flex items-center justify-between">
@@ -373,7 +373,7 @@ export default function Messages(){
         {/* Mobile and Desktop Layout */}
         <div className="flex-1 flex flex-col lg:flex-row min-h-0">
           {/* Conversation List */}
-          <aside className={`${selected && showChat ? 'hidden lg:block' : 'block'} lg:flex-1 bg-white dark:bg-slate-900 border-b lg:border-b-0 lg:border-r lg:border-slate-200 dark:border-slate-800 rounded-2xl lg:rounded-none lg:border-none overflow-hidden flex flex-col min-h-0`}>
+          <aside className={`${selected && showChat ? 'hidden lg:block' : 'block'} lg:flex-1 bg-white dark:bg-slate-900 border-b lg:border-b-0 lg:border-r lg:border-slate-200 dark:border-slate-800 rounded-2xl lg:rounded-none lg:border-none overflow-hidden flex flex-col min-h-0 h-full`}>
             <div className="flex-1 min-h-0 overflow-y-auto">
               <ConversationList 
                 items={items} 

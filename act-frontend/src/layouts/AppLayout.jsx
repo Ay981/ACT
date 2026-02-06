@@ -167,10 +167,10 @@ export default function AppLayout({ children, hideMobileFooter = false, contentC
             </>
           )}
 
-          <div className={`mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 flex gap-6 w-full flex-1 items-start ${contentClassName}`}>
+          <div className={`mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 flex gap-6 w-full flex-1 items-start min-h-0 ${contentClassName}`}>
             <Sidebar unreadCount={unreadCount} user={user} />
-            <div className="flex-1 min-w-0 flex flex-col w-full">
-              <main className="flex-1">{children}</main>
+            <div className="flex-1 min-w-0 flex flex-col w-full min-h-0">
+              <main className="flex-1 min-h-0">{children}</main>
             </div>
           </div>
           <div className={`${hideMobileFooter ? 'hidden md:block' : 'block'}`}>
