@@ -1,10 +1,13 @@
-import { Link, useParams } from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import AppLayout from '../layouts/AppLayout.jsx'
 import { fetchQuiz } from '../lib/api.js'
 
 export default function QuizStart() {
   const { id } = useParams()
+  const { state } = useLocation()
+  const courseId = state?.courseId
+  const courseLink = courseId ? `/courses/${courseId}` : '/courses'
   const [quiz, setQuiz] = useState(null)
   const [loading, setLoading] = useState(true)
 
@@ -20,7 +23,7 @@ export default function QuizStart() {
         <div className="bg-card border border-border rounded-2xl p-6">
           <h1 className="text-xl font-semibold text-foreground">Quiz not found</h1>
           <p className="mt-2 text-muted-foreground">The requested quiz does not exist.</p>
-          <Link to="/courses/" className="mt-4 inline-block px-4 py-2 rounded-xl bg-primary-600 text-white hover:bg-primary-700">Back to Course</Link>
+          <Link to={courseLink} className="mt-4 inline-block px-4 py-2 rounded-xl bg-primary-600 text-white hover:bg-primary-700">Back to Course</Link>
         </div>
       </AppLayout>
     )
@@ -44,8 +47,8 @@ export default function QuizStart() {
             </div>
           </div>
           <div className="mt-6 flex items-center gap-3">
-            <Link to={`/quizzes/${quiz.id}/take`} className="px-4 py-2 rounded-xl bg-primary-600 text-white hover:bg-primary-700">Start Quiz</Link>
-            <Link to={`/courses/`} className="px-4 py-2 rounded-xl border border-border hover:bg-muted text-foreground">Back to Course</Link>
+            <Link to={`/quizzes/${quiz.id}/take`} state={{ courseId }} className="px-4 py-2 rounded-xl bg-primary-600 text-white hover:bg-primary-700">Start Quiz</Link>
+            <Link to={courseLink} className="px-4 py-2 rounded-xl border border-border hover:bg-muted text-foreground">Back to Course</Link>
           </div>
         </header>
         <section className="bg-card border border-border rounded-2xl p-6">

@@ -353,6 +353,7 @@ export default function CourseDetail() {
                               {isRegistered || isInstructor() ? (
                                   <Link 
                                       to={`/quizzes/${quiz.id}/start`}
+                                      state={{ courseId: course.id }}
                                       className="block w-full py-1.5 text-center bg-background border border-border text-foreground rounded-lg text-xs font-semibold hover:bg-primary-600 hover:text-white hover:border-primary-600 transition-colors"
                                   >
                                       Take Quiz

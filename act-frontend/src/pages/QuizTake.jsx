@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import AppLayout from '../layouts/AppLayout.jsx'
 import { fetchQuiz, submitQuizAttempt } from '../lib/api.js'
 import Spinner from '../components/Spinner.jsx'
@@ -7,6 +7,9 @@ import Spinner from '../components/Spinner.jsx'
 export default function QuizTake() {
   const { id } = useParams()
   const navigate = useNavigate()
+  const { state } = useLocation()
+  const courseId = state?.courseId
+  const courseLink = courseId ? `/courses/${courseId}` : '/courses'
   
   const [quiz, setQuiz] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -106,7 +109,7 @@ export default function QuizTake() {
         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
           <h1 className="text-xl font-semibold dark:text-white">Quiz not found</h1>
           <p className="mt-2 text-slate-600 dark:text-slate-400">The requested quiz does not exist.</p>
-          <Link to="/courses/" className="mt-4 inline-block px-4 py-2 rounded-xl bg-primary-600 text-white hover:bg-primary-700">Back to Course</Link>
+          <Link to={courseLink} className="mt-4 inline-block px-4 py-2 rounded-xl bg-primary-600 text-white hover:bg-primary-700">Back to Course</Link>
         </div>
       </AppLayout>
     )
@@ -123,7 +126,7 @@ export default function QuizTake() {
     try {
       const result = await submitQuizAttempt(quiz.id, answers)
       navigate(`/quizzes/${quiz.id}/result`, {
-        state: { ...result, answers }
+        state: { ...result, answers, courseId }
       })
     } catch (err) {
       console.error(err)
@@ -217,7 +220,7 @@ export default function QuizTake() {
             <p className="mt-2 text-slate-600">Your current progress is saved. You can resume later.</p>
             <div className="mt-4 flex items-center gap-3">
               <button onClick={() => setShowLeaveConfirm(false)} className="px-4 py-2 rounded-xl border border-slate-300 hover:bg-slate-50">Continue Quiz</button>
-              <Link to={`/quizzes/${id}/start`} className="px-4 py-2 rounded-xl bg-primary-600 text-white hover:bg-primary-700">Leave</Link>
+              <Link to={`/quizzes/${id}/start`} state={{ courseId }} className="px-4 py-2 rounded-xl bg-primary-600 text-white hover:bg-primary-700">Leave</Link>
               <button onClick={() => { clearProgress(id); setShowLeaveConfirm(false) }} className="px-4 py-2 rounded-xl text-rose-700 border border-rose-300 hover:bg-rose-50">Discard Saved</button>
             </div>
           </div>
