@@ -92,26 +92,26 @@ export default function VerifyOtp() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white p-6">
+    <div className="min-h-screen flex items-center justify-center bg-white dark:bg-background p-6">
       <div className="w-full max-w-md text-center">
         <div className="flex justify-center mb-8">
             <Logo />
         </div>
         
-        <h2 className="text-2xl font-bold text-slate-900 mb-2">Check your email</h2>
-        <p className="text-slate-600 mb-4">
-          We sent a verification code to <span className="font-medium text-slate-900">{email}</span>
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-foreground mb-2">Check your email</h2>
+        <p className="text-slate-600 dark:text-muted-foreground mb-4">
+          We sent a verification code to <span className="font-medium text-slate-900 dark:text-foreground">{email}</span>
         </p>
 
         {testingOtp && (
-          <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-xl">
-            <p className="text-amber-800 text-sm font-medium mb-1">⚠️ TESTING MODE</p>
-            <p className="text-amber-700 text-xs mb-2">
+          <div className="mb-6 p-4 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/60 rounded-xl">
+            <p className="text-amber-800 dark:text-amber-200 text-sm font-medium mb-1">⚠️ TESTING MODE</p>
+            <p className="text-amber-700 dark:text-amber-300 text-xs mb-2">
               OTP has been pre-filled for testing. In production, you'll need to check your email.
             </p>
-            <div className="bg-amber-100 rounded-lg p-3 border border-amber-300">
-              <p className="text-amber-900 font-mono text-lg font-bold">{testingOtp}</p>
-              <p className="text-amber-600 text-xs mt-1">Your verification code</p>
+            <div className="bg-amber-100 dark:bg-amber-900/40 rounded-lg p-3 border border-amber-300 dark:border-amber-800">
+              <p className="text-amber-900 dark:text-amber-100 font-mono text-lg font-bold">{testingOtp}</p>
+              <p className="text-amber-600 dark:text-amber-300 text-xs mt-1">Your verification code</p>
             </div>
           </div>
         )}
@@ -128,12 +128,12 @@ export default function VerifyOtp() {
                 onChange={(e) => handleChange(index, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(index, e)}
                 onPaste={handlePaste}
-                className="w-12 h-14 text-center text-2xl font-bold border-2 border-slate-200 rounded-xl focus:border-primary-500 focus:ring-primary-500 outline-none transition-all"
+                className="w-12 h-14 text-center text-2xl font-bold border-2 border-slate-200 dark:border-input bg-white dark:bg-input text-slate-900 dark:text-foreground rounded-xl focus:border-primary-500 focus:ring-primary-500 outline-none transition-all"
               />
             ))}
           </div>
 
-          {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+          {error && <p className="text-red-500 dark:text-red-400 text-sm mb-4">{error}</p>}
 
           <button
             type="submit"
@@ -144,7 +144,7 @@ export default function VerifyOtp() {
           </button>
         </form>
         
-        <p className="mt-6 text-sm text-slate-500">
+        <p className="mt-6 text-sm text-slate-500 dark:text-muted-foreground">
             Didn't receive the email? <button className="text-primary-600 font-medium hover:underline">Resend Code</button>
         </p>
       </div>
