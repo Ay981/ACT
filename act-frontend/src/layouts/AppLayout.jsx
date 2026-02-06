@@ -23,6 +23,9 @@ export default function AppLayout({ children, hideMobileFooter = false, hideFoot
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const firstLoad = useRef(true)
   const { user } = useAuth()
+  
+  // Calculate top spacing based on header height (approx 4rem/64px)
+  const headerHeightClass = 'pt-16' // 4rem = 64px
 
   // Function to refresh header data (e.g., after enrollment)
   const refreshHeader = () => {
@@ -167,7 +170,7 @@ export default function AppLayout({ children, hideMobileFooter = false, hideFoot
             </>
           )}
 
-          <div className={`mx-auto ${fullWidth ? 'w-full px-0 py-0' : 'max-w-7xl px-4 sm:px-6 lg:px-8 py-6'} flex gap-6 w-full flex-1 items-start min-h-0 ${contentClassName}`}>
+          <div className={`mx-auto ${fullWidth ? 'w-full px-0 py-0' : 'max-w-7xl px-4 sm:px-6 lg:px-8 py-6'} flex gap-6 w-full flex-1 items-start min-h-0 ${contentClassName} ${fullWidth ? 'mt-16' : ''} ${!fullWidth ? 'pt-20' : ''}`}>
             <div className={fullWidth ? 'py-6 pl-4' : ''}>
               <Sidebar unreadCount={unreadCount} user={user} />
             </div>

@@ -396,11 +396,11 @@ export default function Messages(){
           </aside>
           
           {/* Chat Section */}
-          <section className={`${selected && showChat ? 'block' : 'hidden'} lg:block lg:flex-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col h-full min-h-0`} style={{ borderRadius: 0 }}>
+          <section className={`${selected && showChat ? 'block' : 'hidden'} lg:block lg:flex-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col h-full min-h-0 relative shadow-[0_-1px_0_0_rgba(0,0,0,0.05)]`} style={{ borderRadius: 0 }}>
             {selected ? (
               <div className="flex flex-col h-full min-h-0">
                 {/* Mobile Header */}
-                <div className="lg:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 py-3 flex items-center justify-between">
+                <div className="lg:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 py-3 flex items-center justify-between sticky top-0 z-20">
                   <div className="flex items-center gap-3">
                     <button 
                       onClick={handleBackToList}

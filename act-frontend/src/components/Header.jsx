@@ -130,7 +130,7 @@ export default function Header({ unreadCount: propUnread, setUnreadCount: propSe
   const isStudentDashboard = user?.role === 'student' && location.pathname === '/dashboard'
 
   return (
-    <header className="sticky top-0 z-30 bg-background/80 backdrop-blur border-b border-border">
+    <header className="fixed top-0 left-0 right-0 z-[1000] bg-background/80 backdrop-blur border-b border-border h-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <div className="flex items-center gap-6">
           {user && !isAuthPage && (
