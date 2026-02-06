@@ -489,7 +489,7 @@ export default function Messages(){
                 <>
                   {/* Mobile: fixed input bar (prevents disappearing on scroll/address-bar changes) */}
                   <div
-                    className="lg:hidden sticky bottom-0 z-10 bg-white dark:bg-card border-t border-slate-200 dark:border-border"
+                    className="lg:hidden sticky bottom-0 z-10 bg-white dark:bg-card border-t border-slate-200 dark:border-border p-3 pb-5"
                     style={{ borderRadius: 0, margin: 0 }}
                   >
                     <div className="mx-auto max-w-7xl">
