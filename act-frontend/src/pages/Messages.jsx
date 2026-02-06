@@ -423,7 +423,7 @@ export default function Messages(){
                 </div>
                 
                 {/* Desktop Header */}
-                <div className="hidden lg:block px-4 py-3 border-b border-slate-200 dark:border-border flex justify-between items-center">
+                <div className="hidden lg:block px-4 py-3 border-b border-slate-200 dark:border-border flex justify-between items-center bg-white dark:bg-slate-900 z-10">
                   <div>
                     <h3 className="font-semibold text-slate-900 dark:text-foreground">{selected.title}</h3>
                     <p className="text-sm text-slate-600 dark:text-muted-foreground">{selected.participant}</p>
@@ -473,7 +473,7 @@ export default function Messages(){
                             }`}>
                               <p className="text-sm leading-relaxed whitespace-pre-wrap break-words">{msg.text}</p>
                               <div className={`text-[10px] mt-1 text-right select-none ${
-                                msg.sender === user?.role ? 'text-primary-100' : 'text-slate-400'
+                                msg.sender === user?.role ? 'text-white/70' : 'text-slate-400'
                               }`}>
                                 {msgDate.toLocaleTimeString([], {hour: 'numeric', minute:'2-digit'})}
                               </div>
