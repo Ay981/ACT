@@ -18,7 +18,7 @@ export default function MessageThread({ conversation, onSend }){
       </header>
       <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50">
         {conversation.messages.map(msg => (
-          <Bubble key={msg.id} message={msg} align={msg.sender_id === user?.id ? 'right' : 'left'} read={msg.read} />
+          <Bubble key={msg.id} message={msg} align={msg.sender === user?.role ? 'right' : 'left'} read={msg.read} />
         ))}
       </div>
       <footer>
