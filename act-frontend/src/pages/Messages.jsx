@@ -20,6 +20,8 @@ export default function Messages(){
   const initHandledRef = useRef(false)
   const messageListRef = useRef(null)
 
+  const selected = items.find(i => i.id === selectedId)
+
   // Polling for new messages
   const pollingRef = useRef(null)
 
@@ -266,7 +268,6 @@ export default function Messages(){
     }
   }
 
-  const selected = items.find(i => i.id === selectedId)
   const finalUnread = items.reduce((total, conv) => total + (conv.unread || 0), 0)
 
   const handleSelectConversation = (id) => {
