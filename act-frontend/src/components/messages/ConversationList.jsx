@@ -15,26 +15,45 @@ export default function ConversationList({ items, selectedId, onSelect, query, o
         </div>
       </div>
       <ul className="flex-1 overflow-y-auto p-2 space-y-1">
-        {filtered.map(c => (
+        {filtered.length === 0 ? (
+           <div className="flex flex-col items-center justify-center p-8 text-center h-full text-slate-400 dark:text-muted-foreground">
+             <p className="text-sm">No conversations found</p>
+           </div>
+        ) : (
+        filtered.map(c => (
           <li key={c.id}>
-            <button onClick={()=>onSelect?.(c.id)} className={`w-full text-left px-3 py-3 rounded-xl flex items-center gap-3 ${selectedId===c.id ? 'bg-white dark:bg-card shadow-soft' : 'hover:bg-slate-50 dark:hover:bg-accent'}`}>              <Avatar label={c.participant} />
+            <button onClick={()=>onSelect?.(c.id)} className={`w-full text-left px-3 py-3 rounded-xl flex items-center gap-3 transition-colors ${selectedId===c.id ? 'bg-primary-50 dark:bg-primary-900/10 shadow-sm ring-1 ring-primary-100 dark:ring-primary-900/30' : 'hover:bg-slate-50 dark:hover:bg-accent'}`}>              
+              <Avatar label={c.participant} />
               <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between">
-                  <p className="font-medium truncate text-slate-900 dark:text-foreground">{c.title}</p>
+                <div className="flex items-center justify-between mb-0.5">
+                  <p className={`font-semibold truncate text-sm ${selectedId===c.id ? 'text-primary-900 dark:text-primary-100' : 'text-slate-900 dark:text-foreground'}`}>{c.title}</p>
                   {(() => {
+                    // Sorting logic inside conversation list implies we want to show time of last message eventually
                     const unreadCount = Array.isArray(c.messages) ? c.messages.filter(m => m.sender !== userRole && m.read === false).length : 0;
                     return unreadCount > 0 ? (
-                      <span className="text-xs px-2 py-0.5 rounded-full bg-primary-600 text-white">
+                      <span className="min-w-[1.25rem] h-5 flex items-center justify-center text-[10px] font-bold px-1.5 rounded-full bg-primary-600 text-white shadow-sm ring-1 ring-white dark:ring-background">
                         {unreadCount}
                       </span>
                     ) : null;
                   })()}
                 </div>
-                <p className="text-sm text-slate-600 dark:text-muted-foreground truncate">{c.participant}</p>
+                <div className="flex justify-between items-center">
+                   <p className={`text-xs truncate ${selectedId===c.id ? 'text-primary-700/80 dark:text-primary-200/70' : 'text-slate-500 dark:text-muted-foreground'}`}>
+                     {c.participant}
+                   </p>
+                   {c.lastMessageAt && (
+                     <span className="text-[10px] text-slate-400 dark:text-slate-500 whitespace-nowrap ml-2">
+                       {new Date(c.lastMessageAt).toLocaleDateString() === new Date().toLocaleDateString() 
+                          ? new Date(c.lastMessageAt).toLocaleTimeString([], {hour:'numeric', minute:'2-digit'})
+                          : new Date(c.lastMessageAt).toLocaleDateString(undefined, {month:'short', day:'numeric'})}
+                     </span>
+                   )}
+                </div>
               </div>
             </button>
           </li>
-        ))}
+        ))
+        )}
       </ul>
     </div>
   )

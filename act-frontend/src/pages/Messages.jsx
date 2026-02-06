@@ -441,23 +441,48 @@ export default function Messages(){
                   className="flex-1 overflow-y-auto p-4 bg-slate-50 dark:bg-background min-h-0 overscroll-contain touch-pan-y lg:overscroll-auto lg:touch-auto flex flex-col"
                   style={{ WebkitOverflowScrolling: 'touch' }}
                 >
-                  <div className="flex-1"></div>
-                  <div className="flex flex-col gap-3">
-                  {selected.messages.map(msg => (
-                    <div key={msg.id} className={`flex ${msg.sender === user?.role ? 'justify-end' : 'justify-start'}`}>
-                      <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
-                        msg.sender === user?.role
-                          ? 'bg-primary-600 text-white'
-                          : 'bg-slate-200 dark:bg-accent text-slate-800 dark:text-foreground'
-                      }`}>
-                        <p className="text-sm">{msg.text}</p>
-                        <p className="text-xs opacity-70 mt-1">
-                          {new Date(msg.at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                  </div>
+                  {[...selected.messages]
+                    .sort((a, b) => new Date(a.at) - new Date(b.at))
+                    .map((msg, index, arr) => {
+                      const msgDate = new Date(msg.at);
+                      const prevDate = index > 0 ? new Date(arr[index - 1].at) : null;
+                      const showDateHeader = !prevDate || msgDate.toDateString() !== prevDate.toDateString();
+
+                      let dateLabel = msgDate.toLocaleDateString(undefined, { month: 'long', day: 'numeric' });
+                      const today = new Date();
+                      const yesterday = new Date();
+                      yesterday.setDate(yesterday.getDate() - 1);
+                      
+                      if (msgDate.toDateString() === today.toDateString()) dateLabel = 'Today';
+                      else if (msgDate.toDateString() === yesterday.toDateString()) dateLabel = 'Yesterday';
+
+                      return (
+                        <div key={msg.id} className="flex flex-col w-full">
+                          {showDateHeader && (
+                            <div className="flex justify-center my-4 sticky top-0 z-10">
+                              <span className="bg-slate-200/80 dark:bg-accent/80 backdrop-blur-sm shadow-sm text-xs font-medium text-slate-600 dark:text-muted-foreground px-3 py-1 rounded-full">
+                                {dateLabel}
+                              </span>
+                            </div>
+                          )}
+                          <div className={`flex mb-3 ${msg.sender === user?.role ? 'justify-end' : 'justify-start'}`}>
+                            <div className={`max-w-[75%] px-4 py-2 shadow-sm relative group ${
+                              msg.sender === user?.role 
+                                ? 'bg-primary-600 text-white rounded-2xl rounded-tr-sm' 
+                                : 'bg-white dark:bg-card border border-slate-100 dark:border-border text-slate-800 dark:text-foreground rounded-2xl rounded-tl-sm'
+                            }`}>
+                              <p className="text-sm leading-relaxed whitespace-pre-wrap break-words">{msg.text}</p>
+                              <div className={`text-[10px] mt-1 text-right select-none ${
+                                msg.sender === user?.role ? 'text-primary-100' : 'text-slate-400'
+                              }`}>
+                                {msgDate.toLocaleTimeString([], {hour: 'numeric', minute:'2-digit'})}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    })
+                  }
                 </div>
                 
                 {/* Message Input */}
