@@ -106,7 +106,7 @@ export default function CourseDetail() {
 
   // Use DB fields or fallbacks
   const title = course.title || 'Untitled Course'
-  const image = getAssetUrl(course.thumbnail)
+    const image = getAssetUrl(course.thumbnail_url || course.thumbnail)
   const category = course.category || 'General'
   const difficulty = course.level || 'Unspecified'
   const author = course.instructor?.name || 'Instructor' 

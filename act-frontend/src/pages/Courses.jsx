@@ -42,10 +42,10 @@ export default function Courses(){
   // Simple adaptation layer for Card component expecting 'course' prop
   const adaptedCourses = filtered.map(c => {
     // Handle image URL - if it's a storage path, prepend API URL
-    let imageUrl = c.thumbnail
+    let imageUrl = c.thumbnail_url || c.thumbnail
     if (imageUrl && imageUrl.startsWith('/storage')) {
-        const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
-        imageUrl = apiBase.replace(/\/$/, '') + imageUrl
+      const apiBase = import.meta.env.VITE_API_BASE_URL || window.location.origin
+      imageUrl = apiBase.replace(/\/$/, '') + imageUrl
     }
 
     return {

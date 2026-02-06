@@ -32,10 +32,10 @@ export default function Dashboard(){
 
   const adaptCourse = (c) => {
     // Handle image URL
-    let imageUrl = c.thumbnail
+    let imageUrl = c.thumbnail_url || c.thumbnail
     if (imageUrl && imageUrl.startsWith('/storage')) {
-        const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
-        imageUrl = apiBase.replace(/\/$/, '') + imageUrl
+      const apiBase = import.meta.env.VITE_API_BASE_URL || window.location.origin
+      imageUrl = apiBase.replace(/\/$/, '') + imageUrl
     }
     
     return {

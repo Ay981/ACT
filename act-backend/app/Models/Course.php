@@ -9,6 +9,8 @@ class Course extends Model
 {
     use HasFactory;
 
+    protected $appends = ['thumbnail_url'];
+
     protected $fillable = [
         'instructor_id',
         'title',
@@ -35,5 +37,18 @@ class Course extends Model
         return $this->belongsToMany(User::class, 'enrollments')
                     ->withTimestamps()
                     ->withPivot('enrolled_at');
+    }
+
+    public function getThumbnailUrlAttribute()
+    {
+        if (!$this->thumbnail) {
+            return null;
+        }
+
+        if (str_starts_with($this->thumbnail, 'http://') || str_starts_with($this->thumbnail, 'https://')) {
+            return $this->thumbnail;
+        }
+
+        return url($this->thumbnail);
     }
 }
